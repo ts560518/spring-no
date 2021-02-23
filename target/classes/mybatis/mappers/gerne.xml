@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.GenreDao">
+
+	<select id="getShowActor" resultType="ShowActor">
+		select
+			A.PUT_SHOW_NO 	AS putShowNo,
+			A.ACTOR_NO		AS actorNo,
+			B.ACTOR_NAME	AS actorName
+		from
+			show_actors A, actors B
+		where
+			a.actor_no = b.actor_no
+		and
+			a.put_show_no=#{showNo}
+	</select>
+	
+	<select id="getplaceSeat" resultType="Seat">
+		select 
+			seat_grade	as grade, 
+			seat_price	as price
+		from 
+			show_place_seat
+		group by 
+			seat_grade, seat_price	
+	</select>
+	
+	<select id="getCategory" resultType="Category">
+		select 
+			CATEGORY_NO		AS no,
+			CATEGORY_NAME	AS name,
+			TOP_CATEGORY_NO	AS topCategoryNo
+		from
+			SHOW_CATEGORIES
+		WHERE
+			CATEGORY_NO = #{catno}
+	</select>
+	
+	<select id="getTopCategory" resultType="Category">
+		select 
+			CATEGORY_NO		AS no,
+			CATEGORY_NAME	AS name,
+			TOP_CATEGORY_NO	AS topCategoryNo
+		from
+			SHOW_CATEGORIES
+		WHERE
+			TOP_CATEGORY_NO = #{catno}
+	</select>
+	
+	<select id="getPlace" resultType="Place">
+		select 
+			PLACE_NO		AS no,
+			LOCAL_NAME		AS localName,
+			PLACE_NAME		AS name,
+			PLACE_ADDRESS	AS address,
+			SEAT_CAPACITY	AS seatCapacity
+		FROM
+			SHOW_PLACE
+		WHERE
+			PLACE_NO = #{palceno}
+	</select>
+</mapper>

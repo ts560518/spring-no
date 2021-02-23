@@ -1,0 +1,13 @@
+@charset "UTF-8";
+.list-title {
+	padding-top: 30px;
+	font-size: 35px;
+}
+img {
+	width: 100%;
+}
+.category-list-btn {
+	padding-top: 30px;
+	padding-bottom: 30px;
+}
+

@@ -1,0 +1,42 @@
+@charset "UTF-8";
+
+footer {
+    width: 100%;
+    min-width: 1300px;
+    padding-bottom: 25px;
+    font-family: 'NanumBarunGothic', '맑은 고딕', 'Malgun Gothic', sans-serif;
+}
+
+.footer-menu {
+    border-bottom: 1px solid #f6f6f6;
+    height: 70px;
+    position: relative;
+}
+
+.footer-menu > a {
+    display: inline-block;
+    line-height: 78px;
+    font-size: 15px;
+    color: #333;
+    padding: 0 16px;
+    position: relative;
+}
+
+.footer-txt .flogo {
+    display: block;
+    position: absolute;
+    top: 53px;
+    left: 2px;
+}
+
+.footxt {
+    position: absolute;
+    top: 22px;
+    left: 221px;
+}
+
+.footer-txt {
+    position: relative;
+    height: 165px;
+}
+
