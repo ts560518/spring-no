@@ -100,8 +100,8 @@
 
 		<div class="pf-right">
 	        <div class="pf-right-menu">
-	            <a href="${pageContext.request.contextPath}/area.do">지역</a>
-	            <a href="${pageContext.request.contextPath}/rank.do">랭킹</a>
+	            <a href="/place.do">지역</a>
+	            <a href="/rank.do">랭킹</a>
 	            <a href="#">이벤트</a>
 	        </div>
 		</div>
