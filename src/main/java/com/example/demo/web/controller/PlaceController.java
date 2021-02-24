@@ -24,7 +24,7 @@ public class PlaceController {
 	public String place(Model model) {
 		List<String> names= placeService.getPlaceNames();
 		model.addAttribute("names", names);
-		 return "/about/place";
 		
+		 return "/about/place";
 	}
 }
