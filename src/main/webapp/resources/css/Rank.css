@@ -1,10 +1,38 @@
-@charset "UTF-8";
-
+#rank-best span {   
+    display: block;
+    color: #fff;
+    font-size: 16px;
+    font-weight: 700;
+    padding: 15px 0 13px 0;
+    text-align: center;
+    position: relative;
+}
+#rank-best{
+	position: absolute;
+    top: 50px;
+    left: 50px;
+    width: 55px;
+    height: 71px;
+    background: url(http://tkfile.yes24.com/imgNew/common/ico-rank-bestbg1.png)no-repeat;
+}
+#rank-category {
+	text-align:left; 
+	padding: 40px 0 10px 0;
+	border-bottom: solid gray;
+}
+#rank-list >td:last-child {
+ 	padding-top: 50px; 
+ 	font-size: 14px; 
+ 	line-height: 24px; 
+ 	color: #999; 
+ 	text-align: center;
+}
 .title {
 	font-size: 45px;
     text-align: center;
     color: #333;
-    padding: 70px 0 50px 0;
-    font-family:'Noto Sans KR', '맑은 고딕' ;
+    padding: 50px 0 50px 0;
+    font-family: '맑은 고딕';
 }
+
 

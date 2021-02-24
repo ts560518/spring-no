@@ -1,0 +1,8 @@
+@charset "UTF-8";
+.title{
+	font-size: 45px;
+    text-align: center;
+    color: #333;
+    padding: 90px 0 60px 0;
+    font-family: 'Noto Sans KR', 'NanumBarunGothic', '맑은 고딕', 'Malgun Gothic', sans-serif;
+}
