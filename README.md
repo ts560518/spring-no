@@ -1,15 +1,15 @@
 # github를 사용해서 프로젝트 협업하기
+
 ## 프로젝트 협업 준비하기
 1. github에서프로젝트 복제하기
-  - cmd창을 연다.
-  - 워크스페이스가 있는 폴더로 이동한다.
-  - github의 프로젝트를 내 컴퓨터로 복제한다.
-  - git clone https://github.com/팀장계정명/프로젝트명.git
+	- cmd창을 연다.
+ 	- 워크스페이스가 있는 폴더로 이동한다.
+	- github의 프로젝트를 내 컴퓨터로 복제한다.
+	- git clone https://github.com/팀장계정명/프로젝트명.git
 2. 복제된 프로젝트를 이클립스로 가져오기
-  - 이클립스를 연다.
-  - 워크스페이스에 복제된 프로젝트를 임포트한다.
-  - import -> maven -> Existing Maven Projects -> 복제된 프로젝트가 있는 폴더 선택
-	  -> projects창에 표시된 pom.xml을 선택하고 Finish버튼 클릭
+	- 이클립스를 연다.
+	- 워크스페이스에 복제된 프로젝트를 임포트한다.
+	- import -> maven -> Existing Maven Projects -> 복제된 프로젝트가 있는 폴더 선택 -> projects창에 표시된 pom.xml을 선택하고 Finish버튼 클릭
 	  
 ## 프로젝트 진행하기
 1. 현재 작업중인 브랜치를 확인한다.
