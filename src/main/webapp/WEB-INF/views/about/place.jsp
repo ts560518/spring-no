@@ -42,7 +42,7 @@
 		<div class="col-12" style="font-size: 12px;">
 			<button onclick="showsList()" class="btn btn-outline-warning  text-dark py-3 px-3" style="width: 16.4%; border-color: #6c757d;">전체</button>
 			<c:forEach var="name" items="${names}">
-				<button onclick="showsList(${name})" class="btn btn-outline-warning text-dark py-3 px-3" style="width: 16.4%; border-color: #6c757d;">${name}</button>
+				<button onclick="showsList('${name}')" class="btn btn-outline-warning text-dark py-3 px-3" style="width: 16.4%; border-color: #6c757d;">${name}</button>
 			</c:forEach>
 	   </div>
 	 </div>

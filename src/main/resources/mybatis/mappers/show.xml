@@ -22,6 +22,9 @@
          shows A, show_place B
        where 
          A.place_no = B.place_no
+      and
+      	 A.end_date > sysdate
+         
 	</select>
 	
 	<select id="getShowByLocalName" resultType="Show" parameterType="string">
@@ -44,8 +47,9 @@
          shows A, show_place B
       where
       	  A.place_no = B.place_no
+      	  and a.end_date > sysdate
       and
-         B.local_name = "서울"
+         B.local_name = #{localName}
 	</select>
 	
 	
@@ -65,17 +69,17 @@
 	<select id="getCategorySwiper" resultType="Show">
 		select 
         	SHOW_NO            AS no,
-       		SHOW_NAME         AS name,      
+       		SHOW_NAME          AS name,      
          	VIEWING_NO         AS viewingNo,
-         	RUNNING_TIME      AS runningTime,
+         	RUNNING_TIME       AS runningTime,
          	POSTER_IMG         AS posterImg,
          	BEGIN_DATE         AS beginDate,
-         	END_DATE         AS endDate,
-         	PLACE_NO         AS placeNo,
+         	END_DATE           AS endDate,
+         	PLACE_NO           AS placeNo,
          	ATTENTION_IMG      AS attentionImg,
-         	SALE_IMG         AS saleImg,
-         	SHOW_DETAIL_IMG      AS showDetailImg,
-         	show_created_date   AS createdDate
+         	SALE_IMG           AS saleImg,
+         	SHOW_DETAIL_IMG    AS showDetailImg,
+         	show_created_date  AS createdDate
       	from (
       		select
          		*
@@ -122,18 +126,18 @@
 		select
 			A.SHOW_NO				AS no,
 			A.CATEGORY_NO			AS categoryNo,
-			A.SHOW_NAME			AS name,		
+			A.SHOW_NAME			    AS name,		
 			A.VIEWING_NO			AS viewingNo,
-			A.RUNNING_TIME		AS runningTime,
+			A.RUNNING_TIME		    AS runningTime,
 			A.POSTER_IMG			AS posterImg,
 			A.BEGIN_DATE			AS beginDate,
-			A.END_DATE			AS endDate,
-			A.PLACE_NO			AS placeNo,
-            B.PLACE_NAME          AS placeName,
-			A.ATTENTION_IMG		AS attentionImg,
-			A.SALE_IMG			AS saleImg,
+			A.END_DATE			    AS endDate,
+			A.PLACE_NO			    AS placeNo,
+            B.PLACE_NAME            AS placeName,
+			A.ATTENTION_IMG		    AS attentionImg,
+			A.SALE_IMG			    AS saleImg,
 			A.SHOW_DETAIL_IMG		AS showDetailImg,
-			A.show_created_date	AS createdDate
+			A.show_created_date	    AS createdDate
 		from
 			shows A, show_place B
 		where
