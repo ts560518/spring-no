@@ -30,6 +30,7 @@
 6. 소스코드 병합을 위한 Pull Request 작성하기	
 	1. github 접속하기
 	2. 소스코드를 Push한 브랜치로 변경하기
-	3. Create Pull Reqeust를 클릭해서 작성하기
+	3. Compare and Pull Request 버튼을 클릭해서 작성하기
+	4. Push된 소스코드에 대한 간단할 설명을 적고, Create Pull Request 버튼 클릭
 	
 	
