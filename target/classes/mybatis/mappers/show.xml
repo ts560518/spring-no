@@ -45,7 +45,7 @@
       where
       	  A.place_no = B.place_no
       and
-         B.local_name = "서울"
+         B.local_name = #{localName}
 	</select>
 	
 	
