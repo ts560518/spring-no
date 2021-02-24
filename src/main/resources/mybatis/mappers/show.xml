@@ -48,6 +48,7 @@
       where
            A.place_no = B.place_no
            and a.end_date > sysdate
+
       and
          B.local_name = #{localName}
    </select>
