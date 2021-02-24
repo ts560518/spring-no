@@ -1,5 +1,6 @@
 function showsList(localName){
 	$("#show-box").empty();
+	console.log(localName);
 	$.getJSON("/api/place/showList.do", {name:localName}, function(result) {
 		var cnt = result.size; //result의 변수 size를 받음.
 		var showList = result.shows;
