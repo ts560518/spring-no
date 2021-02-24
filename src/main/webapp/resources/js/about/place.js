@@ -5,7 +5,6 @@ function showsList(localName){
 		var cnt = result.size; //result의 변수 size를 받음.
 		var showList = result.shows;
 		
-		console.log(localName);
 		$("#show-count").text(cnt);
 		for(var i=0; i<showList.length; i++) {
 			

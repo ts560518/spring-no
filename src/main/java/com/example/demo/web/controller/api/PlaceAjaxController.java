@@ -33,7 +33,6 @@ public class PlaceAjaxController {
 	 */
 	@RequestMapping("/showList.do")
 	public Map<String, Object>showList(@RequestParam(name="name", required = false)String localName){
-		System.out.println("name");
 		Map<String,Object> result = new HashMap<>();
 		if(localName != null) {
 			List<Show> shows = showService.getShowByLocalName(localName);
