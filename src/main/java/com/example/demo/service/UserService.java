@@ -10,4 +10,7 @@ import com.example.demo.vo.User;
 public interface UserService {
 
 	List<User> getAllUsers();
+	boolean isExistUserId(String userId);
+	User getLoginedUserInfo(String userId, String password);
+	void addNewUser(User user);
 }

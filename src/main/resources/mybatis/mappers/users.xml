@@ -1,13 +1,76 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+
 <mapper namespace="com.example.demo.dao.UserDao">
 
 	<select id="getAllUsers" resultType="User">
 		select
-			user_no no,
-			user_id id,
-			user_name name
+			user_no					as no,
+			user_name				as name,
+			user_id					as id,
+			user_password			as password,
+			user_tel				as tel,
+			user_email				as email,
+			user_available_point 	as availablePoint,
+			user_status				as status,
+			user_created_date 		as createdDate
 		from
 			shop2_users
 	</select>
+	
+	<!-- 
+		User getUserById(String userId)
+			- parameterType : string
+			- resultType : User
+	 -->
+	<select id="getUserById" parameterType="string" resultType="User">
+		select
+			user_no					as no,
+			user_name				as name,
+			user_id					as id,
+			user_password			as password,
+			user_tel				as tel,
+			user_email				as email,
+			user_available_point 	as availablePoint,
+			user_status				as status,
+			user_created_date 		as createdDate
+		from 
+			shop2_users
+		where
+			user_id = #{value}
+			and user_status = 'Y'
+	</select>
+	
+	<select id="getUserByNo" parameterType="int" resultType="User">
+		select
+			user_no					as no,
+			user_name				as name,
+			user_id					as id,
+			user_password			as password,
+			user_tel				as tel,
+			user_email				as email,
+			user_available_point 	as availablePoint,
+			user_status				as status,
+			user_created_date 		as createdDate
+		from 
+			shop2_users
+		where
+			user_no = #{value}
+			and user_status = 'Y'
+	</select>
+	
+	<update id="updateUser" parameterType="User">
+		update shop2_users
+		set
+			user_available_point = #{availablePoint}
+		where
+			user_no = #{no}
+	</update>
+	
+	<insert id="insertUser" parameterType="User">
+		insert into shop2_users
+		(user_no, user_name, user_id, user_password, user_tel, user_email)
+		values
+		(shop2_user_seq.nextval, #{name}, #{id}, #{password}, #{tel}, #{email})
+	</insert>
 </mapper>

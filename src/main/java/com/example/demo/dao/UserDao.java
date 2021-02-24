@@ -10,4 +10,8 @@ import com.example.demo.vo.User;
 public interface UserDao {
 
 	List<User> getAllUsers();
+	User getUserById(String userId);
+	User getUserByNo(int userNo);
+	void updateUser(User user);
+	void insertUser(User user);
 }

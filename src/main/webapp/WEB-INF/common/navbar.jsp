@@ -3,9 +3,14 @@
 <div class="cp-top-wrap" style="border-bottom: 1px solid #ddd;">
 	 <div class="consice" id="consice">
 		<div class="consice-right">
-			<a href="#">로그인</a>
-			<a href="#">로그아웃</a>
-			<a href="#">마이페이지</a>
+			<c:if test="${empty LOGINED_USER }">
+				<a href="/loginform.do">로그인</a>
+				<a href="/form.do">회원가입</a>
+			</c:if>
+			<c:if test="${not empty LOGINED_USER }">
+				<a href="/logout.do">로그아웃</a>
+				<a href="/my/info.do">마이페이지</a>
+			</c:if>
 			<a href="/spring-shop/main.do">관리자페이지</a>
 			<a href="#">고객센터</a>
 		</div>
