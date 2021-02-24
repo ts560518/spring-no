@@ -2,6 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.ShowDao">
 	
+	<select id="getAllShows" resultType="Show">
+	select
+         A.show_no             as no,
+         A.category_no         as categoryNo,
+         A.show_name           as name,      
+         A.viewing_no          as viewingNo,
+         A.running_time        as runningTime,
+         A.poster_img          as posterImg,
+         A.begin_date          as beginDate,
+         A.end_date            as endDate,
+         A.place_no            as placeNo,
+         B.place_name          as placeName,
+         A.attention_img       as attentionImg,
+         A.sale_img            as saleImg,
+         A.show_detail_img     as showDetailImg,
+         A.show_created_date   as createdDate
+      from
+         shows A, show_place B
+       where 
+         A.place_no = B.place_no
+	</select>
+	
+	<select id="getShowByLocalName" resultType="Show" parameterType="string">
+		select
+         A.show_no             as no,
+         A.category_no         as categoryNo,
+         A.show_name           as name,      
+         A.viewing_no          as viewingNo,
+         A.running_time        as runningTime,
+         A.poster_img          as posterImg,
+         A.begin_date          as beginDate,
+         A.end_date            as endDate,
+         A.place_no            as placeNo,
+         B.place_name          as placeName,
+         A.attention_img       as attentionImg,
+         A.sale_img            as saleImg,
+         A.show_detail_img     as showDetailImg,
+         A.show_created_date   as createdDate
+      from
+         shows A, show_place B
+      where
+      	  A.place_no = B.place_no
+      and
+         B.local_name = "서울"
+	</select>
+	
+	
+	
 	<select id="getputSeat" resultType="ShowSeat">
 		select 
 			SEAT_NO			AS no,

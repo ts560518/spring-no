@@ -20,4 +20,7 @@ public interface ShowDao {
 	List<Show> getShowsHome();
 	
 	List<Show> getCategorySwiper(int catno);
+	
+	 List<Show> getAllShows();
+	 List<Show> getShowByLocalName(String localName);
 }

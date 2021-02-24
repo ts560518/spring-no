@@ -23,5 +23,7 @@ public interface ShowService {
 	List<Show> getShowsHome();
 	
 	List<Show> getCategorySwiper(int catno);
+	List<Show> getAllShowsList();
+	List<Show> getShowByLocalName(String localName);
 	
 }

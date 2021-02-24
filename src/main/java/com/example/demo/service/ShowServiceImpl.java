@@ -40,6 +40,16 @@ public class ShowServiceImpl implements ShowService {
 	public List<ShowSeat> getputSeat(int putShowNo) {
 		return showDao.getputSeat(putShowNo);
 	}
+	
+	@Override
+	public List<Show> getAllShowsList() {
+		return showDao.getAllShows();
+	}
+	
+	@Override
+	public List<Show> getShowByLocalName(String localName) {	
+		return showDao.getShowByLocalName(localName);
+	}
 
 
 }
