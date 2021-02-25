@@ -1,5 +1,7 @@
 function showsList(localName){
+
 	$("#show-box").empty();
+	// $.getJSON(요청URL, {요청파라미터명:값, 요청파라미터명:값}, function(컨트롤러가반환하는 결과값) { 수행문 })
 	$.getJSON("/api/place/showList.do", {name:localName}, function(result) {
 		var cnt = result.size; //result의 변수 size를 받음.
 		var showList = result.shows;
