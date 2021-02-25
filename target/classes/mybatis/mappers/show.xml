@@ -46,9 +46,8 @@
       from
          shows A, show_place B
       where
-
-      	  A.place_no = B.place_no
-      	  and a.end_date > sysdate
+           A.place_no = B.place_no
+           and a.end_date > sysdate
 
       and
          B.local_name = #{localName}
