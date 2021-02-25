@@ -61,9 +61,10 @@
 				<fmt:formatNumber value="${seats.price }" /> 원 <br/>
 			</c:forEach>
 			
-			<div style="padding-top: 30px;">
+			<div style="padding-top: 30px;" id="showOrderTotalPrice">
 				<span>가격</span>
-				<span>상품 총 금액 : <strong class="mr-5 orderPrice"><fmt:formatNumber value="0" /> 원</strong></span>
+				<span>상품 총 금액 : <strong class="mr-5"><fmt:formatNumber value="0" /> 원</strong></span>
+				<input type="hidden" id="orderPrice" value="0">
 			</div>
 		</div>
 	</div>
@@ -81,12 +82,20 @@
 </div>
 <script type="text/javascript">
 	$('.seat-group').click(function() {
+		var orderPrice = document.querySelector("#orderPrice").value;
+		$("#showOrderTotalPrice").empty();
 		var seatNo = $(this).data('seat-no');
 		var putShowNo = document.querySelector("#putShowNo").value;
 		$.getJSON("/api/genre/orderPrice.do", {seatNo : seatNo, putShowNo : putShowNo}, function (result) {
-			console.log(result.seatNo);
-			console.log(result.putShowNo);
-		})
+			console.log(result);
+			var price = parseInt(result.putSeat.seatPrice);
+			var priceStr = new Number(price).toLocaleString();
+			var html = '<span>가격</span>'
+				html += '<span>상품 총 금액 : <strong class="mr-5">'+priceStr+'원</strong></span>'
+				html += '<input type="hidden" id="orderPrice" value='+price+'>'
+			
+			$("#showOrderTotalPrice").append(html);
+		 })
 	})
 </script>
 </body>

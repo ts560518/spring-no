@@ -1,11 +1,13 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.ShowDao;
+import com.example.demo.dto.PutSeat;
 import com.example.demo.dto.TotalShow;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
@@ -49,6 +51,10 @@ public class ShowServiceImpl implements ShowService {
 	@Override
 	public List<Show> getShowByLocalName(String localName) {	
 		return showDao.getShowByLocalName(localName);
+	}
+	@Override
+	public PutSeat getputPlaceSeat(Map<String, Object> putPlace) {
+		return showDao.getputPlaceSeat(putPlace);
 	}
 
 
