@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.stringtemplate.v4.compiler.STParser.mapExpr_return;
 
+import com.example.demo.dto.PutSeat;
 import com.example.demo.service.GenreService;
 import com.example.demo.service.ShowService;
 
@@ -23,14 +25,14 @@ public class GenreAjaxController {
 	
 	@RequestMapping("/orderPrice.do")
 	public Map<String, Object> orderPrice(@RequestParam("seatNo") String seatNo,
-			@RequestParam("putShowNo") String putShowNo
+			@RequestParam("putShowNo") int putShowNo
 			) {
-		System.out.println(seatNo);
-		System.out.println(putShowNo);
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("seatNo", seatNo);
+		result.put("putShowNo", putShowNo);
 		
-		Map<String, Object> priceList = new HashMap<String, Object>();
-		priceList.put("seatNo", seatNo);
-		priceList.put("putShowNo", putShowNo);
-		return priceList;
+		PutSeat putSeat = showService.getputPlaceSeat(result);
+		result.put("putSeat", putSeat);
+		return result;
 	}
 }

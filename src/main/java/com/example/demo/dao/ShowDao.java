@@ -1,7 +1,9 @@
 package com.example.demo.dao;
 
 import java.util.List;
+import java.util.Map;
 
+import com.example.demo.dto.PutSeat;
 import com.example.demo.dto.TotalShow;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
@@ -23,4 +25,6 @@ public interface ShowDao {
 	
 	 List<Show> getAllShows();
 	 List<Show> getShowByLocalName(String localName);
+	 
+	 PutSeat getputPlaceSeat(Map<String, Object> putPlace);
 }

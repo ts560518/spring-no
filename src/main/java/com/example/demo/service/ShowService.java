@@ -1,9 +1,11 @@
 package com.example.demo.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.PutSeat;
 import com.example.demo.dto.TotalShow;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
@@ -25,5 +27,7 @@ public interface ShowService {
 	List<Show> getCategorySwiper(int catno);
 	List<Show> getAllShowsList();
 	List<Show> getShowByLocalName(String localName);
+	
+	PutSeat getputPlaceSeat(Map<String, Object> putPlace);
 	
 }
