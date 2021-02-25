@@ -10,7 +10,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-<title>Template</title>
+<title>NO24</title>
 <style type="text/css">
 .seat-group {
 	height: 40px;
@@ -18,6 +18,13 @@
 	margin-right : 10px;
 	margin-bottom : 10px;
 	border: 1px solid gray;
+}
+.put {
+	height: 40px;
+	width: 40px;
+	margin-right : 10px;
+	margin-bottom : 10px;
+	background: url('../resources/images/check.png');
 }
 </style>
 </head>
@@ -83,17 +90,22 @@
 </div>
 <script type="text/javascript">
 	var count = 0;
+	$('.put').click(function() {
+		console.log("11");
+		$(this).removeClass('put').addClass('seat-group');
+	})
+	
 	$('.seat-group').click(function() {
 		if(count===3) {
 			alert("1인 3매이하 구매입니다.");
 			return;
 		}
+		$(this).removeClass('seat-group').addClass('put');
 		count++;
 		$("#showOrderTotalPrice").empty();
 		var seatNo = $(this).data('seat-no');
 		var putShowNo = document.querySelector("#putShowNo").value;
 		$.getJSON("/api/genre/orderPrice.do", {seatNo : seatNo, putShowNo : putShowNo}, function (result) {
-			console.log(result);
 			var price = parseInt(result.putSeat.seatPrice);
 			var totalPrice = document.getElementById("orderPrice");
 			var orderPrice = parseInt(totalPrice.value) + price;
