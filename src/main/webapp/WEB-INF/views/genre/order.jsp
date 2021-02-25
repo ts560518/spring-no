@@ -62,15 +62,16 @@
 			</c:forEach>
 			
 			<div style="padding-top: 30px;" id="showOrderTotalPrice">
-				<span>가격</span>
 				<span>상품 총 금액 : <strong class="mr-5"><fmt:formatNumber value="0" /> 원</strong></span>
-				<input type="hidden" id="orderPrice" value="0">
 			</div>
 		</div>
 	</div>
 	<div class="row">
 		<div class="col-12" style="text-align:center;">
+		<form action="">
+			<input type="hidden" id="orderPrice" name="orderPrice" value="0">
 			<button class="btn btn-danger">결재하기</button>
+		</form>
 		</div>
 	</div>
 	
@@ -81,20 +82,26 @@
 	</div>
 </div>
 <script type="text/javascript">
+	var count = 0;
 	$('.seat-group').click(function() {
-		var orderPrice = document.querySelector("#orderPrice").value;
+		if(count===3) {
+			alert("1인 3매이하 구매입니다.");
+			return;
+		}
+		count++;
 		$("#showOrderTotalPrice").empty();
 		var seatNo = $(this).data('seat-no');
 		var putShowNo = document.querySelector("#putShowNo").value;
 		$.getJSON("/api/genre/orderPrice.do", {seatNo : seatNo, putShowNo : putShowNo}, function (result) {
 			console.log(result);
 			var price = parseInt(result.putSeat.seatPrice);
-			var priceStr = new Number(price).toLocaleString();
-			var html = '<span>가격</span>'
-				html += '<span>상품 총 금액 : <strong class="mr-5">'+priceStr+'원</strong></span>'
-				html += '<input type="hidden" id="orderPrice" value='+price+'>'
+			var totalPrice = document.getElementById("orderPrice");
+			var orderPrice = parseInt(totalPrice.value) + price;
+			var priceStr = new Number(orderPrice).toLocaleString();
+			var html = '<span>상품 총 금액 : <strong class="mr-5">'+priceStr+'원</strong></span>'
 			
 			$("#showOrderTotalPrice").append(html);
+			document.getElementById("orderPrice").value = orderPrice;
 		 })
 	})
 </script>
