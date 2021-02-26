@@ -23,7 +23,9 @@ public interface ShowService {
 	List<Show> getShowsHome();
 	
 	List<Show> getCategorySwiper(int catno);
+	//전체리스트- 한결
 	List<Show> getAllShowsList();
-	List<Show> getShowByLocalName(String localName);
+	//지역 + 범위별 리스트 -한결
+	List<Show> getShowsListByLocalAndSort(String localName, String sort);
 	
 }

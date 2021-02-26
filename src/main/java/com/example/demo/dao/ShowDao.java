@@ -2,6 +2,8 @@ package com.example.demo.dao;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import com.example.demo.dto.TotalShow;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
@@ -20,7 +22,9 @@ public interface ShowDao {
 	List<Show> getShowsHome();
 	
 	List<Show> getCategorySwiper(int catno);
-	
-	 List<Show> getAllShows();
-	 List<Show> getShowByLocalName(String localName);
+	//전체리스트-한결
+	List<Show> getAllShows();
+	//지역 + 범위별 리스트 -한결
+	//@Param은 xml에 값을 주기 위함임. 멤버변수가 2개이상일때는 @Param으로 값을 정의해줌.. 값이 int 하나일떄는 xml에서 #<value>를 씀
+	List<Show> getShowsListByLocalAndSort(@Param("localName") String localName, @Param("sort") String sort);
 }

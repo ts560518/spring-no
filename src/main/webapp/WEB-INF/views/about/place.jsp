@@ -38,11 +38,11 @@
 		</div>
 	</div>
 	<!-- 지역별 카테고리 -->
-	<div class="row">
+	<div class="row" id="box-btn-localname">
 		<div class="col-12" style="font-size: 12px;">
-			<button onclick="showsList()" class="btn btn-outline-warning  text-dark py-3 px-3" style="width: 16.4%; border-color: #6c757d;">전체</button>
+			<button onclick="changeLocalName('전체')" class="btn btn-warning  text-dark py-3 px-3" style="width: 16.4%; border-color: #6c757d;">전체</button>
 			<c:forEach var="name" items="${names}">
-				<button onclick="showsList('${name}')" class="btn btn-outline-warning text-dark py-3 px-3" style="width: 16.4%; border-color: #6c757d;">${name}</button>
+				<button onclick="changeLocalName('${name}')" class="btn btn-outline-warning text-dark py-3 px-3" style="width: 16.4%; border-color: #6c757d;">${name}</button>
 			</c:forEach>
 	   </div>
 	 </div>
@@ -53,13 +53,13 @@
 		</div>
 	</div>
 	<!--목차 -->
-	<div class="row mx-1">
+	<div class="row mx-1" id="box-btn-sort">
 		<div class="col-12" style= "text-align:right; padding: 20px 0 10px 0; border-bottom: solid gray;">
-			<button onclick="show" class="btn btn-light"><span>신상품순</span></button>
+			<button onclick="changeSortType('신상품')" class="btn btn-outline-light"><span>신상품순</span></button>
 			<span>|</span>
-			<button type="button" class="btn btn-light"><span>종료임박순</span></button>
+			<button onclick="changeSortType('종료임박')" class="btn"><span>종료임박순</span></button>
 			<span>|</span>
-			<button type="button" class="btn btn-light"><span>상품명순</span></button>
+			<button onclick="changeSortType('상품명')" class="btn"><span>상품명순</span></button>
 		</div>
 	</div>
 	<!-- 데이터뿌리기 -->
