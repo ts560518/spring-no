@@ -155,7 +155,7 @@
 	<div class="slide-wrapper row">
 	<c:forEach var="showList" items="${showList }">
 		<div class="col-4" style="display: inline-block; text-align: center;">
-			<a href="#">
+			<a href="/genre/detail.do?no=${showList.no }">
 				<div class="ticket-txt">
 				<img src="${pageContext.request.contextPath}/resources/images/NO24/${showList.posterImg }.jpg" alt="" class="lazyload">
 					<p class="ticket-date"><fmt:formatDate value="${showList.beginDate }" /></p>

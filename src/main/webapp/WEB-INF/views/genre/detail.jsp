@@ -12,7 +12,7 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/Detail.css">
-<title>Template</title>
+<title>NO24</title>
 <style type="text/css">
 .detail-content-title{
 	text-align: center;
@@ -100,7 +100,9 @@
 								<option value="${putShows.putShowNo }">${putShows.day } ${putShows.startTime }</option>
 							</c:forEach>
 						</select>
-						<button class="btn btn-danger" style="font-size: 20px; width: 200px; height: 50px; display: block; margin: 0 auto;">예매하기</button>
+						<input type="text" value="${show.viewingGradeSd }">
+						<input type="text" value="${user.age } ">
+						<button class="btn btn-danger" style="font-size: 20px; width: 200px; height: 50px; display: block; margin: 0 auto;" ${show.viewingGradeSd <= user.age ? '' :'disabled'}>예매하기</button>
 					</form>
 				</div>
 			</div>

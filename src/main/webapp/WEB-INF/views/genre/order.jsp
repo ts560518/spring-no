@@ -37,50 +37,50 @@
 	</div>
 </div>
 <div class="container">
-	<div class="row" style="padding-top: 30px;">
-		<div class="col-7" style="text-align:center;">
-			<h3>좌석선택</h3>
-			<input type="hidden" id="putShowNo" name="putShowNo" value="${putShowNo }">
-			<c:forEach var="showSeatList" items="${showSeatList }">
-				<button data-seat-no="${showSeatList.showSeatNo }" class="seat-group" ${showSeatList.ticket eq 'Y' ? 'disabled' : '' }>${showSeatList.showSeatNo }</button>
-				<c:if test="${showSeatList.showSeatNo eq 'A5' }">
-				<div class="col-12"></div>
-				</c:if>
-				<c:if test="${showSeatList.showSeatNo eq 'B5' }">
-				<div class="col-12"></div>
-				</c:if>
-				<c:if test="${showSeatList.showSeatNo eq 'C5' }">
-				<div class="col-12"></div>
-				</c:if>
-				<c:if test="${showSeatList.showSeatNo eq 'D5' }">
-				<div class="col-12"></div>
-				</c:if>
+	<form action="./orderForm.do" method="post">
+		<div class="row" style="padding-top: 30px;" id="seatNoList">
+			<div class="col-7" style="text-align:center;" id="box-seat-group">
+				<h3>좌석선택</h3>
+				<input type="hidden" id="putShowNo" name="putShowNo" value="${putShowNo }">
+				<c:forEach var="showSeatList" items="${showSeatList }">
+					<button type="button" data-seat-no="${showSeatList.showSeatNo }" class="seat-group" ${showSeatList.ticket eq 'Y' ? 'disabled' : '' }>${showSeatList.showSeatNo }</button>
+					<c:if test="${showSeatList.showSeatNo eq 'A5' }">
+					<div class="col-12"></div>
+					</c:if>
+					<c:if test="${showSeatList.showSeatNo eq 'B5' }">
+					<div class="col-12"></div>
+					</c:if>
+					<c:if test="${showSeatList.showSeatNo eq 'C5' }">
+					<div class="col-12"></div>
+					</c:if>
+					<c:if test="${showSeatList.showSeatNo eq 'D5' }">
+					<div class="col-12"></div>
+					</c:if>
+					
+				</c:forEach>
+			</div>
+			<div class="col-5" style="padding-top: 40px; text-align: center;">
+				<div>
+					<p>A1~A5석 R석</p>
+					<p>B1~D5석 S석</p>
+				</div>
+				<c:forEach var="seats" items="${seats }">
+					<p  style="display: inline-block; margin-bottom: 0px;">${seats.grade }석</p>
+					<fmt:formatNumber value="${seats.price }" /> 원 <br/>
+				</c:forEach>
 				
-			</c:forEach>
-		</div>
-		<div class="col-5" style="padding-top: 40px; text-align: center;">
-			<div>
-				<p>A1~A5석 R석</p>
-				<p>B1~D5석 S석</p>
-			</div>
-			<c:forEach var="seats" items="${seats }">
-				<p  style="display: inline-block; margin-bottom: 0px;">${seats.grade }석</p>
-				<fmt:formatNumber value="${seats.price }" /> 원 <br/>
-			</c:forEach>
-			
-			<div style="padding-top: 30px;" id="showOrderTotalPrice">
-				<span>상품 총 금액 : <strong class="mr-5"><fmt:formatNumber value="0" /> 원</strong></span>
+				<div style="padding-top: 30px;" id="showOrderTotalPrice">
+					<span>상품 총 금액 : <strong class="mr-5"><fmt:formatNumber value="0" /> 원</strong></span>
+				</div>
 			</div>
 		</div>
-	</div>
-	<div class="row">
-		<div class="col-12" style="text-align:center;">
-		<form action="">
-			<input type="hidden" id="orderPrice" name="orderPrice" value="0">
-			<button class="btn btn-danger">결재하기</button>
-		</form>
+		<div class="row">
+			<div class="col-12" style="text-align:center;">
+				<input type="hidden" id="orderPrice" name="orderPrice" value="0">
+			</div>
 		</div>
-	</div>
+				<button type="submit" id="orderPriceForm" class="btn btn-danger">결재하기</button>
+	</form>
 	
 	<div class="row">
 		<div class="col-12 mt-5">
@@ -89,32 +89,51 @@
 	</div>
 </div>
 <script type="text/javascript">
+
 	var count = 0;
-	$('.put').click(function() {
-		console.log("11");
-		$(this).removeClass('put').addClass('seat-group');
-	})
-	
-	$('.seat-group').click(function() {
-		if(count===3) {
-			alert("1인 3매이하 구매입니다.");
-			return;
-		}
-		$(this).removeClass('seat-group').addClass('put');
-		count++;
-		$("#showOrderTotalPrice").empty();
-		var seatNo = $(this).data('seat-no');
-		var putShowNo = document.querySelector("#putShowNo").value;
-		$.getJSON("/api/genre/orderPrice.do", {seatNo : seatNo, putShowNo : putShowNo}, function (result) {
+	$('#box-seat-group').on('click', '.put',function() {
+	   $(this).removeClass('put').addClass('seat-group');
+	   count--;
+	   $("#showOrderTotalPrice").empty();
+	   var seatNo = $(this).data('seat-no');
+	   var putShowNo = document.querySelector("#putShowNo").value;
+	   $.getJSON("/api/genre/orderMinusPrice.do", {seatNo : seatNo, putShowNo : putShowNo}, function (result) {
 			var price = parseInt(result.putSeat.seatPrice);
 			var totalPrice = document.getElementById("orderPrice");
-			var orderPrice = parseInt(totalPrice.value) + price;
+			var orderPrice = parseInt(totalPrice.value) - price;
 			var priceStr = new Number(orderPrice).toLocaleString();
-			var html = '<span>상품 총 금액 : <strong class="mr-5">'+priceStr+'원</strong></span>'
-			
-			$("#showOrderTotalPrice").append(html);
+		    var html = '<span>상품 총 금액 : <strong class="mr-5">'+priceStr+'원</strong></span>'
+		    $("#showOrderTotalPrice").append(html);
 			document.getElementById("orderPrice").value = orderPrice;
-		 })
+	   })
+	   // 삭제만하면 끝 넘기면됨
+	   $('[name=seatNo][value='+seatNo+']').remove();
+	})
+	
+	$('#box-seat-group').on('click', '.seat-group', function() {
+	   if(count===3) {
+	      alert("1인 3매이하 구매입니다.");
+	      return;
+	   }
+	   $(this).removeClass('seat-group').addClass('put')
+	   count++;
+	   $("#showOrderTotalPrice").empty();
+	   var seatNo = $(this).data('seat-no');
+		var putShowNo = document.querySelector("#putShowNo").value;
+		
+	   $.getJSON("/api/genre/orderPrice.do", {seatNo : seatNo, putShowNo : putShowNo}, function (result) {
+	      var price = parseInt(result.putSeat.seatPrice);
+	      var totalPrice = document.getElementById("orderPrice");
+	      var orderPrice = parseInt(totalPrice.value) + price;
+	      var priceStr = new Number(orderPrice).toLocaleString();
+	      var html = '<span>상품 총 금액 : <strong class="mr-5">'+priceStr+'원</strong></span>'
+	      
+	      $("#showOrderTotalPrice").append(html);
+	      document.getElementById("orderPrice").value = orderPrice;
+	      
+	    })
+	      var seatList = '<input type="hidden" class="seatPutNo" name="seatNo" value="'+seatNo+'">'
+	      $("#seatNoList").append(seatList);
 	})
 </script>
 </body>
