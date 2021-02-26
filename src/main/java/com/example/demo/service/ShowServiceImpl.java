@@ -49,8 +49,8 @@ public class ShowServiceImpl implements ShowService {
 	}
 	
 	@Override
-	public List<Show> getShowByLocalName(String localName) {	
-		return showDao.getShowByLocalName(localName);
+	public List<Show> getShowsListByLocalAndSort(String localName, String sort) {
+		return showDao.getShowsListByLocalAndSort(localName, sort);
 	}
 	@Override
 	public PutSeat getputPlaceSeat(Map<String, Object> putPlace) {

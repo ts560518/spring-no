@@ -144,14 +144,4 @@ public class HomeController {
 		model.addAttribute("title", title);
 		return "searchMain";
 	}
-	
-	@RequestMapping("/area.do")
-	public String area() {
-		return "/about/area";
-	}
-	
-	@RequestMapping("/rank.do")
-	public String rank() {
-		return "/about/rank";
-	}
 }
