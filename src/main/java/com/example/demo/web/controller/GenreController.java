@@ -20,31 +20,37 @@ import com.example.demo.vo.Seat;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.ShowActor;
 import com.example.demo.vo.ShowSeat;
-
+import com.example.demo.vo.User;
+import com.example.demo.web.annotation.LoginUser;
 @Controller
 @RequestMapping("/genre")
 public class GenreController {
-	
+
 	@Autowired
 	GenreService genreService;
 	
 	@Autowired
 	ShowService showService;
 	
-	@RequestMapping("/orderPrice.do")
-	public Map<String, Object> orderPrice(@RequestParam("seatNo") String seatNo,
-			@RequestParam("putShowNo") String putShowNo
-			) {
-		System.out.println(seatNo);
+	
+	@RequestMapping("/orderForm.do")
+	public String orderForm(@RequestParam("seatNo") List<String> seatNo, @RequestParam("orderPrice") int orderPrice,
+							@RequestParam("putShowNo") int putShowNo, Model model,
+							@LoginUser User user) {
+		for(String a : seatNo) {
+			System.out.println(a);
+		}
+		System.out.println(orderPrice);
 		System.out.println(putShowNo);
 		
-		return null;
+		model.addAttribute("orderPrice", orderPrice);
+		return "genre/orderForm";
 	}
+	
 	
 	// 예매페이지
 	@RequestMapping("/order.do")
 	public String order(@RequestParam("putShows") int putShowNo, Model model) {
-		System.out.println(putShowNo);
 		
 		List<ShowSeat> showSeatList = showService.getputSeat(putShowNo);
 		

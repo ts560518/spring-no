@@ -23,6 +23,19 @@ public class GenreAjaxController {
 	@Autowired
 	ShowService showService;
 	
+	@RequestMapping("orderMinusPrice")
+	public Map<String, Object> orderMinusPrice(@RequestParam("seatNo") String seatNo,
+			@RequestParam("putShowNo") int putShowNo
+			) {
+		Map<String, Object> result = new HashMap<String, Object>();
+		result.put("seatNo", seatNo);
+		result.put("putShowNo", putShowNo);
+		
+		PutSeat putSeat = showService.getputPlaceSeat(result);
+		result.put("putSeat", putSeat);
+		return result;
+	}
+	
 	@RequestMapping("/orderPrice.do")
 	public Map<String, Object> orderPrice(@RequestParam("seatNo") String seatNo,
 			@RequestParam("putShowNo") int putShowNo
