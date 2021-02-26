@@ -29,13 +29,10 @@
 	</div>
 	<div class="row">
 		<div class="col-12" style="font-size: 12px;">
-			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3"  style="width: 14%; border-color: #6c757d;">전체</button>
-			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3"  style="width: 14%; border-color: #6c757d;">콘서트</button>
-			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3"  style="width: 14%; border-color: #6c757d;">뮤지컬</button>
-			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3"  style="width: 14%; border-color: #6c757d;">연극</button>
-			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3" style="width: 14%; border-color: #6c757d;">클래식/무용</button>
-			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3" style="width: 14%; border-color: #6c757d;">전시/행사</button>
-			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3" style="width: 14%; border-color: #6c757d;">아동/가족</button>
+		 <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3"  style="width: 14%; border-color: #6c757d;">전체</button>
+		<c:forEach var="category" items="${categories}">
+			  <button type="button" class="btn btn-outline-warning  text-dark py-3 px-3"  style="width: 14%; border-color: #6c757d;">${category.name}</button>
+		</c:forEach>
 		</div>
 	</div>
 	

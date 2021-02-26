@@ -31,19 +31,19 @@ public class PlaceAjaxController {
 	 * 객체 혹은 List를 반환한다.
 	 * 반환된 값은 JSON 형식의 텍스트로 변환되어서 클라이언트에게 전달된다.
 	 */
+
+	// name= ""과 value="" 이 같음
 	@RequestMapping("/showList.do")
-	public Map<String, Object>showList(@RequestParam(name="name", required = false)String localName){
+	public Map<String, Object>showList(@RequestParam(name="name", required = false)String localName, 
+		@RequestParam(name="sort")String sort){
+		
 		Map<String,Object> result = new HashMap<>();
-		if(localName != null) {
-			List<Show> shows = showService.getShowByLocalName(localName);
-			result.put("shows", shows);
-			result.put("size", shows.size());
-		} else {
-			List<Show> shows = showService.getAllShowsList();
-			result.put("shows", shows);
-			result.put("size", shows.size());
-		}
-		System.out.println(result);
+
+		List<Show> shows = showService.getShowsListByLocalAndSort(localName, sort);
+		result.put("shows", shows);
+		result.put("size", shows.size());
+		
+
 		return result;
 	}
 }

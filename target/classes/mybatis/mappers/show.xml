@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.ShowDao">
-   
-   <select id="getAllShows" resultType="Show">
-   select
+	
+	<!-- 한결 -->
+	<select id="getAllShows" resultType="Show">
+	select
          A.show_no             as no,
          A.category_no         as categoryNo,
          A.show_name           as name,      
@@ -23,12 +24,12 @@
        where 
          A.place_no = B.place_no
       and
-          A.end_date > sysdate
+      	 A.end_date > sysdate
          
-   </select>
-   
-   <select id="getShowByLocalName" resultType="Show" parameterType="string">
-      select
+	</select>
+	<!-- 지역&범위별 리스트 한결  -->
+	<select id="getShowsListByLocalAndSort" resultType="Show">
+		select
          A.show_no             as no,
          A.category_no         as categoryNo,
          A.show_name           as name,      
@@ -46,179 +47,154 @@
       from
          shows A, show_place B
       where
-           A.place_no = B.place_no
-           and a.end_date > sysdate
-
-      and
-         B.local_name = #{localName}
-   </select>
-   
-   
-   <select id="getputPlaceSeat" resultType="PutSeat" parameterType="map">
-   	select 
-		a.seat_no				as seatNo,
-		a.show_seat_no		as showSeatNo,
-		a.put_show_no			as putShowNo,
-		a.ticket				as ticket,
-		b.show_no				as showNo,
-		b.show_day			as showDay,
-		b.show_start_time		as showStartTime,
-		c.category_no			as categoryNo,
-		c.show_name			as showName,
-		c.viewing_no			as viewingNo,
-		c.running_time		as runningTme,
-		c.poster_Img			as posterImg,
-		c.begin_Date			as beginDate,
-		c.end_Date			as endDate,
-		c.place_No			as placeNo,
-		c.attention_Img		as attentionImg,
-		c.sale_Img 			as saleImg,
-		c.show_Detail_Img		as showDetailImg,
-		c.show_created_Date	as createdDate,
-		d.seat_Grade			as seatGrade,
-		d.seat_price			as seatPrice
-	from (
-		select * 
-		from 
+      	  A.place_no = B.place_no
+      	  and a.end_date > sysdate
+          <if test="localName != '전체'">
+          	and B.local_name =#{localName}
+          </if>
+     <choose>
+     	<when test="sort =='새상품'">
+     		order by show_no desc
+     	</when>
+     	<when test="sort =='종료임박'">
+     		order by end_date asc
+     	</when>
+     	<when test="sort =='상품명'">
+     		order by show_name asc
+     	</when>
+     </choose> 	  
+	</select>
+	
+	
+	
+	<select id="getputSeat" resultType="ShowSeat">
+		select 
+			SEAT_NO			AS no,
+			SHOW_SEAT_NO	AS showSeatNo,
+			PUT_SHOW_NO		AS putShowNo,
+			TICKET			AS ticket
+		from
 			show_seat
 		where
-			put_show_no=#{putShowNo}) A, show_put_shows B, shows C, show_place_seat D
-		where 
-		show_seat_no=#{seatNo} and
-		B.put_show_no = #{putShowNo} and
-		b.show_no = c.show_no and
-		c.place_no = d.place_no and
-		d.seat_no = show_seat_no
-   </select>
-   
-   <select id="getputSeat" resultType="ShowSeat">
-      select 
-         SEAT_NO         AS no,
-         SHOW_SEAT_NO   AS showSeatNo,
-         PUT_SHOW_NO      AS putShowNo,
-         TICKET         AS ticket
-      from
-         show_seat
-      where
-         PUT_SHOW_NO = #{putShowNo}
-   </select>
-   
-   <select id="getCategorySwiper" resultType="Show">
-      select 
-           SHOW_NO            AS no,
-             SHOW_NAME          AS name,      
-            VIEWING_NO         AS viewingNo,
-            RUNNING_TIME       AS runningTime,
-            POSTER_IMG         AS posterImg,
-            BEGIN_DATE         AS beginDate,
-            END_DATE           AS endDate,
-            PLACE_NO           AS placeNo,
-            ATTENTION_IMG      AS attentionImg,
-            SALE_IMG           AS saleImg,
-            SHOW_DETAIL_IMG    AS showDetailImg,
-            show_created_date  AS createdDate
-         from (
-            select
-               *
-           from
-               shows A, show_categories B
-           where 
-              b.top_category_no = #{catno}
-           and
-              a.category_no = b.category_no
-            order by 
-            begin_date desc
+			PUT_SHOW_NO = #{putShowNo}
+	</select>
+	
+	<select id="getCategorySwiper" resultType="Show">
+		select 
+        	SHOW_NO            AS no,
+       		SHOW_NAME          AS name,      
+         	VIEWING_NO         AS viewingNo,
+         	RUNNING_TIME       AS runningTime,
+         	POSTER_IMG         AS posterImg,
+         	BEGIN_DATE         AS beginDate,
+         	END_DATE           AS endDate,
+         	PLACE_NO           AS placeNo,
+         	ATTENTION_IMG      AS attentionImg,
+         	SALE_IMG           AS saleImg,
+         	SHOW_DETAIL_IMG    AS showDetailImg,
+         	show_created_date  AS createdDate
+      	from (
+      		select
+         		*
+     		from
+         		shows A, show_categories B
+        	where 
+        		b.top_category_no = #{catno}
+        	and
+        		a.category_no = b.category_no
+      		order by 
+         	begin_date desc
         )
-        where 
+     	where 
          rownum&lt;=4
-   </select>
-   <select id="getShowsHome" resultType="Show">
-      select 
-         SHOW_NO            AS no,
-         CATEGORY_NO         AS categoryNo,
-         SHOW_NAME         AS name,      
-         VIEWING_NO         AS viewingNo,
-         RUNNING_TIME      AS runningTime,
-         POSTER_IMG         AS posterImg,
-         BEGIN_DATE         AS beginDate,
-         END_DATE         AS endDate,
-         PLACE_NO         AS placeNo,
-         ATTENTION_IMG      AS attentionImg,
-         SALE_IMG         AS saleImg,
-         SHOW_DETAIL_IMG      AS showDetailImg,
-         show_created_date   AS createdDate
-      from (
-      select
-         *
-      from
-         shows
-      order by 
-         begin_date desc
-         )
-      where 
-         rownum&lt;=3 
-   </select>
+	</select>
+	<select id="getShowsHome" resultType="Show">
+		select 
+			SHOW_NO				AS no,
+			CATEGORY_NO			AS categoryNo,
+			SHOW_NAME			AS name,		
+			VIEWING_NO			AS viewingNo,
+			RUNNING_TIME		AS runningTime,
+			POSTER_IMG			AS posterImg,
+			BEGIN_DATE			AS beginDate,
+			END_DATE			AS endDate,
+			PLACE_NO			AS placeNo,
+			ATTENTION_IMG		AS attentionImg,
+			SALE_IMG			AS saleImg,
+			SHOW_DETAIL_IMG		AS showDetailImg,
+			show_created_date	AS createdDate
+		from (
+		select
+			*
+		from
+			shows
+		order by 
+			begin_date desc
+			)
+		where 
+			rownum&lt;=3 
+	</select>
 
-   <select id="getAllCategoryShows" resultType="Show">
-      select
-         A.SHOW_NO            AS no,
-         A.CATEGORY_NO         AS categoryNo,
-         A.SHOW_NAME             AS name,      
-         A.VIEWING_NO         AS viewingNo,
-         A.RUNNING_TIME          AS runningTime,
-         A.POSTER_IMG         AS posterImg,
-         A.BEGIN_DATE         AS beginDate,
-         A.END_DATE             AS endDate,
-         A.PLACE_NO             AS placeNo,
+	<select id="getAllCategoryShows" resultType="Show">
+		select
+			A.SHOW_NO				AS no,
+			A.CATEGORY_NO			AS categoryNo,
+			A.SHOW_NAME			    AS name,		
+			A.VIEWING_NO			AS viewingNo,
+			A.RUNNING_TIME		    AS runningTime,
+			A.POSTER_IMG			AS posterImg,
+			A.BEGIN_DATE			AS beginDate,
+			A.END_DATE			    AS endDate,
+			A.PLACE_NO			    AS placeNo,
             B.PLACE_NAME            AS placeName,
-         A.ATTENTION_IMG          AS attentionImg,
-         A.SALE_IMG             AS saleImg,
-         A.SHOW_DETAIL_IMG      AS showDetailImg,
-         A.show_created_date       AS createdDate
-      from
-         shows A, show_place B
-      where
-         category_no = #{catno}
+			A.ATTENTION_IMG		    AS attentionImg,
+			A.SALE_IMG			    AS saleImg,
+			A.SHOW_DETAIL_IMG		AS showDetailImg,
+			A.show_created_date	    AS createdDate
+		from
+			shows A, show_place B
+		where
+			category_no = #{catno}
             and A.place_No = B.place_no
-   </select>
-   
-   
-   <select id="getOneCategoryShow" resultType="TotalShow">
-      select
-         A.SHOW_NO               AS no,
-         A.CATEGORY_NO            AS categoryNo,
-         A.SHOW_NAME               AS showName,      
-         A.VIEWING_NO            AS viewingNo,
-         C.VIEWING_GRADE_SD         AS viewingGradeSd,
-         C.VIEWING_GRADE_NAME      AS viewingGradeName,
-         A.RUNNING_TIME            AS runningTime,
-         A.POSTER_IMG            AS posterImg,
-         A.BEGIN_DATE            AS beginDate,
-         A.END_DATE               AS endDate,
-         A.PLACE_NO               AS placeNo,
-            B.PLACE_NAME               AS placeName,
-            B.PLACE_ADDRESS            AS placeAddress,
-         A.ATTENTION_IMG            AS attentionImg,
-         A.SALE_IMG               AS saleImg,
-         A.SHOW_DETAIL_IMG         AS showDetailImg,
-         A.show_created_date         AS createdDate
-      from
-         shows A, show_place B, show_viewing_grades C
-      where
-         show_no = #{no}
+	</select>
+	
+	
+	<select id="getOneCategoryShow" resultType="TotalShow">
+		select
+			A.SHOW_NO					AS no,
+			A.CATEGORY_NO				AS categoryNo,
+			A.SHOW_NAME					AS showName,		
+			A.VIEWING_NO				AS viewingNo,
+			C.VIEWING_GRADE_SD			AS viewingGradeSd,
+			C.VIEWING_GRADE_NAME		AS viewingGradeName,
+			A.RUNNING_TIME				AS runningTime,
+			A.POSTER_IMG				AS posterImg,
+			A.BEGIN_DATE				AS beginDate,
+			A.END_DATE					AS endDate,
+			A.PLACE_NO					AS placeNo,
+            B.PLACE_NAME         		AS placeName,
+            B.PLACE_ADDRESS				AS placeAddress,
+			A.ATTENTION_IMG				AS attentionImg,
+			A.SALE_IMG					AS saleImg,
+			A.SHOW_DETAIL_IMG			AS showDetailImg,
+			A.show_created_date			AS createdDate
+		from
+			shows A, show_place B, show_viewing_grades C
+		where
+			show_no = #{no}
             and A.place_No = B.place_no
             and A.VIEWING_NO = C.VIEWING_NO
-   </select>
-   
-   <select id="getShowPutShows" resultType="PutShows">
-      SELECT
-         PUT_SHOW_NO         AS putShowNo,
-         SHOW_NO            AS showNo,
-         SHOW_DAY         AS day,
-         SHOW_START_TIME      AS startTime
-      FROM
-         SHOW_PUT_SHOWS
-      WHERE
-         SHOW_NO = #{showNo}
-   </select>
+	</select>
+	
+	<select id="getShowPutShows" resultType="PutShows">
+		SELECT
+			PUT_SHOW_NO			AS putShowNo,
+			SHOW_NO				AS showNo,
+			SHOW_DAY			AS day,
+			SHOW_START_TIME		AS startTime
+		FROM
+			SHOW_PUT_SHOWS
+		WHERE
+			SHOW_NO = #{showNo}
+	</select>
 </mapper>

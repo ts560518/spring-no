@@ -1,7 +1,10 @@
-function showsList(localName){
+var localName = '전체'
+var sortType = '신상품'
+
+function showsList(){
 	$("#show-box").empty();
-	console.log(localName);
-	$.getJSON("/api/place/showList.do", {name:localName}, function(result) {
+	// $.getJSON(요청URL, {요청파라미터명:값, 요청파라미터명:값}, function(컨트롤러가반환하는 결과값) { 수행문 })
+	$.getJSON("/api/place/showList.do", {name:localName, sort:sortType}, function(result) {
 		var cnt = result.size; //result의 변수 size를 받음.
 		var showList = result.shows;
 		
@@ -24,3 +27,21 @@ function showsList(localName){
 }
 
 showsList();
+
+function changeLocalName(name){
+		$('#box-btn-localname button').removeClass('btn-warning').addClass("btn-outline-warning")
+		$('#box-btn-localname button:contains('+name+')').removeClass("btn-outline-warning").addClass("btn-warning");
+		localName = name;
+	
+	showsList();
+}
+
+function changeSortType(sort){
+		$('#box-btn-sort button').removeClass('btn-outline-light');
+		$('#box-btn-sort button:contains('+sort+')').addClass('btn-outline-light');
+		sortType = sort;
+
+	    showsList();
+}
+
+
