@@ -37,11 +37,6 @@ public class GenreController {
 	public String orderForm(@RequestParam("seatNo") List<String> seatNo, @RequestParam("orderPrice") int orderPrice,
 							@RequestParam("putShowNo") int putShowNo, Model model,
 							@LoginUser User user) {
-		for(String a : seatNo) {
-			System.out.println(a);
-		}
-		System.out.println(orderPrice);
-		System.out.println(putShowNo);
 		
 		model.addAttribute("orderPrice", orderPrice);
 		return "genre/orderForm";

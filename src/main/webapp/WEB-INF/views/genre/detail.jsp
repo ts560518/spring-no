@@ -100,9 +100,7 @@
 								<option value="${putShows.putShowNo }">${putShows.day } ${putShows.startTime }</option>
 							</c:forEach>
 						</select>
-						<input type="text" value="${show.viewingGradeSd }">
-						<input type="text" value="${user.age } ">
-						<button class="btn btn-danger" style="font-size: 20px; width: 200px; height: 50px; display: block; margin: 0 auto;" ${show.viewingGradeSd <= user.age ? '' :'disabled'}>예매하기</button>
+						<button class="btn btn-danger" style="font-size: 20px; width: 200px; height: 50px; display: block; margin: 0 auto;" ${show.viewingGradeSd <= LOGINED_USER.age ? '' :'disabled'}>예매하기</button>
 					</form>
 				</div>
 			</div>

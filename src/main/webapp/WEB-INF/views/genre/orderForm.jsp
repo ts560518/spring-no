@@ -49,21 +49,17 @@
 						<div class="form-row">
 							<div class="form-group col-3">
 								<label>받는사람 이름</label>
-      							<input type="text" class="form-control" name="name">
+      							<input type="text" class="form-control" name="name" value="${LOGINED_USER.name }">
 							</div>
 							<div class="form-group col-3">
 								<label>받는사람 연락처</label>
-      							<input type="text" class="form-control" name="tel">
+      							<input type="text" class="form-control" name="tel" value="${LOGINED_USER.tel }">
 							</div>
 						</div>
 						<div class="form-row">
-							<div class="form-group col-3">
-								<label>우편번호</label>
-      							<input type="text" class="form-control" name="zipcode">
-							</div>
 							<div class="form-group col-9">
 								<label>주소</label>
-      							<input type="text" class="form-control" name="address">
+      							<input type="text" class="form-control" name="address"  value="${LOGINED_USER.name }">
 							</div>
 						</div>
 						<div class="form-row">
