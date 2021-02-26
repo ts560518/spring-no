@@ -56,7 +56,6 @@ public class HomeController {
 		
 		try {
 			User user = userService.getLoginedUserInfo(userId, password);
-			
 			// 세션에 로그인된 사용자정보를 저장한다.
 			SessionUtils.setAttribute("LOGINED_USER", user);
 			

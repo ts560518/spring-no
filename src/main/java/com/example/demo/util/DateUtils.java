@@ -1,5 +1,6 @@
 package com.example.demo.util;
 
+import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.time.LocalDate;
 import java.time.Period;
@@ -8,6 +9,36 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class DateUtils {
+	
+	private static SimpleDateFormat yearFormat = new SimpleDateFormat("yyyy");
+	   private static SimpleDateFormat monthFormat = new SimpleDateFormat("MM");
+	   private static SimpleDateFormat dayFormat = new SimpleDateFormat("dd");
+
+	   public static int getCurrentMyAge(Date birth) {
+	      if (birth == null) {
+	         throw new IllegalArgumentException("생일이 null입니다.");
+	      }
+	      Date now = new Date();
+	      
+	      int nowYear = Integer.parseInt(yearFormat.format(now));
+	      int birthYear = Integer.parseInt(yearFormat.format(birth));
+	      int nowMonth = Integer.parseInt(monthFormat.format(now));   
+	      int birthMonth = Integer.parseInt(monthFormat.format(birth));   
+	      int nowDay = Integer.parseInt(dayFormat.format(now));   
+	      int birthDay = Integer.parseInt(dayFormat.format(birth));      
+
+	      int age = nowYear - birthYear;
+	      if (birthMonth > nowMonth) {
+	         age--;
+	      } else if (birthMonth == nowMonth) {
+	         if (birthDay <= nowDay) {
+	            age--;
+	         }
+	      } 
+	      return age;
+	   }   
+	
+	
 	
 	/**
 	 * 지정된 날짜가 오늘인지 여부를 반환한다.
@@ -121,4 +152,6 @@ public class DateUtils {
 		
 		return Period.between(dateToLocalDate(birth), LocalDate.now()).getYears();
 	}
+	
+	
 }

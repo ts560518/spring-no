@@ -5,17 +5,27 @@
 
 	<select id="getAllUsers" resultType="User">
 		select
-			user_no					as no,
-			user_name				as name,
-			user_id					as id,
-			user_password			as password,
-			user_tel				as tel,
-			user_email				as email,
-			user_available_point 	as availablePoint,
-			user_status				as status,
-			user_created_date 		as createdDate
-		from
-			shop2_users
+        	A.user_no as no,
+        	A.user_name as name,
+        	A.user_id as id,
+        	A.user_password as password,
+        	A.user_birth as birth,
+        	A.user_tel as tel,
+       		A.user_email as email,
+	        A.user_address as address,
+	        A.email_receiving_consent as emailReceivingConsent,
+	        A.sms_receiving_consent as smsReceivingConsent,
+	        A.user_available_point as availablePoint,
+	        A.user_created_date as createdDate,
+	        B.user_role as role,
+	        B.user_able_status as ableStatus,
+	        B.user_withdrawal_date as withDrawalDate
+      from
+         show_users A, show_user_roles B
+      where
+         B.user_able_status = 'Y'
+      and
+         A.user_no = B.user_no
 	</select>
 	
 	<!-- 
@@ -25,20 +35,29 @@
 	 -->
 	<select id="getUserById" parameterType="string" resultType="User">
 		select
-			user_no					as no,
-			user_name				as name,
-			user_id					as id,
-			user_password			as password,
-			user_tel				as tel,
-			user_email				as email,
-			user_available_point 	as availablePoint,
-			user_status				as status,
-			user_created_date 		as createdDate
-		from 
-			shop2_users
-		where
-			user_id = #{value}
-			and user_status = 'Y'
+        	A.user_no as no,
+        	A.user_name as name,
+        	A.user_id as id,
+        	A.user_password as password,
+        	A.user_birth as birth,
+        	A.user_tel as tel,
+       		A.user_email as email,
+	        A.user_address as address,
+	        A.email_receiving_consent as emailReceivingConsent,
+	        A.sms_receiving_consent as smsReceivingConsent,
+	        A.user_available_point as availablePoint,
+	        A.user_created_date as createdDate,
+	        B.user_role as role,
+	        B.user_able_status as ableStatus,
+	        B.user_withdrawal_date as withDrawalDate
+      from
+         show_users A, show_user_roles B
+      where
+         B.user_able_status = 'Y'
+      and
+         A.user_no = B.user_no
+      and
+         A.user_id = #{value}
 	</select>
 	
 	<select id="getUserByNo" parameterType="int" resultType="User">
