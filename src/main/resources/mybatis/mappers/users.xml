@@ -26,6 +26,7 @@
          B.user_able_status = 'Y'
       and
          A.user_no = B.user_no
+
 	</select>
 	
 	<!-- 
@@ -35,6 +36,7 @@
 	 -->
 	<select id="getUserById" parameterType="string" resultType="User">
 		select
+
         	A.user_no as no,
         	A.user_name as name,
         	A.user_id as id,
@@ -66,20 +68,22 @@
 			user_name				as name,
 			user_id					as id,
 			user_password			as password,
+			user_birth				as birth,
 			user_tel				as tel,
 			user_email				as email,
+			user_address			as address,
+			email_receiving_consent	as emailReceivingConsent,
+			sms_receiving_consent	as smsReceivingConsent,
 			user_available_point 	as availablePoint,
-			user_status				as status,
 			user_created_date 		as createdDate
 		from 
-			shop2_users
+			show_users
 		where
 			user_no = #{value}
-			and user_status = 'Y'
 	</select>
 	
 	<update id="updateUser" parameterType="User">
-		update shop2_users
+		update show_users
 		set
 			user_available_point = #{availablePoint}
 		where
@@ -87,9 +91,9 @@
 	</update>
 	
 	<insert id="insertUser" parameterType="User">
-		insert into shop2_users
-		(user_no, user_name, user_id, user_password, user_tel, user_email)
+		insert into show_users
+		(user_no, user_name, user_id, user_password, user_birth, user_tel, user_email, user_address, email_receiving_consent, sms_receiving_consent)
 		values
-		(shop2_user_seq.nextval, #{name}, #{id}, #{password}, #{tel}, #{email})
+		(show_users_seq.nextval, #{name}, #{id}, #{password}, #{birth}, #{tel}, #{email}, #{address}, #{emailReceivingConsent}, #{smsReceivingConsent})
 	</insert>
 </mapper>

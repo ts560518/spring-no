@@ -1,24 +1,27 @@
 package com.example.demo.web.controller;
 
+import java.io.IOException;
 import java.util.List;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
-import com.example.demo.dao.ShowDao;
-import com.example.demo.dto.TotalShow;
+import com.example.demo.exception.DuplicatedUserIdException;
 import com.example.demo.exception.PasswordMismatchException;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.service.ShowService;
 import com.example.demo.service.UserService;
 import com.example.demo.util.SessionUtils;
 import com.example.demo.util.StringUtils;
-import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.User;
+import com.example.demo.web.form.UserForm;
+import com.example.demo.web.view.PlainTextView;
 
 @Controller
 public class HomeController {
@@ -28,6 +31,9 @@ public class HomeController {
 	
 	@Autowired
 	ShowService showService;
+	
+	@Autowired
+	PlainTextView plainTextView;
 	
 	@RequestMapping("/loginform.do")
 	public String loginform() {
@@ -77,6 +83,40 @@ public class HomeController {
 		SessionUtils.removeAttribute("LOGINED_USER");
 		
 		return "redirect:home.do";
+	}
+	
+	// spring-shop/checkUserId.do 요청에 대한 요청핸들러 메소드
+	// 아이디를 전달받아서 사용가능한 아이디인지 아닌지를 응답으로 보낸다.
+	@RequestMapping("/checkUserId.do")
+	public ModelAndView checkUserId(@RequestParam("userId") String userId) {
+		ModelAndView mav = new ModelAndView();
+		mav.setView(plainTextView);
+		
+		boolean isExist = userService.isExistUserId(userId);
+		if (isExist) {
+			mav.addObject("message", "이미 사용중인 아이디입니다.");
+		} else {
+			mav.addObject("message", "사용가능한 아이디입니다.");
+		}
+		
+		return mav;
+	}
+	
+	@RequestMapping("/register.do")
+	public String register(UserForm userForm) throws IOException {
+		// User객체를 생성해서 UserForm객체의 값을 복사한다.
+		// MultipartFile타입의 객체가 복사되지 않도록 한다.(User와 UserForm에서 각각 다른 이름을 사용한다.)
+		User user = new User();
+		BeanUtils.copyProperties(userForm, user);
+		
+		try {
+			userService.addNewUser(user);
+		} catch (DuplicatedUserIdException e) {
+			e.printStackTrace();
+			return "redirect:form.do?error=dup";
+		}
+		
+		return "redirect:completed.do";
 	}
 	
 	@RequestMapping("/home.do")
