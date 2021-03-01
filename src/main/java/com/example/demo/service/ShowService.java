@@ -35,4 +35,6 @@ public interface ShowService {
 	
 	ShowAndPutShow getShowAndPutShow(int putShowNo);
 	
+	ShowSeat getShowSeat(Map<String, Object> showSeat);
+	
 }

@@ -249,4 +249,19 @@
 		c.place_no = d.place_no and
 		d.seat_no = show_seat_no
    </select>
+   
+   <!-- 좌석정보 -->
+   <select id="getShowSeat" resultType="ShowSeat" parameterType="map">
+		select 
+			SEAT_NO			AS no,
+			SHOW_SEAT_NO	AS showSeatNo,
+			PUT_SHOW_NO		AS putShowNo,
+			TICKET			AS ticket
+		from
+			show_seat
+		where
+			show_seat_no = #{seatNo}
+			and
+			put_show_no = #{putShowNo}
+   </select>
 </mapper>
