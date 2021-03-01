@@ -14,19 +14,19 @@ import lombok.ToString;
 public class Show {
 
 	 private int no;
-	    private int categoryNo;
-	    private String name;
-	    private int viewingNo;
-	    private String runningTime;
-	    private String posterImg;
-	    @JsonFormat(pattern = "yyyy-MM-dd")
-	    private Date beginDate;
-	    @JsonFormat(pattern = "yyyy-MM-dd")
-	    private Date endDate;
-	    private int placeNo;
-	    private String placeName;
-	    private String attentionImg;
-	    private String saleImg;
-	    private String showDetailImg;
-	    private Date createdDate;
+	 private int categoryNo;
+	 private String name;
+	 private int viewingNo;
+	 private String runningTime;
+	 private String posterImg;
+	 @JsonFormat(pattern = "yyyy-MM-dd")
+	 private Date beginDate;
+	 @JsonFormat(pattern = "yyyy-MM-dd")
+	 private Date endDate;
+	 private int placeNo;
+	 private String placeName;
+	 private String attentionImg;
+	 private String saleImg;
+	 private String showDetailImg;
+	 private Date createdDate;
 	}

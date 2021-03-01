@@ -32,7 +32,6 @@ public class UserServiceImpl implements UserService {
 	public User getLoginedUserInfo(String userId, String password) {
 		// 아이디로 사용자 정보조회
 		User user = userDao.getUserById(userId);
-		
 		// 사용자정보가 존재하지 않으면 예외발생
 		if (user == null) {
 			throw new UserNotFoundException("아이디 ["+userId+"]");

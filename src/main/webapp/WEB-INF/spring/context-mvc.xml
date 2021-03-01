@@ -10,6 +10,7 @@
 	<mvc:annotation-driven>
 		<mvc:argument-resolvers>
 			<!-- HandlerMethodArgumentResolver는 여기에 등록하세요 -->
+			<bean class="com.example.demo.web.resolver.LoginUserAnnotationArgumentResolver"></bean>
 		</mvc:argument-resolvers>
 	</mvc:annotation-driven>
 	

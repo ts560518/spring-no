@@ -9,6 +9,7 @@ import com.example.demo.dao.GenreDao;
 import com.example.demo.vo.Category;
 import com.example.demo.vo.Place;
 import com.example.demo.vo.Seat;
+import com.example.demo.vo.SeatPrice;
 import com.example.demo.vo.ShowActor;
 
 @Service
@@ -41,6 +42,11 @@ public class GenreServiceImpl implements GenreService {
 	@Override
 	public List<ShowActor> getShowActor(int showNo) {
 		return genreDao.getShowActor(showNo);
+	}
+
+	@Override
+	public SeatPrice getPlaceSeatPrice(String seatNo) {
+		return genreDao.getPlaceSeatPrice(seatNo);
 	}
 
 	

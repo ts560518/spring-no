@@ -9,6 +9,7 @@ import com.example.demo.dto.PutSeat;
 import com.example.demo.dto.TotalShow;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
+import com.example.demo.vo.ShowAndPutShow;
 import com.example.demo.vo.ShowSeat;
 
 @Transactional
@@ -31,5 +32,7 @@ public interface ShowService {
 	List<Show> getShowsListByLocalAndSort(String localName, String sort);
 	
 	PutSeat getputPlaceSeat(Map<String, Object> putPlace);
+	
+	ShowAndPutShow getShowAndPutShow(int putShowNo);
 	
 }

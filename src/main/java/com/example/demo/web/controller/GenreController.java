@@ -17,8 +17,10 @@ import com.example.demo.service.ShowService;
 import com.example.demo.vo.Category;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Seat;
+import com.example.demo.vo.SeatPrice;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.ShowActor;
+import com.example.demo.vo.ShowAndPutShow;
 import com.example.demo.vo.ShowSeat;
 import com.example.demo.vo.User;
 import com.example.demo.web.annotation.LoginUser;
@@ -31,32 +33,6 @@ public class GenreController {
 	
 	@Autowired
 	ShowService showService;
-	
-	
-	@RequestMapping("/orderForm.do")
-	public String orderForm(@RequestParam("seatNo") List<String> seatNo, @RequestParam("orderPrice") int orderPrice,
-							@RequestParam("putShowNo") int putShowNo, Model model,
-							@LoginUser User user) {
-		
-		model.addAttribute("orderPrice", orderPrice);
-		return "genre/orderForm";
-	}
-	
-	
-	// 예매페이지
-	@RequestMapping("/order.do")
-	public String order(@RequestParam("putShows") int putShowNo, Model model) {
-		
-		List<ShowSeat> showSeatList = showService.getputSeat(putShowNo);
-		
-		// 좌석별 가격조회
-		List<Seat> seats = genreService.getplaceSeat();
-		
-		model.addAttribute("putShowNo", putShowNo);
-		model.addAttribute("seats", seats);
-		model.addAttribute("showSeatList", showSeatList);
-		return "genre/order";
-	}
 	
 	// 카테고리 메인 페이지
 	@RequestMapping("/mainlist.do")

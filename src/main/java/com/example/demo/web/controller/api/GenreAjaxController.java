@@ -23,7 +23,7 @@ public class GenreAjaxController {
 	@Autowired
 	ShowService showService;
 	
-	@RequestMapping("orderMinusPrice")
+	@RequestMapping("/orderMinusPrice")
 	public Map<String, Object> orderMinusPrice(@RequestParam("seatNo") String seatNo,
 			@RequestParam("putShowNo") int putShowNo
 			) {
