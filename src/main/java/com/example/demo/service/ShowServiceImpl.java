@@ -11,6 +11,7 @@ import com.example.demo.dto.PutSeat;
 import com.example.demo.dto.TotalShow;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
+import com.example.demo.vo.ShowAndPutShow;
 import com.example.demo.vo.ShowSeat;
 
 @Service
@@ -55,6 +56,10 @@ public class ShowServiceImpl implements ShowService {
 	@Override
 	public PutSeat getputPlaceSeat(Map<String, Object> putPlace) {
 		return showDao.getputPlaceSeat(putPlace);
+	}
+	@Override
+	public ShowAndPutShow getShowAndPutShow(int putShowNo) {
+		return showDao.getShowAndPutShow(putShowNo);
 	}
 
 

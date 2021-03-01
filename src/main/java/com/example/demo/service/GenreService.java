@@ -7,6 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.example.demo.vo.Category;
 import com.example.demo.vo.Place;
 import com.example.demo.vo.Seat;
+import com.example.demo.vo.SeatPrice;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.ShowActor;
 
@@ -22,4 +23,6 @@ public interface GenreService {
 	List<Seat> getplaceSeat();
 	
 	List<ShowActor> getShowActor(int showNo);
+	
+	SeatPrice getPlaceSeatPrice(String seatNo);
 }

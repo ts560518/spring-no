@@ -94,7 +94,7 @@
 				</dl>
 				
 				<div class="col-12" style="padding-top: 60px;">
-					<form action="./order.do" method="post">
+					<form action="../order/order.do" method="post">
 						<select name="putShows" id="putShows">
 							<c:forEach var="putShows" items="${putShows }">
 								<option value="${putShows.putShowNo }">${putShows.day } ${putShows.startTime }</option>

@@ -37,7 +37,7 @@
 	</div>
 </div>
 <div class="container">
-	<form action="./orderForm.do" method="post">
+	<form action="./orderForm.do" method="post" id="orderPriceForm">
 		<div class="row" style="padding-top: 30px;" id="seatNoList">
 			<div class="col-7" style="text-align:center;" id="box-seat-group">
 				<h3>좌석선택</h3>
@@ -79,7 +79,7 @@
 				<input type="hidden" id="orderPrice" name="orderPrice" value="0">
 			</div>
 		</div>
-				<button type="submit" id="orderPriceForm" class="btn btn-danger">결재하기</button>
+	<button onclick="orderPriceForm()" class="btn btn-danger">결제하기</button>
 	</form>
 	
 	<div class="row">
@@ -89,7 +89,19 @@
 	</div>
 </div>
 <script type="text/javascript">
-
+	
+	function orderPriceForm() {
+		var orderPrice = parseInt(document.getElementById("orderPrice").value);
+		if(orderPrice === 0) {
+			alert("좌석을 하나이상 선택해주세요.");
+			return;
+		}
+		var form = document.getElementById("orderPriceForm");
+		form.setAttribute("method", "post");
+		form.setAttribute("action", "./orderForm.do");
+		form.submit();
+	}
+	
 	var count = 0;
 	$('#box-seat-group').on('click', '.put',function() {
 	   $(this).removeClass('put').addClass('seat-group');
@@ -135,6 +147,8 @@
 	      var seatList = '<input type="hidden" class="seatPutNo" name="seatNo" value="'+seatNo+'">'
 	      $("#seatNoList").append(seatList);
 	})
+	
+	
 </script>
 </body>
 </html>

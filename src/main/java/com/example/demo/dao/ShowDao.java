@@ -9,6 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import com.example.demo.dto.TotalShow;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Show;
+import com.example.demo.vo.ShowAndPutShow;
 import com.example.demo.vo.ShowSeat;
 
 public interface ShowDao {
@@ -26,6 +27,8 @@ public interface ShowDao {
 	List<Show> getCategorySwiper(int catno);
 	
 	 List<Show> getShowByLocalName(String localName);
+	 
+	 ShowAndPutShow getShowAndPutShow(int putShowNo);
 	 
 	 PutSeat getputPlaceSeat(Map<String, Object> putPlace);
 	//전체리스트-한결
