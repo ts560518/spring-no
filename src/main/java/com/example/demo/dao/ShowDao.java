@@ -31,6 +31,9 @@ public interface ShowDao {
 	 ShowAndPutShow getShowAndPutShow(int putShowNo);
 	 
 	 PutSeat getputPlaceSeat(Map<String, Object> putPlace);
+	 
+	 ShowSeat getShowSeat(Map<String, Object> showSeat);
+	 
 	//전체리스트-한결
 	List<Show> getAllShows();
 	//지역 + 범위별 리스트 -한결

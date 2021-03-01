@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.demo.dao.OrderDao">
+	<!-- 예매페이지에서 사용할 쿠폰내역 -->
+	<select id="getUserCoupon" parameterType="int" resultType="UserCoupon">
+		select
+			A.COUPON_HISTORY_NO			AS historyNo,
+			A.COUPON_NO					AS no,
+			A.USER_NO					AS userNo,
+			A.COUPON_DISABLED			AS disabled,
+			A.COUPON_USED_DATE			AS usedDate,
+			B.COUPON_NAME				AS name,
+			B.COUPON_PRICE				AS price,
+			B.COUPON_START_DATE			AS startDate,
+			B.coupon_end_date			AS endDate,
+			B.COUPON_STATUS				AS status
+		from
+			SHOW_COUPON_HISTORIES A, SHOW_COUPONS B
+		where
+			USER_NO = #{value}
+			and A.COUPON_NO = B.COUPON_NO
+			and B.COUPON_STATUS = 'N'
+			and A.COUPON_DISABLED = 'N'
+	</select>
+	
+	<!-- 쿠폭입력시 쿠폰 가격조회 -->
+	<select id="getCouponPrice" parameterType="int" resultType="Coupon">
+		select
+			COUPON_NO					AS no,
+			COUPON_NAME					AS name,
+			COUPON_PRICE				AS price,
+			COUPON_START_DATE			AS startDate,
+			coupon_end_date			AS endDate,
+			COUPON_STATUS				AS status
+		from
+			SHOW_COUPONS
+		where
+			COUPON_NO = #{value}
+	</select>
+	
+	<!-- 쿠폰사용시 업데이트 -->
+	<update id="updateCoupon" parameterType="int">
+		update SHOW_COUPON_HISTORIES
+		SET
+			coupon_disabled = 'Y',
+			COUPON_USED_DATE = SYSDATE
+		WHERE
+			COUPON_NO = #{value}
+	</update>
+	
+	<!-- 예매좌석 테이블 업데이트 -->
+	<update id="updateShowSeat" parameterType="map">
+		update show_seat
+		set
+			TICKET='Y'
+		WHERE
+			show_seat_no = #{seatNo}
+			and
+			put_show_no = #{putShowNo}
+	</update>
+	
+	<!-- 유저 포인트 내역 추가 -->
+	<insert id="insertPointHistories">
+		insert into show_user_point_histories
+		(history_no, user_no, point_amount, point_content)
+		values
+		(show_user_point_histories_seq.nextval,#{userNo}, #{pointAmount}, #{content})
+	</insert>
+	
+	<!-- 은행정보 조회 -->
+	<select id="getBank" parameterType="string" resultType="Bank">
+		select 
+			bank_no		as no,
+			bank_name	as name
+		from
+			show_bank_card_companies
+		where
+			bank_name=#{value}
+	</select>
+	
+	<!-- 예매시퀀스 번호 조회 -->
+	<select id="getOrderNo" resultType="int">
+		select show_ticket_orders_seq.nextval seq from dual
+	</select>
+	
+	<!-- 예매 -->
+	<insert id="insertOrder" parameterType="Order">
+		insert into show_ticket_orders
+			(order_no, user_no, put_show_no, order_amount, order_status, total_order_price, used_point, total_payment_price, order_payment_method, bank_no, bank_card_account, coupon_history_no)
+			values
+			(#{no}, #{userNo} ,#{putShowNo},#{orderAmout},#{status},#{totalOrderPrice},#{usedPoint},#{totalPaymentPrice},#{orderPaymentMethod},#{bankNo},#{bankCardAccount},#{couponHistoryNo})
+	</insert>
+	
+	<!-- 예매에 대한 내역 조회 테이블에 데이터 넣기 -->
+	<insert id="insertTicketOrderItems" parameterType="map">
+		insert into show_ticket_order_items
+		(order_item_no, order_no, seat_no)
+		values
+		(show_ticket_order_items_seq.nextval, #{orderNo}, #{seatNo})
+	</insert>
+</mapper>

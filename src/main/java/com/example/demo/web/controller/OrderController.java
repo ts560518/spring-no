@@ -1,7 +1,9 @@
 package com.example.demo.web.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,11 +14,17 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.example.demo.service.GenreService;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.ShowService;
+import com.example.demo.service.UserService;
+import com.example.demo.vo.Bank;
+import com.example.demo.vo.Coupon;
+import com.example.demo.vo.Order;
 import com.example.demo.vo.Seat;
 import com.example.demo.vo.SeatPrice;
 import com.example.demo.vo.ShowAndPutShow;
 import com.example.demo.vo.ShowSeat;
+import com.example.demo.vo.ShowUserPointHistories;
 import com.example.demo.vo.User;
+import com.example.demo.vo.UserCoupon;
 import com.example.demo.web.annotation.LoginUser;
 
 @Controller
@@ -32,11 +40,94 @@ public class OrderController {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	UserService userService;
+	
+	// 결제INSERT
+	@RequestMapping("/orderInsert.do")
+	public String orderInsert(@RequestParam("seatNo") List<String> seatNo, @RequestParam("orderPrice") int orderPrice,
+								@LoginUser User user, @RequestParam("putShowNo") int putShowNo, Model model,
+								@RequestParam(name="couponNo", required=false, defaultValue="0") int couponNo,
+								@RequestParam("usablePoint") int usabledPoint,
+								@RequestParam("usedPoint") int usedPoint, @RequestParam("totalPayPrice") int totalPayPrice,
+								@RequestParam("totalSavedPoint") int savedPoint,
+								@RequestParam("bank") String bankName, @RequestParam("account") int account) {
+		// 쿠폰번호로 쿠폰 가격 조회, 쿠폰번호가 0일 경우 조회하지 않음 그리고 쿠폰사용여부 업데이트
+		Coupon coupon = new Coupon();
+		if(couponNo!=0) {
+			coupon = orderService.getCouponPrice(couponNo);
+			usedPoint = usedPoint - coupon.getPrice();
+			orderService.updateCoupon(couponNo);
+		}
+		// 유저 포인트 내역 추가하기
+		if(usedPoint !=0) {
+			String content="포인트 사용";
+			ShowUserPointHistories pointHistories = new ShowUserPointHistories();
+			pointHistories.setUserNo(user.getNo());
+			pointHistories.setPointAmount(-usedPoint);
+			pointHistories.setContent(content);
+			orderService.insertPointHistories(pointHistories);
+		}
+		// 유저포인트 업데이트, 그리고 savePoint 업데이트
+		user.setAvailablePoint(usabledPoint - usedPoint);
+		userService.updateUser(user);
+		
+		// 예매 좌석 숫자
+		int orderAmout = 0;
+		// 예매내역 테이블을 위한 좌석테이블 조회할 리스트
+		List<ShowSeat> showSeatList = new ArrayList<ShowSeat>();
+		// 예매좌석 테이블 업데이트
+		for(String putseatNo : seatNo) {
+			orderAmout++;
+			Map<String, Object> showSeat = new HashMap<String, Object>();
+			showSeat.put("seatNo", putseatNo);
+			showSeat.put("putShowNo", putShowNo);
+			orderService.updateShowSeat(showSeat);
+			ShowSeat showOrderSeat = showService.getShowSeat(showSeat);
+			showSeatList.add(showOrderSeat);
+		}
+		// 은행 테이블 조회
+		Bank bank = orderService.getBank(bankName);
+		// 예매테이블 insert
+		int orderNo = orderService.getOrderNo();
+		String status = "결제완료";
+		String orderPaymentMethod="무통장입금";
+		Order order = new Order();
+		order.setNo(orderNo);
+		order.setUserNo(user.getNo());
+		order.setPutShowNo(putShowNo);
+		order.setOrderAmout(orderAmout);
+		order.setStatus(status);
+		order.setTotalOrderPrice(orderPrice);
+		order.setUsedPoint(usedPoint);
+		order.setTotalPaymentPrice(totalPayPrice);
+		order.setOrderPaymentMethod(orderPaymentMethod);
+		order.setBankNo(bank.getNo());
+		order.setBankCardAccount(account);
+		if (couponNo == 0) {
+			order.setCouponHistoryNo(0);
+		}
+		order.setCouponHistoryNo(coupon.getNo());
+		orderService.insertOrder(order);
+		// 예매 내역 테이블
+		Map<String, Object> ticketOrderItems = new HashMap<String, Object>();
+		for(ShowSeat showSeat : showSeatList) {
+			ticketOrderItems.put("seatNo", showSeat.getNo());
+			ticketOrderItems.put("orderNo", orderNo);
+			orderService.insertTicketOrderItems(ticketOrderItems);
+		}
+		
+		return "redirect:../home.do";
+	}
+	
 	// 결제페이지
 	@RequestMapping("/orderForm.do")
 	public String orderForm(@RequestParam("seatNo") List<String> seatNo, @RequestParam("orderPrice") int orderPrice,
 							@RequestParam("putShowNo") int putShowNo, Model model,
 							@LoginUser User user) {
+		
+		// 유저가 가지고 있는 쿠폰 조회
+		List<UserCoupon> userCouponList = orderService.getUserCoupon(user.getNo());
 		
 		List<SeatPrice> seatPrice = new ArrayList<>();
 		for(String seatNoOne : seatNo) {
@@ -48,6 +139,7 @@ public class OrderController {
 		// 상연정보에 대한 공연조횐
 		ShowAndPutShow showAndPutShow = showService.getShowAndPutShow(putShowNo);
 		
+		model.addAttribute("userCouponList", userCouponList);
 		model.addAttribute("showAndPutShow", showAndPutShow);
 		model.addAttribute("seatPrice", seatPrice);
 		model.addAttribute("orderPrice", orderPrice);

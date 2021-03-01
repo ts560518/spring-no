@@ -33,7 +33,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12">
-			<form action="">
+			<form action="./orderInsert.do">
 				<table class="table">
 					<colgroup>
 						<col>
@@ -57,6 +57,7 @@
 						<div class="form-row">
 							<div class="form-group col-3">
 								<label>공연이름</label>
+								<input type="hidden" name="putShowNo" value="${showAndPutShow.putShowNo }">
 								<p>${showAndPutShow.showName }</p>
 							</div>
 							<div class="form-group col-5">
@@ -66,6 +67,7 @@
       								<p style="display: inline-block; margin-right: 5px;">등급 : ${seatPrice.grade }</p>
       								<p style="display: inline-block; margin-right: 5px;">가격 : ${seatPrice.price }</p>
       								<p></p>
+      								<input type="hidden" name="seatNo" value="${seatPrice.seatNo }">
       							</c:forEach>
 							</div>
 						</div>
@@ -74,7 +76,7 @@
 			</div>
 		</div>
 				
-				<!-- 사용자 정보 시작 -->
+		<!-- 사용자 정보 시작 -->
 		<div class="row mb-3">
 			<div class="col-12">
 				<div class="card">
@@ -104,28 +106,32 @@
 					<div class="card-body">
 						<div class="form-row">
 							<div class="form-group col-3">
-								<label>사용가능 포인트 <button type="button" class="btn btn-primary btn-xs" id="btn-use-point" onclick="usePoint()">사용하기</button></label>
+								<label>사용가능 포인트 <button type="button" class="btn btn-primary btn-xs" id="btn-use-point" onclick="usePoint()" ${LOGINED_USER.availablePoint == 0 ? "disabled" : "" }>사용하기</button></label>
       							<input type="text" class="form-control" name="usablePoint" id="usable-point" value="${LOGINED_USER.availablePoint }" readonly>
 							</div>
 							<div class="form-group col-3">
-								<label>사용가능 쿠폰 <button type="button" class="btn btn-primary btn-xs" id="btn-use-point" onclick="useCoupon()">사용하기</button></label>
-      							<select name="coupon" class="form-control">
-									<option value="" selected disabled>쿠폰 선택</option>
-				                    <option value="카카오뱅크" > 카카오뱅크</option>
+								<label>사용가능 쿠폰</label>
+      							<select name="coupon" id="coupon" class="form-control" onchange="couponList()">
+									<option value="0" selected disabled>쿠폰 선택</option>
+									<c:forEach var="userCouponList" items="${userCouponList }">
+				                    	<option value="${userCouponList.no }" > ${userCouponList.name }</option>
+									</c:forEach>
+				                    <option value="0"> 사용안함</option>
 								</select>
+								<input type="hidden" name="couponNo" id="couponNo" value="">
 							</div>
 							<div class="form-group col-2">
 								<label>총 구매금액</label>
       							<input type="text" class="form-control" name="orderPrice" id="orderPrice" value="${orderPrice }" readonly>
 							</div>
 							<div class="form-group col-2">
-								<label>포인트 사용액</label>
+								<label>포인트 및 쿠폰 사용액</label>
       							<input type="text" class="form-control" name="usedPoint" id="used-point" value="0" readonly>
 							</div>
 							<div class="form-group col-2">
-								<label>총 결재금액</label>
-      							<input type="text" class="form-control" name="totalPayPrice" id="total-pay-price" value="" readonly>
-      							<input type="hidden" name="totalSavedPoint" value="" />
+								<label>총 결제금액</label>
+      							<input type="text" class="form-control" name="totalPayPrice" id="total-pay-price" value="${orderPrice }" readonly>
+      							<input type="hidden" name="totalSavedPoint" value="0" />
 							</div>
 						</div>
 						<div class="form-row">
@@ -171,6 +177,58 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function usePoint() {
+		var usablePointFiled = document.getElementById("usable-point");
+		var orderPriceFiled = document.getElementById("orderPrice");
+		var usedPointFiled = document.getElementById("used-point");
+		var totalOrderPriceFiled = document.getElementById("total-pay-price");
+		
+		// 사용가능 포인트
+		var usablePoint = parseInt(usablePointFiled.value);
+		// 총구매금액
+		var orderPrice = parseInt(orderPriceFiled.value);
+		// 사용한 포인트
+		var usedPoint = parseInt(usedPointFiled.value);
+		// 총결제금액
+		var totalOrderPrice = parseInt(totalOrderPriceFiled.value);
+		if (!usablePoint) {
+			alert("사용가능한 포인트가 없습니다.");
+			return;
+		}
+		if (usablePoint > totalOrderPrice) {
+			usedPoint = usedPoint + usablePoint - totalOrderPrice;
+			totalOrderPrice = 0;
+			usablePoint = usablePoint - totalOrderPrice;
+		} else {
+			usedPoint = usedPoint + usablePoint;
+			totalOrderPrice = orderPrice - usedPoint;
+			usablePoint = 0;
+		}
+		usablePointFiled.value=usablePoint;
+		usedPointFiled.value=usedPoint;
+		totalOrderPriceFiled.value=totalOrderPrice;	
+		document.getElementById("btn-use-point").disabled = true;
+		
+	}
 
+	function couponList() {
+		var coupon = document.getElementById("coupon").value;
+		var usedPoint = parseInt(document.getElementById("used-point").value);
+		var orderPrice = parseInt(document.getElementById("orderPrice").value);
+		var totalOrderPrice = parseInt(document.getElementById("total-pay-price").value);
+		$.getJSON("/api/order/couponPrice.do", {couponNo : coupon}, function(result) {
+			var price = parseInt(result);
+			var totalPrice = totalOrderPrice-price;
+			
+			document.getElementById("total-pay-price").value=totalPrice;
+			document.getElementById("used-point").value=usedPoint+price;
+			
+			document.getElementById("couponNo").value=coupon;
+			
+			document.getElementById("coupon").disabled = true;
+		})
+	}
+</script>
 </body>
 </html>

@@ -13,4 +13,7 @@ public interface UserService {
 	boolean isExistUserId(String userId);
 	User getLoginedUserInfo(String userId, String password);
 	void addNewUser(User user);
+	
+	void updateUser(User user);
+	
 }
