@@ -18,7 +18,7 @@
 	        A.user_created_date as createdDate,
 	        B.user_role as role,
 	        B.user_able_status as ableStatus,
-	        B.user_withdrawal_date as withDrawalDate
+	        B.user_withdrawal_date as withdrawalDate
       from
          show_users A, show_user_roles B
       where
@@ -50,7 +50,7 @@
 	        A.user_created_date as createdDate,
 	        B.user_role as role,
 	        B.user_able_status as ableStatus,
-	        B.user_withdrawal_date as withDrawalDate
+	        B.user_withdrawal_date as withdrawalDate
       from
          show_users A, show_user_roles B
       where

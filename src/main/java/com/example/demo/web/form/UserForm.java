@@ -24,4 +24,6 @@ public class UserForm {
 	private String address;
 	private String emailReceivingConsent;
 	private String smsReceivingConsent;
+	
+	public UserForm() {}
 }

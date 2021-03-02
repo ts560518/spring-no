@@ -8,7 +8,27 @@
 		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
 		http://mybatis.org/schema/mybatis-spring http://mybatis.org/schema/mybatis-spring-1.2.xsd
 		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.3.xsd">
-
+	
+	<!-- 
+		메일 발송을 MailServiceImpl이 담당하기 때문에 context-root.xml에 정의되어야 한다.
+		JavaMailSenderImpl 객체는 메일 발송을 지원하는 객체다.
+		메일서버에 대한 설정이 필요하다. host, port, username, password를 설정한다.
+	 -->
+	<bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl">
+		<property name="host" value="smtp.gmail.com"></property>
+		<property name="port" value="587"></property>
+		<property name="username" value="zcam9708@gmail.com"></property>
+		<property name="password" value="zxcv1234!@#$"></property>
+		<property name="javaMailProperties">
+			<props>
+				<prop key="mail.transport.protocol">smtp</prop>
+				<prop key="mail.smtp.auth">true</prop>
+				<prop key="mail.smtp.starttls.enable">true</prop>
+				<prop key="mail.debug">true</prop>
+			</props>
+		</property>
+	</bean>
+	
 	<!-- /data/db.properties 파일의 정보를 불러오는 클래스를 스프링의 빈으로 등록한다. -->
 	<context:property-placeholder location="classpath:/database/db.properties"/>
 
