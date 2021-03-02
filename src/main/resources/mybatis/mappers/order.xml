@@ -86,9 +86,17 @@
 	<!-- 예매 -->
 	<insert id="insertOrder" parameterType="Order">
 		insert into show_ticket_orders
-			(order_no, user_no, put_show_no, order_amount, order_status, total_order_price, used_point, total_payment_price, order_payment_method, bank_no, bank_card_account, coupon_history_no)
+			(order_no, user_no, put_show_no, order_amount, order_status, total_order_price, 
+			used_point, total_payment_price, order_payment_method, bank_no, bank_card_account, coupon_history_no)
 			values
-			(#{no}, #{userNo} ,#{putShowNo},#{orderAmout},#{status},#{totalOrderPrice},#{usedPoint},#{totalPaymentPrice},#{orderPaymentMethod},#{bankNo},#{bankCardAccount},#{couponHistoryNo})
+			(#{no}, #{userNo} ,#{putShowNo},#{orderAmout},#{status},#{totalOrderPrice},#{usedPoint},
+			#{totalPaymentPrice},#{orderPaymentMethod},#{bankNo},#{bankCardAccount},
+			<if test="couponHistoryNo!=0">
+				#{couponHistoryNo})
+			</if>
+			<if test="couponHistoryNo==0">
+				null)
+			</if>
 	</insert>
 	
 	<!-- 예매에 대한 내역 조회 테이블에 데이터 넣기 -->
