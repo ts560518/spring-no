@@ -132,7 +132,7 @@
 			begin_date desc
 			)
 		where 
-			rownum&lt;=3 
+			rownum&lt;=4
 	</select>
 
 	<select id="getAllCategoryShows" resultType="Show">
@@ -263,5 +263,31 @@
 			show_seat_no = #{seatNo}
 			and
 			put_show_no = #{putShowNo}
+   </select>
+   
+   <!-- 홈에 뿌리는 랭킹데이터 -->
+   <select id="getShowRankHome" resultType="Show">
+		select rn,
+		Y.show_no as no,
+		Y.poster_img as posterImg,
+		Y.show_name as name, 
+		Y.begin_date as beginDate, 
+		end_date as endDate, 
+		Y.poster_img, Z.place_no as placeNo, 
+		Z.place_name as placeName
+      from (
+              select show_no, row_number() over (order by cnt  desc) rn
+              from (
+                      select 
+                          c.show_no, count(*) cnt
+                      from show_ticket_orders A, show_put_shows B, shows C
+                      where A.put_show_no = B.put_show_no
+                      and B.show_no = C.show_no
+                      group by C.show_no
+              )
+      )X, shows Y, show_place Z
+      where rn &lt;= 3 
+      and X.show_no = Y.show_no
+      and Y.place_no = Z.place_no
    </select>
 </mapper>

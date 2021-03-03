@@ -14,10 +14,12 @@ import org.springframework.web.servlet.ModelAndView;
 import com.example.demo.exception.DuplicatedUserIdException;
 import com.example.demo.exception.PasswordMismatchException;
 import com.example.demo.exception.UserNotFoundException;
+import com.example.demo.service.NoticeService;
 import com.example.demo.service.ShowService;
 import com.example.demo.service.UserService;
 import com.example.demo.util.SessionUtils;
 import com.example.demo.util.StringUtils;
+import com.example.demo.vo.Notice;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.User;
 import com.example.demo.web.form.UserForm;
@@ -34,6 +36,9 @@ public class HomeController {
 	
 	@Autowired
 	PlainTextView plainTextView;
+	
+	@Autowired
+	NoticeService noticeService;
 	
 	@RequestMapping("/loginform.do")
 	public String loginform() {
@@ -116,7 +121,16 @@ public class HomeController {
 	public String home(Model model) {
 		model.addAttribute("users", userService.getAllUsers());
 		
+		// 홈페이지 랭킹별 3개
+		List<Show> showRankList = showService.getShowRankHome();
+		
+		// 홈페이지 공지사항 뿌리기
+		List<Notice> noticeList = noticeService.getNoticeHome();
+		// 티켓오픈
 		List<Show> showList = showService.getShowsHome();
+		
+		model.addAttribute("noticeList", noticeList);
+		model.addAttribute("showRankList", showRankList);
 		model.addAttribute("showList", showList);
 		
 		return "home";

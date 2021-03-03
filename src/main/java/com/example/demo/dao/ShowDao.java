@@ -34,6 +34,8 @@ public interface ShowDao {
 	 
 	 ShowSeat getShowSeat(Map<String, Object> showSeat);
 	 
+	 List<Show> getShowRankHome();
+	 
 	//전체리스트-한결
 	List<Show> getAllShows();
 	//지역 + 범위별 리스트 -한결

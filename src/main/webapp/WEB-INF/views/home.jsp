@@ -154,7 +154,7 @@
 	</div>
 	<div class="slide-wrapper row">
 	<c:forEach var="showList" items="${showList }">
-		<div class="col-4" style="display: inline-block; text-align: center;">
+		<div class="col-3" style="display: inline-block; text-align: center;">
 			<a href="/genre/detail.do?no=${showList.no }">
 				<div class="ticket-txt">
 				<img src="${pageContext.request.contextPath}/resources/images/NO24/${showList.posterImg }.jpg" alt="" class="lazyload">
@@ -164,55 +164,55 @@
 			</a>
 		</div>
 	</c:forEach>
-		<a href="/ticketOpen.do" class="list-more">티켓오픈 더보기 +</a>
+		<a href="../notice/list.do" class="list-more">티켓오픈 더보기 +</a>
 	</div>
 	
 	<div>
 		<p class="cont-tit"><span>RANKING</span></p>
 	</div>
 	<div class="slide-wrapper row">
+	<c:forEach var="showRankList" items="${showRankList }">
 		<div class="col-4" style="display: inline-block; text-align: center;">
 			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg" alt="" class="lazyload">
+				<img src="${pageContext.request.contextPath}/resources/images/NO24/${showRankList.posterImg }.jpg" alt="" class="lazyload">
 				<div class="ticket-txt">
-					<p class="ticket-date">2021.02.10(수) 14:00</p>
-					<p class="ticket-tit">연극 [아마데우스] 4차 티켓오픈 안내</p>
+					<p class="ticket-date"><fmt:formatDate value="${showRankList.beginDate }"/></p>
+					<p class="ticket-tit">${showRankList.name }</p>
 				</div>
 			</a>
 		</div>
-		<div class="col-4" style="display: inline-block;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg" alt="" class="lazyload">
-				<div class="ticket-txt">
-					<p class="ticket-date">2021.02.10(수) 14:00</p>
-					<p class="ticket-tit">연극 [아마데우스] 4차 티켓오픈 안내</p>
-				</div>
-			</a>
-		</div>
-		<div class="col-4" style="display: inline-block;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg" alt="" class="lazyload">
-				<div class="ticket-txt">
-					<p class="ticket-date">2021.02.10(수) 14:00</p>
-					<p class="ticket-tit">연극 [아마데우스] 4차 티켓오픈 안내</p>
-				</div>
-			</a>
-		</div>
+	</c:forEach>
 		<a href="/rank.do" class="list-more">랭킹 더보기 +</a>
 	</div>
 	
 	<div>
 		<p class="cont-tit"><span>공지사항</span></p>
 	</div>
-	<div class="row">
-		<div class="col-7">
-			<p>제목</p>
-		</div>
-		<div class="col-5">
-			<p>등록일</p>
-		</div>
-	</div>
-	<a href="./notice.do" class="list-more">공지사항 더보기 +</a>
+	<table class="table">
+	  		<thead class="bg-light">
+		  		<colgroup>
+						<col width="20%">
+						<col width="60%">
+						<col width="20%">
+				</colgroup>
+	  			<tr>
+		        	<th>타입</th>
+		        	<th>제목</th>
+		        	<th>등록일</th>
+		      	</tr>
+		    </thead>
+		    <tbody>
+		    <c:forEach var="noticeList" items="${noticeList }">
+		    	<tr>
+		        	<td><button type="button" class="btn btn-outline-danger btn-sm">${noticeList.type }</button></td>
+		        	<td><a href="../notice/detail.do?pageNo=${page.pageNo }&noticeNo=${noticeList.no }" class="text-primary" id="notice-title">${noticeList.title }</a></td>
+		        	<td><fmt:formatDate value="${noticeList.createdDate }"/></td>
+		      	</tr>
+		    </c:forEach>
+		    </tbody>
+		</table>
+
+	<a href="../notice/list.do" class="list-more">공지사항 더보기 +</a>
 	
 	<div class="row">
 		<div class="col-12">
