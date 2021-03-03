@@ -15,4 +15,6 @@ public interface UserDao {
 	User getUserByNo(int userNo);
 	void updateUser(User user);
 	void insertUser(User user);
+	int getUserNo();
+	void addNewUserRole(int userNo);
 }

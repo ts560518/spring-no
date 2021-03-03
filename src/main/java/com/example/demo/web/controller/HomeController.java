@@ -85,32 +85,25 @@ public class HomeController {
 		return "redirect:home.do";
 	}
 	
-	// spring-shop/checkUserId.do 요청에 대한 요청핸들러 메소드
-	// 아이디를 전달받아서 사용가능한 아이디인지 아닌지를 응답으로 보낸다.
-	@RequestMapping("/checkUserId.do")
-	public ModelAndView checkUserId(@RequestParam("userId") String userId) {
-		ModelAndView mav = new ModelAndView();
-		mav.setView(plainTextView);
-		
-		boolean isExist = userService.isExistUserId(userId);
-		if (isExist) {
-			mav.addObject("message", "이미 사용중인 아이디입니다.");
-		} else {
-			mav.addObject("message", "사용가능한 아이디입니다.");
-		}
-		
-		return mav;
-	}
+	
 	
 	@RequestMapping("/register.do")
 	public String register(UserForm userForm) throws IOException {
 		// User객체를 생성해서 UserForm객체의 값을 복사한다.
 		// MultipartFile타입의 객체가 복사되지 않도록 한다.(User와 UserForm에서 각각 다른 이름을 사용한다.)
+		String address = userForm.getPostAddress() + userForm.getAddress1() + userForm.getAddress2() + userForm.getAddress3();
+		
+		// user_no랑 user_role에 넣기위해서 no를 구함
+		int no = userService.getUserNo();
+		
 		User user = new User();
+		user.setNo(no);
 		BeanUtils.copyProperties(userForm, user);
+		user.setAddress(address);
 		
 		try {
 			userService.addNewUser(user);
+			userService.addNewUserRole(user.getNo());
 		} catch (DuplicatedUserIdException e) {
 			e.printStackTrace();
 			return "redirect:form.do?error=dup";
