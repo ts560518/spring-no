@@ -37,4 +37,6 @@ public interface ShowService {
 	
 	ShowSeat getShowSeat(Map<String, Object> showSeat);
 	
+	List<Show> getShowRankHome();
+	
 }

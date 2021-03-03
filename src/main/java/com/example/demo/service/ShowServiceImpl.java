@@ -68,6 +68,10 @@ public class ShowServiceImpl implements ShowService {
 	public ShowSeat getShowSeat(Map<String, Object> showSeat) {
 		return showDao.getShowSeat(showSeat);
 	}
+	@Override
+	public List<Show> getShowRankHome() {
+		return showDao.getShowRankHome();
+	}
 
 
 }
