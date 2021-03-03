@@ -21,7 +21,10 @@ public class UserForm {
 	private Date birth;
 	private String tel;
 	private String email;
-	private String address;
+	private int postAddress;
+	private String address1;
+	private String address2;
+	private String address3;
 	private String emailReceivingConsent;
 	private String smsReceivingConsent;
 	

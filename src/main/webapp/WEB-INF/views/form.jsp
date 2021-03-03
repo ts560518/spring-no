@@ -53,7 +53,7 @@
 							</tr>
 							<tr>
 								<th class="text-center bg-light align-middle">비밀번호</th>
-								<td><input type="password" class="form-control form-control-sm" name="password1" id="user-pwd1"/></td>
+								<td><input type="password" class="form-control form-control-sm" name="password" id="user-pwd1"/></td>
 							</tr>
 							<tr>
 								<th class="text-center bg-light align-middle">비밀번호<br />확인</th>
@@ -82,15 +82,15 @@
 							</tr>
 							<tr>
 								<th class="text-center bg-light align-middle">주소</th>
-								<td>
+								<td id="allAddress">
 									<div class="d-flex justify-content-start mb-1">
-										<input type="text" class="form-control form-control-sm w-25 mr-2 mt-1" name="address" id="user-address-postcode" placeholder="우편번호"/>
+										<input type="text" class="form-control form-control-sm w-25 mr-2 mt-1" name="postAddress" id="user-address-postcode" placeholder="우편번호"/>
 										<input type="button" onclick="searchAddress()" class="btn btn-outline-dark btn-sm mt-1" style="height: 31px;" value="주소찾기"/>
 									</div>
-									<input type="text" class="form-control form-control-sm mb-1" name="address" id="user-address" placeholder="주소"/>
+									<input type="text" class="form-control form-control-sm mb-1" name="address1" id="user-address" placeholder="주소"/>
 									<div class="d-flex justify-content-start mb-1">
-										<input type="text" class="form-control form-control-sm mr-1" name="address" id="user-detail-address" placeholder="상세주소"/>
-										<input type="text" class="form-control form-control-sm" name="address" id="user-extra-address" placeholder="참고항목"/>
+										<input type="text" class="form-control form-control-sm mr-1" name="address2" id="user-detail-address" placeholder="상세주소"/>
+										<input type="text" class="form-control form-control-sm" name="address3" id="user-extra-address" placeholder="참고항목"/>
 									</div>
 								</td>
 							</tr>
@@ -99,12 +99,12 @@
 								<td class="align-middle">
 									<div class="form-check-inline">
 										<label class="form-check-label">
-											<input type="radio" class="form-check-input" name="receiveEmail" id="consent-email" value="Y" checked> 동의
+											<input type="radio" class="form-check-input" name="emailReceivingConsent" id="consent-email" value="Y" checked> 동의
 										</label>
 									</div>
 									<div class="form-check-inline">
 										<label class="form-check-label">
-											<input type="radio" class="form-check-input" name="receiveEmail" id="refusal-email" value="N"> 거부
+											<input type="radio" class="form-check-input" name="emailReceivingConsent" id="refusal-email" value="N"> 거부
 										</label>
 									</div>
 								</td>
@@ -114,12 +114,12 @@
 								<td class="align-middle">
 									<div class="form-check-inline">
 										<label class="form-check-label">
-											<input type="radio" class="form-check-input" name="receiveSMS" id="consent-SMS" value="Y" checked> 동의
+											<input type="radio" class="form-check-input" name="smsReceivingConsent" id="consent-SMS" value="Y" checked> 동의
 										</label>
 									</div>
 									<div class="form-check-inline">
 										<label class="form-check-label">
-											<input type="radio" class="form-check-input" name="receiveSMS" id="refusal-SMS" value="N"> 거부
+											<input type="radio" class="form-check-input" name="smsReceivingConsent" id="refusal-SMS" value="N"> 거부
 										</label>
 									</div>
 								</td>
@@ -127,7 +127,7 @@
 						</tbody>
 					</table>
 					<div class="form-group col-12 text-right">
-						<button class="btn btn-outline-primary btn-lg">회원가입</button>
+						<button type="submit" class="btn btn-outline-primary btn-lg">회원가입</button>
 					</div>
 		   		</form>
 			</div>
@@ -135,132 +135,146 @@
 	</div>
 </div>
 <script type="text/javascript">
-$(function() {
-	// 메일로 발송된 인증코드가 저장되는 변수
-	var emailCheckRandomCode
-	// 인증코드 입력 시도 횟수
-	var checkedCount = 0
-	// 이메일 인증이 완료된 경우 true가 저장된다.
-	var isEmailChecked = false;
-	
-	// 인증코드 입력부분은 처음에는 표시되지 않게 한다.
-	$("#box-check-code").hide()
-	
-	// 입력된 이메일로 인증번호 발송하기
-	// 이메일 인증 버튼을 클릭하면 실행된다.
-	$("#btn-send-random").click(function() {
-		// 이메일이 입력되어 있지않으면 경고창 표시
-		if ($("#user-email").val() == '') {
-			alert("이메일을 입력하세요.");
-			return false
-		} else {
-			alert("해당 이메일로 인증번호가 발송되었습니다.");
-		}
+	$(function() {
+		// 메일로 발송된 인증코드가 저장되는 변수
+		var emailCheckRandomCode
+		// 인증코드 입력 시도 횟수
+		var checkedCount = 0
+		// 이메일 인증이 완료된 경우 true가 저장된다.
+		var isEmailChecked = false;
 		
-		// 이메일로 인증번호를 발송하는 컨트롤러를 실행시키고, 발송된 인증번호를 전달받는다.
-		$.get('sendRandom.do', {email: $("#user-email").val()}, function(response) {
-			// 인증코드 발송을 감춘다.
-			$('#box-send-code').hide()
-			// 인증코드 입력하는 부분을 표시한다.
-			$('#box-check-code').show()
-			// 전달받은 인증코드를 변수에 저장한다.
-			emailCheckRandomCode = response;
-			// 이메일 인증여부를 fase로 설정한다.
-			isEmailChecked = false;
-			// 시도횟수를 초기화한다.
-			checkedCount = 0
-		})
-	})
-	
-	// 인증코드를 입력하고 확인버튼을 클릭했을 때 실행된다.
-	$("#btn-check-random").click(function() {
-		// 입력된 인증코드를 읽어온다.
-		var code = $('#field-check-code').val()
+		// 인증코드 입력부분은 처음에는 표시되지 않게 한다.
+		$("#box-check-code").hide()
 		
-		if (code == '') {
-			alert("인증코드를 입력하세요.")
-			return false;
-		}
-		// 사용자가 입력한 코드값과 메일 발송시 제공받은 인증번호와 비교한다.
-		if (code != emailCheckRandomCode) {
-			// 시도횟수를 증가시킨다.
-			checkedCount++;
-			// 시도횟수를 초과한 경우
-			if (checkedCount == 5) {
-				alert("시도가능한 횟수를 초과하였습니다.");
-				$('#box-send-code').show()
-				$('#box-check-code').hide()
-				$('#field-check-code').val('')
+		// 입력된 이메일로 인증번호 발송하기
+		// 이메일 인증 버튼을 클릭하면 실행된다.
+		$("#btn-send-random").click(function() {
+			// 이메일이 입력되어 있지않으면 경고창 표시
+			if ($("#user-email").val() == '') {
+				alert("이메일을 입력하세요.");
+				return false
+			} else {
+				alert("해당 이메일로 인증번호가 발송되었습니다.");
+			}
 			
+			// 이메일로 인증번호를 발송하는 컨트롤러를 실행시키고, 발송된 인증번호를 전달받는다.
+			$.get('sendRandom.do', {email: $("#user-email").val()}, function(response) {
+				// 인증코드 발송을 감춘다.
+				$('#box-send-code').hide()
+				// 인증코드 입력하는 부분을 표시한다.
+				$('#box-check-code').show()
+				// 전달받은 인증코드를 변수에 저장한다.
+				emailCheckRandomCode = response;
+				// 이메일 인증여부를 false로 설정한다.
+				isEmailChecked = false;
+				// 시도횟수를 초기화한다.
+				checkedCount = 0
+			})
+		})
+		
+		// 인증코드를 입력하고 확인버튼을 클릭했을 때 실행된다.
+		$("#btn-check-random").click(function() {
+			// 입력된 인증코드를 읽어온다.
+			var code = $('#field-check-code').val()
+			
+			if (code == '') {
+				alert("인증코드를 입력하세요.")
 				return false;
 			}
-			alert("인증코드가 일치하지 않습니다. (" + (5-checkedCount) +"회 남았습니다.)" )
-			return false;
-		}
+			// 사용자가 입력한 코드값과 메일 발송시 제공받은 인증번호와 비교한다.
+			if (code != emailCheckRandomCode) {
+				// 시도횟수를 증가시킨다.
+				checkedCount++;
+				// 시도횟수를 초과한 경우
+				if (checkedCount == 5) {
+					alert("시도가능한 횟수를 초과하였습니다.");
+					$('#box-send-code').show()
+					$('#box-check-code').hide()
+					$('#field-check-code').val('')
+				
+					return false;
+				}
+				alert("인증코드가 일치하지 않습니다. (" + (5-checkedCount) +"회 남았습니다.)" )
+				return false;
+			}
+			
+			// 사용자가 입력한 코드값이 메일 발송시 제공받은 인증번호와 일치하는 경우
+			alert("이메일 인증이 완료되었습니다");
+			// 이메일 인증이 완료된 경우 true가 저장된다.
+			isEmailChecked = true
+			// 이메일 입력필드는 다른 이메일을 입력하지 못하도록 읽기전용으로 변경한다.
+			$("#user-email").prop('readonly', true)
+			// 이메일 입력과 관련된 부분을 전부 보이지 않게 한다.
+			$('#box-send-code').hide()
+			$('#box-check-code').hide()
+			$('#btn-send-random').hide()
+		})
 		
-		// 사용자가 입력한 코드값이 메일 발송시 제공받은 인증번호와 일치하는 경우
-		alert("이메일 인증이 완료되었습니다");
-		// 이메일 인증이 완료된 경우 true가 저장된다.
-		isEmailChecked = true
-		// 이메일 입력필드는 다른 이메일을 입력하지 못하도록 읽기전용으로 변경한다.
-		$("#user-email").prop('readonly', true)
-		// 이메일 입력과 관련된 부분을 전부 보이지 않게 한다.
-		$('#box-send-code').hide()
-		$('#box-check-code').hide()
-		$('#btn-send-random').hide()
+		var idRegExp = /^(?=.*[a-zA-Z0-9]).{4,}$/;
+		var pwdRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
+		
+		// 최종적으로 회원가입버튼을 클릭한 경우
+		// 폼입력값이 유효한지 체크하고, 이메일 인증을 수행했는지 체크한다.
+		$("#user-form").submit(function() {
+	      	if ($("#user-name").val() == "") {
+	         	alert("이름은 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	if ($("#user-id").val() == "") {
+	         	alert("아이디는 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	
+	      	var userId = $("#user-id").val();
+	      	var password = $("#user-pwd1").val();
+	      	var confirmPassword = $("#user-pwd2").val();
+	      	
+	      	if (!password) {
+	         	alert("비밀번호는 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	if (!confirmPassword) {
+	         	alert("비밀번호 확인은 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	if (password != confirmPassword) {
+	         	alert("비밀번호가 일치하지 않습니다.");
+	         	return false;
+	      	}
+	      	if ($("#user-birth").val() == "") {
+	         	alert("생년월일은 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	if ($("#user-tel").val() == "") {
+	         	alert("전화번호는 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	if ($("#user-email").val() == "") {
+	         	alert("이메일은 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	if ($("#user-address").val() == "" || $("#user-address-postcode").val() == ""
+	      			|| $("#user-detail-address").val() == "" || $("#user-extra-address").val() == "") {
+	         	alert("주소는 필수입력값입니다.");
+	         	return false;
+	      	}
+	      	if (!isEmailChecked) {
+				alert("이메일 인증이 완료되지 않았습니다.");
+				return false;
+			}
+	      	
+	      	if (!idRegExp.test(userId)) {
+				alert("아이디는 영어 대소문자, 숫자로 구성된 4글자 이상의 글자만 가능합니다.");
+				return false;
+			}
+	      	if (!pwdRegExp.test(password)) {
+				alert("비밀번호는 영어 대소문자, 숫자로 구성된 8글자 이상의 글자만 가능합니다.");
+				return false;
+			}
+	      	
+	      	return true;
+		});
 	})
-	
-	// 최종적으로 회원가입버튼을 클릭한 경우
-	// 폼입력값이 유효한지 체크하고, 이메일 인증을 수행했는지 체크한다.
-	$("#user-form").submit(function() {
-      	if ($("#user-name").val() == "") {
-         	alert("이름은 필수입력값입니다.");
-         	return false;
-      	}
-      	if ($("#user-id").val() == "") {
-         	alert("아이디는 필수입력값입니다.");
-         	return false;
-      	}
-      	
-      	var password = $("#user-pwd1").val();
-      	var confirmPassword = $("#user-pwd2").val();
-      	if (!password) {
-         	alert("비밀번호는 필수입력값입니다.");
-         	return false;
-      	}
-      	if (!confirmPassword) {
-         	alert("비밀번호 확인은 필수입력값입니다.");
-         	return false;
-      	}
-      	if (password != confirmPassword) {
-         	alert("비밀번호가 일치하지 않습니다.");
-         	return false;
-      	}
-      	if ($("#user-birth").val() == "") {
-         	alert("생년월일은 필수입력값입니다.");
-         	return false;
-      	}
-      	if ($("#user-tel").val() == "") {
-         	alert("전화번호는 필수입력값입니다.");
-         	return false;
-      	}
-      	if ($("#user-email").val() == "") {
-         	alert("이메일은 필수입력값입니다.");
-         	return false;
-      	}
-      	if ($("#user-address").val() == "" || $("#user-address-postcode").val() == ""
-      			|| $("#user-detail-address").val() == "" || $("#user-extra-address").val() == "") {
-         	alert("주소는 필수입력값입니다.");
-         	return false;
-      	}
-      	if (!isEmailChecked) {
-			alert("이메일 인증이 완료되지 않았습니다.");
-			return false;
-		}
-      	
-      	return true;
-	});
-})
 
 	function searchAddress() {
 	    new daum.Postcode({
@@ -310,52 +324,25 @@ $(function() {
 	    }).open();
 	}
 
-$(function() {
-	var idRegExp = /^[A-Za-z0-9]{7,}$/;
-	var pwdRegExp = /^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$/;
-	
-   	$("user-form").submit(function() {
-      	var userId = $("#user-id").val();
-      	var userPwd = $("#user-pwd1").val();
-      	
-      	if (!idRegExp.test(userId)) {
-			alert("아이디는 영어 대소문자, 숫자로 구성된 7글자 이상의 글자만 가능합니다.");
-			return false;
-		}
-      	if (!pwdRegExp.test(userPwd)) {
-			alert("비밀번호는 최소 8글자 이상, 최소 하나의 문자, 하나의 숫자를 포함해야 합니다.");
-			return false;
-		}
-      	return true;
-	})
-})
-
 	function checkMyId() {
-		var myId = document.getElementById('user-id').value;
-		//console.log("입력한 아이디", myId);
+		var userId = $("#user-id").val();
 		
-		// ajax 엔진 객체 생성
-		var xhr = new XMLHttpRequest();
-		
-		if (myId == "") {
+		if (userId == "") {
 			alert("사용하실 아이디를 입력하세요.")
 			return false;
 		}
-		
-		// ajax 엔진 객체의 readyState 상태가 변할 때
-		xhr.onreadystatechange = function() {				// 콜백함수, 특정상황이 됐을 때 실행되는 함수
-			if (xhr.readyState == 4) {						//		      특정상황 = 특정 이벤트 발생시
-				alert(xhr.responseText);					//		      개발자가 임의의 시간에 실행하는 함수가 아니다.
-			}												//		      자바스크립트 엔진이 자발적으로 실행하는 함수다.
-		}
-		
-		// ajax 엔진 객체 초기화
-		xhr.open("GET", "checkUserId.do?userId=" + myId);	// onreadystatechange 이벤트 발생
-		// 서버로 HTTP 요청 보내기
-		xhr.send();											// onreadystatechange 이벤트 발생
-		
-		//var msg = xhr.responseText;
-		//console.log("응답메세지: " + msg);
+		// checkUserId.do?userId=값
+		$.getJSON("/api/member/checkUserId.do", {userId:userId}, function(result) {
+			var isExist = result.exist;
+			console.log(isExist);
+			if (isExist) {
+				alert("이미 사용중인 아이디입니다.");
+				$("#user-id").val("")
+			} else {
+				alert("사용가능한 아이디입니다.");
+				$("#user-id").prop('readonly', true)
+			}
+		})
 	}
 </script>
 </body>

@@ -24,6 +24,11 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
+	public User getUserById(String userId) {
+		return userDao.getUserById(userId);
+	}
+	
+	@Override
 	public boolean isExistUserId(String userId) {
 		return userDao.getUserById(userId) != null;
 	}
@@ -61,6 +66,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void updateUser(User user) {
 		userDao.updateUser(user);
+	}
+
+	@Override
+	public int getUserNo() {
+		return userDao.getUserNo();
+	}
+
+	@Override
+	public void addNewUserRole(int userNo) {
+		userDao.addNewUserRole(userNo);
 	}
 	
 }
