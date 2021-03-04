@@ -20,7 +20,7 @@ public class LoginCheckInterceptor extends HandlerInterceptorAdapter {
 		
 		HttpSession session = request.getSession();
 		if (session.getAttribute("LOGINED_USER") == null) {
-			response.sendRedirect("/spring-no/loginform.do?error=deny");
+			response.sendRedirect("/loginform.do?error=deny");
 			// 요청핸들러 메소드가 실행되지 않게 함
 			return false;
 		}

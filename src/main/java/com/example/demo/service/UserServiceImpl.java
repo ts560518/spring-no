@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.UserDao;
 import com.example.demo.vo.User;
+import com.example.demo.vo.UserCoupon;
 import com.example.demo.exception.DuplicatedUserIdException;
 import com.example.demo.exception.PasswordMismatchException;
 import com.example.demo.exception.UserNotFoundException;
@@ -78,4 +79,8 @@ public class UserServiceImpl implements UserService {
 		userDao.addNewUserRole(userNo);
 	}
 	
+	@Override
+	public void insertUserCouponHistory(UserCoupon userCoupon) {
+		userDao.insertUserCouponHistory(userCoupon);
+	}
 }

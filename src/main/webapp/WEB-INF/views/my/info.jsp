@@ -36,12 +36,6 @@
 		</div>
   	</div>
   	
-  	<div class="form-row">
-		<div class="text-right">
-			<input type="submit" class="btn btn-primary" value="회원가입" />
-		</div>
-	</div>
-  	
  	<div class="row mb-3">
  		<div class="col-10 offset-1">
  			<div class="card">
