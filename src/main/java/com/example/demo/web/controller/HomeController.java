@@ -23,6 +23,7 @@ import com.example.demo.vo.Notice;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.User;
 import com.example.demo.vo.UserCoupon;
+import com.example.demo.web.annotation.LoginUser;
 import com.example.demo.web.form.UserForm;
 import com.example.demo.web.view.PlainTextView;
 
@@ -52,8 +53,39 @@ public class HomeController {
 	}
 	
 	@RequestMapping("/my/info.do")
-	public String info() {
+	public String info(@LoginUser User user, Model model) {
+		model.addAttribute("user", user);
+		
 		return "/my/info";
+	}
+	
+	@RequestMapping("/my/checkPassword.do")
+	public String checkPassword(@LoginUser User user, Model model) {
+		if (user == null) {
+			return "redirect:loginform.do?error=notfound";
+		}
+		model.addAttribute("user", user);
+		
+		return "/my/checkPassword";
+	}
+	
+	@RequestMapping("/my/modifyForm.do")
+	public String checkPassword(@RequestParam("id") String userId, 
+								@RequestParam("password") String password, 
+								@LoginUser User user, Model model) {
+		
+		// 기재된 id, password로 저장된 유저의 정보를 가져온다.
+		try { 
+			User savedUser = userService.getLoginedUserInfo(userId, password);
+			System.out.println("잘나오나" + savedUser);
+			model.addAttribute("user", savedUser);
+		
+		} catch (PasswordMismatchException e) {
+			e.printStackTrace();
+			return "redirect:checkPassword.do?error=mismatch";
+		}
+		
+		return "/my/modifyForm";
 	}
 	
 	// spring-shop/login.do 요청에 대한 요청핸들러 메소드
@@ -100,7 +132,7 @@ public class HomeController {
 	public String register(UserForm userForm) throws IOException {
 		// User객체를 생성해서 UserForm객체의 값을 복사한다.
 		// MultipartFile타입의 객체가 복사되지 않도록 한다.(User와 UserForm에서 각각 다른 이름을 사용한다.)
-		String address = userForm.getPostAddress() + "" + userForm.getAddress1() + userForm.getAddress2() + "" + userForm.getAddress3();
+		String address = userForm.getPostAddress() + " " + userForm.getAddress1() + userForm.getAddress2() + " " + userForm.getAddress3();
 		
 		// user_no랑 user_role에 넣기위해서 no를 구함
 		int no = userService.getUserNo();

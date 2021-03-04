@@ -3,13 +3,18 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-<title>NO24</title>
-<meta charset="utf-8">
+<meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="preconnect" href="https://fonts.gstatic.com">
+<link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
+<script src='https://kit.fontawesome.com/a076d05399.js' crossorigin='anonymous'></script>
+<link rel="stylesheet" href="../resources/css/commons.css">
+<title>No24 info</title>
 <style type="text/css">
 	.btn-group-xs > .btn, .btn-xs {
 	  padding: .45rem .4rem;
@@ -27,114 +32,99 @@
 		</div>
 	</div>
 </div>
-<div class="container">
-  	<div class="row mb-3">
-  		<div class="col-10 offset-1">
-			<div class="alert alert-info text-center mt-3" style="font-size: 27px;">
-				<span><strong>${LOGINED_USER_NAME }</strong>님 즐겁고 행복한 하루 보내세요</span><br />
-			</div>
-		</div>
-  	</div>
+<div class="container mt-5">
+  	<h2 class="w3-border-bottom w3-border-light-grey w3-padding-16"><i class='far fa-address-book' style="color: orange; margin-right: 10px;"></i>마이페이지</h2>
   	
- 	<div class="row mb-3">
- 		<div class="col-10 offset-1">
- 			<div class="card">
- 				<div class="card-body">
- 					<h4 class="card-title">내정보</h4>
- 					<table class="table">
- 						<tbody>
- 							<tr>
- 								<th>이름</th>
- 								<td>${user.name }</td>
- 								<th></th>
- 								<td></td>
- 							</tr>
- 							<tr>
- 								<th>아이디</th>
- 								<td>${user.id }</td>
- 								<th>비밀번호</th>
- 								<td><button class="btn btn-outline-primary btn-xs" data-toggle="modal" data-target="#modal-password-form">비밀번호 변경</button></td>
- 							</tr>
- 							<tr>
- 								<th>연락처</th>
- 								<td>${user.tel }</td>
- 								<th>이메일</th>
- 								<td>${user.email }</td>
- 							</tr>
- 						</tbody>
- 					</table>
- 					<h4 class="card-title" style="margin-top: 100px;">나의 예매내역</h4>
- 					<table class="table">
-						<thead>
-							<tr>
-								<th>주문번호</th>
-								<th>주문일자</th>
-								<th>주문내역</th>
-								<th>주문금액/수량</th>
-								<th>주문상태</th>
-								<th>수령자</th>
-							</tr>
-						</thead>
-						<tbody>
-						<c:choose>
-							<c:when test="${empty orders }">
-								<tr>
-									<td class="text-center" colspan="6">주문내역이 존재하지 않습니다.</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-								<c:forEach var="order" items="${orders }">
-									<tr>
-										<td><a href="../order/detail.hta?orderno=${order.no }">${order.no }</a></td>
-										<td><fmt:formatDate value="${order.createdDate }"/></td>
-										<td><a href="../order/detail.hta?orderno=${order.no }">${order.description }</a></td>
-										<td><fmt:formatNumber value="${order.totalOrderPrice }"/>원/${order.amount }종</td>
-										<td><span class="text-success">${order.status }</span></td>
-										<td>${order.recipientName }</td>
-									</tr>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-						</tbody>
-					</table>
- 					<h4 class="card-title" style="margin-top: 100px;">나의 예매내역</h4>
- 					<table class="table">
-						<thead>
-							<tr>
-								<th>주문번호</th>
-								<th>주문일자</th>
-								<th>주문내역</th>
-								<th>주문금액/수량</th>
-								<th>주문상태</th>
-								<th>수령자</th>
-							</tr>
-						</thead>
-						<tbody>
-						<c:choose>
-							<c:when test="${empty orders }">
-								<tr>
-									<td class="text-center" colspan="6">주문내역이 존재하지 않습니다.</td>
-								</tr>
-							</c:when>
-							<c:otherwise>
-								<c:forEach var="order" items="${orders }">
-									<tr>
-										<td><a href="../order/detail.hta?orderno=${order.no }">${order.no }</a></td>
-										<td><fmt:formatDate value="${order.createdDate }"/></td>
-										<td><a href="../order/detail.hta?orderno=${order.no }">${order.description }</a></td>
-										<td><fmt:formatNumber value="${order.totalOrderPrice }"/>원/${order.amount }종</td>
-										<td><span class="text-success">${order.status }</span></td>
-										<td>${order.recipientName }</td>
-									</tr>
-								</c:forEach>
-							</c:otherwise>
-						</c:choose>
-						</tbody>
-					</table>
- 				</div>
- 			</div>
- 		</div>
- 	</div>
+  	<div class="row mb-5">
+  		<div class="col-2">
+  			<img src="../resources/images/userDefault.png" alt="user" class="img-thumbnail">
+		</div>
+		    
+		<div class="col-10">
+			<table class="table d-flex justify-content-center">
+				<tbody>
+					<tr>
+						<th>아이디</th>
+						<td>${user.id }</td>
+					</tr>
+					<tr>
+						<th>이름</th>
+						<td>${user.name }</td>
+					</tr>
+					<tr>
+						<th>생년월일</th>
+						<td><fmt:formatDate value="${user.birth }" pattern="yyyy/MM/dd"/></td>
+					</tr>
+					<tr>	
+						<th>연락처</th>
+						<td>${user.tel }</td>
+					</tr>
+					<tr>
+						<th>이메일</th>
+						<td>${user.email }</td>
+					</tr>
+					<tr>
+						<th>주소</th>
+						<td>${user.address }</td>
+					</tr>
+					<tr>
+						<th>이메일 수신여부</th>
+						<td>${user.emailReceivingConsent eq 'Y' ? '수신' : '거부' }</td>
+					</tr>
+					<tr>	
+						<th>SMS 수신여부</th>
+						<td>${user.smsReceivingConsent eq 'Y' ? '수신' : '거부' }</td>
+					</tr>
+					<tr>
+						<th>사용가능 포인트</th>
+						<td>${user.availablePoint }</td>
+					</tr>
+					<tr>
+						<th>가입일</th>
+						<td><fmt:formatDate value="${user.createdDate }" pattern="yyyy/MM/dd"/></td>
+					</tr>
+				</tbody>
+ 			</table>
+		</div>
+	</div>
+	
+	<div class="row d-flex justify-content-center mt-5 mb-3">
+   		<a href="checkPassword.do" class="btn btn-outline-primary float-center mr-2">회원정보수정</a>
+   		<a href="putShowForm.do" class="btn btn-outline-success float-center">포인트 내역 조회</a>
+   	</div>
+	
+	<p class="w3-border-bottom w3-border-black mt-5 mb-5"></p>
+	<h3><i class='fas fa-money-bill-wave' style="font-size: 36px; color: orange; margin-right: 10px;"></i>최근 예매내역</h3>
+	<table class="table mt-4">
+		<thead>
+			<tr>
+				<th>예매번호</th>
+				<th>상연번호(사실은 상연이름을 가져와야 함)</th>
+				<th>예매수량</th>
+				<th>결제상태</th>
+				<th>결제금액</th>
+				<th>결제일</th>
+			</tr>
+		</thead>
+		<tbody>
+		<!-- foreach문 써야 함 -->
+			<tr>
+				<td><a href="#" class="text-primary">예매번호</a></td>
+				<td><a href="detail.jsp">상연번호를 통한 상연이름을 가져와야 해</a></td>
+				<td>티켓오더아이템즈의 카운트를 가져와야 해</td>
+				<td>결제완료라고 떠야 해</td>
+				<td>결제 금액을 가져와야 해 내가 결제한 금액을</td>
+				<td>결제일</td>
+			</tr>
+		</tbody>
+	</table>
+		
+		</div>
+	</div>
+  	
+  	
+ 	
+</div>
  	
  	<!-- 비밀번호 변경 폼 모달 시작 -->
 	<!-- Modal -->
