@@ -2,34 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.demo.dao.ShowDao">
 	
-	<!-- 한결 -->
-	<select id="getAllShows" resultType="Show">
-	select
-         A.show_no             as no,
-         A.category_no         as categoryNo,
-         A.show_name           as name,      
-         A.viewing_no          as viewingNo,
-         A.running_time        as runningTime,
-         A.poster_img          as posterImg,
-         A.begin_date          as beginDate,
-         A.end_date            as endDate,
-         A.place_no            as placeNo,
-         B.place_name          as placeName,
-         A.attention_img       as attentionImg,
-         A.sale_img            as saleImg,
-         A.show_detail_img     as showDetailImg,
-         A.show_created_date   as createdDate
-      from
-         shows A, show_place B
-       where 
-         A.place_no = B.place_no
-      and
-      	 A.end_date > sysdate
-         
-	</select>
 	<!-- 지역&범위별 리스트 한결  -->
-	<select id="getShowsListByLocalAndSort" resultType="Show">
-		select
+   <select id="getShowsListByLocalAndSort" resultType="Show">
+      select
          A.show_no             as no,
          A.category_no         as categoryNo,
          A.show_name           as name,      
@@ -47,23 +22,62 @@
       from
          shows A, show_place B
       where
-      	  A.place_no = B.place_no
-      	  and a.end_date > sysdate
+           A.place_no = B.place_no
+           and a.end_date > sysdate
           <if test="localName != '전체'">
-          	and B.local_name =#{localName}
+             and B.local_name =#{localName}
           </if>
      <choose>
-     	<when test="sort =='새상품'">
-     		order by show_no desc
-     	</when>
-     	<when test="sort =='종료임박'">
-     		order by end_date asc
-     	</when>
-     	<when test="sort =='상품명'">
-     		order by show_name asc
-     	</when>
-     </choose> 	  
-	</select>
+        <when test="sort =='새상품'">
+           order by show_no desc
+        </when>
+        <when test="sort =='종료임박'">
+           order by end_date asc
+        </when>
+        <when test="sort =='상품명'">
+           order by show_name asc
+        </when>
+     </choose>      
+   </select>
+   
+   <!-- 랭킹별 한결 -->
+   <select id="getShowsListByRankAndSort" resultType="hashmap">
+      select rn, Y.show_no, Y.show_name, TO_CHAR(Y.begin_date, 'YYYY-MM-DD') BEGIN_DATE, TO_CHAR(Y.end_date, 'YYYY-MM-DD') END_DATE, Y.poster_img, Z.place_no, Z.place_name
+      from (
+              select show_no, row_number() over (order by cnt  desc) rn
+              from (
+                      select 
+                          c.show_no, count(*) cnt
+                      from show_ticket_orders A, show_put_shows B, shows C, show_categories D 
+                      where A.put_show_no = B.put_show_no
+                      and B.show_no = C.show_no
+                      and C.category_no = D.category_no
+                      <if test="genre != 0">
+                          and D.top_category_no = #{genre}
+                      </if>
+                      <choose>
+                          <when test="sort == 'day'">
+                              and to_char(A.order_created_date, 'yyyy/mm/dd') = to_char(sysdate, 'yyyy/mm/dd')
+                          </when>
+                          <when test="sort == 'week'">
+                              and A.order_created_date > sysdate - 7
+                          </when>
+                          <when test="sort == 'month'">
+                              and to_char(A.order_created_date, 'yyyy/mm') = to_char(sysdate, 'yyyy/mm')
+                          </when>
+                          <when test="sort == 'year'">
+                              and to_char(A.order_created_date, 'yyyy') = to_char(sysdate, 'yyyy')
+                          </when>
+                      </choose>
+                      group by C.show_no
+              )
+      )X, shows Y, show_place Z
+      where rn >= 1 and rn &lt;= 10
+      and X.show_no = Y.show_no
+      and Y.place_no = Z.place_no
+      order by rn asc
+   </select>
+
 	
 	
 	
@@ -289,5 +303,41 @@
       where rn &lt;= 3 
       and X.show_no = Y.show_no
       and Y.place_no = Z.place_no
+   </select>
+   
+   <!-- 카테고리별 페이지에서 데이터 조회 -->
+   <select id="getShowListByCategory" resultType="Show">
+   		select
+         A.show_no             as no,
+         A.category_no         as categoryNo,
+         A.show_name           as name,      
+         A.viewing_no          as viewingNo,
+         A.running_time        as runningTime,
+         A.poster_img          as posterImg,
+         A.begin_date          as beginDate,
+         A.end_date            as endDate,
+         A.place_no            as placeNo,
+         B.place_name          as placeName,
+         A.attention_img       as attentionImg,
+         A.sale_img            as saleImg,
+         A.show_detail_img     as showDetailImg,
+         A.show_created_date   as createdDate
+      from
+         shows A, show_place B
+      where
+      	  A.place_no = B.place_no
+      	  and a.category_no =#{catno}
+      	  and a.end_date > sysdate
+     <choose>
+     	<when test="sort =='새상품'">
+     		order by show_no desc
+     	</when>
+     	<when test="sort =='종료임박'">
+     		order by end_date asc
+     	</when>
+     	<when test="sort =='상품명'">
+     		order by show_name asc
+     	</when>
+     </choose> 	
    </select>
 </mapper>

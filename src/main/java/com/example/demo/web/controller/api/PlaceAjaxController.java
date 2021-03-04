@@ -43,7 +43,6 @@ public class PlaceAjaxController {
 		result.put("shows", shows);
 		result.put("size", shows.size());
 		
-
 		return result;
 	}
 }

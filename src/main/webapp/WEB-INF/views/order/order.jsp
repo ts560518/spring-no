@@ -79,7 +79,7 @@
 				<input type="hidden" id="orderPrice" name="orderPrice" value="0">
 			</div>
 		</div>
-	<button onclick="orderPriceForm()" class="btn btn-danger">결제하기</button>
+	<button type="button" onclick="orderPriceForm()" class="btn btn-danger btn-lg">결제하기</button>
 	</form>
 	
 	<div class="row">

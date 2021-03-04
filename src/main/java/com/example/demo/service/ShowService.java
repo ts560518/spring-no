@@ -14,6 +14,11 @@ import com.example.demo.vo.ShowSeat;
 
 @Transactional
 public interface ShowService {
+	//지역 + 범위별 리스트 -한결
+	List<Show> getShowsListByLocalAndSort(String localName, String sort);
+	
+	//랭킹 + 범위별 리스트 -한결
+	List<Map<String, Object>> getShowsListByRankAndSort(int genre, String sort);
 
 	List<ShowSeat> getputSeat(int putShowNo);
 	
@@ -26,10 +31,6 @@ public interface ShowService {
 	List<Show> getShowsHome();
 	
 	List<Show> getCategorySwiper(int catno);
-	//전체리스트- 한결
-	List<Show> getAllShowsList();
-	//지역 + 범위별 리스트 -한결
-	List<Show> getShowsListByLocalAndSort(String localName, String sort);
 	
 	PutSeat getputPlaceSeat(Map<String, Object> putPlace);
 	
@@ -39,4 +40,5 @@ public interface ShowService {
 	
 	List<Show> getShowRankHome();
 	
+	List<Show> getShowListByCategory(int catno,String sort);
 }

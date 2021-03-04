@@ -69,7 +69,7 @@ public class OrderController {
 			orderService.insertPointHistories(pointHistories);
 		}
 		// 유저포인트 업데이트, 그리고 savePoint 업데이트
-		user.setAvailablePoint(usabledPoint - usedPoint);
+		user.setAvailablePoint(user.getAvailablePoint() - usedPoint);
 		userService.updateUser(user);
 		
 		// 예매 좌석 숫자
@@ -88,6 +88,7 @@ public class OrderController {
 		}
 		// 은행 테이블 조회
 		Bank bank = orderService.getBank(bankName);
+		System.out.println(bank.getNo());
 		// 예매테이블 insert
 		int orderNo = orderService.getOrderNo();
 		String status = "결제완료";

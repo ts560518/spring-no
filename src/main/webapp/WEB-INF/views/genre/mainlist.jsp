@@ -64,6 +64,20 @@ ul {
 img {
 	width: 100%;
 }
+.localTag {
+    position: absolute;
+    width: 70px;
+    height: 60px;
+    line-height: 60px;
+    text-align: center;
+    color: #fff;
+    font-size: 16px;
+    top: 100px;
+    left: 50%;
+    margin-left: -30px;
+    background: #ec7d2c;
+    border-radius: 50%;
+}
   </style>
 <title>NO24</title>
 </head>
@@ -92,27 +106,15 @@ img {
 			<p class="ms5-l-tit">
 				WHAT'S HOT
 			</p>
-			<div class="col-3 mb-5" style="display: inline-block; text-align: center;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg">
-				<small class="text-secondary">제목</small><br>
-				<small class="text-secondary">일산홀</small>
-			</a>
-			</div>
-			<div class="col-3 mb-5" style="display: inline-block; text-align: center;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg">
-				<small class="text-secondary">제목</small><br>
-				<small class="text-secondary">일산홀</small>
-			</a>
-			</div>
-			<div class="col-3 mb-5" style="display: inline-block; text-align: center;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg">
-				<small class="text-secondary">제목</small><br>
-				<small class="text-secondary">일산홀</small>
-			</a>
-			</div>
+			<c:forEach var="rankList" items="${getCategoryHomeRankList }">
+				<div class="col-3 mb-5" style="display: inline-block; text-align: center; font-size: 15px;">
+				<a href="/genre/detail.do?no=${rankList.no }">
+					<img src="${pageContext.request.contextPath}/resources/images/NO24/${rankList.posterImg }.jpg">
+					<small class="text-secondary" style="display:block; height:40px; overflow: hidden; ">${rankList.name }</small>
+					<small class="text-secondary">${rankList.placeName }</small>
+				</a>
+				</div>
+			</c:forEach>
 		</div>
 	</div>
 
@@ -121,27 +123,16 @@ img {
 			<p class="ms5-l-tit">
 				지역별 추천
 			</p>
+			<c:forEach var="localList" items="${getCategoryHomeLocalList }">
 			<div class="col-3 mb-5" style="display: inline-block; text-align: center;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg">
-				<small class="text-secondary">제목</small><br>
-				<small class="text-secondary">일산홀</small>
+			<p class="localTag">${localList.localName }</p>
+			<a href="/genre/detail.do?no=${localList.no }">
+				<img src="${pageContext.request.contextPath}/resources/images/NO24/${localList.posterImg }.jpg">
+				<small class="text-secondary" style="display:block; height:40px; overflow: hidden;">${localList.name }</small>
+				<small class="text-secondary">${localList.placeName }</small>
 			</a>
 			</div>
-			<div class="col-3 mb-5" style="display: inline-block; text-align: center;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg">
-				<small class="text-secondary">제목</small><br>
-				<small class="text-secondary">일산홀</small>
-			</a>
-			</div>
-			<div class="col-3 mb-5" style="display: inline-block; text-align: center;">
-			<a href="#">
-				<img src="${pageContext.request.contextPath}/resources/images/콘서트000001.jpg">
-				<small class="text-secondary">제목</small><br>
-				<small class="text-secondary">일산홀</small>
-			</a>
-			</div>
+			</c:forEach>
 		</div>
 	</div>
 

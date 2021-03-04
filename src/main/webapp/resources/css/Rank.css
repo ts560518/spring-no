@@ -15,18 +15,22 @@
     height: 71px;
     background: url(http://tkfile.yes24.com/imgNew/common/ico-rank-bestbg1.png)no-repeat;
 }
-#rank-category {
+#box-btn-categorysort {
 	text-align:left; 
 	padding: 40px 0 10px 0;
-	border-bottom: solid gray;
+	border-bottom: solid gray;	
+}
+#box-btn-categorysort .btn-outline-light{
+	color: black;
 }
 #rank-list >td:last-child {
- 	padding-top: 50px; 
+ 	padding-top: 40px; 
  	font-size: 14px; 
  	line-height: 24px; 
  	color: #999; 
  	text-align: center;
 }
+
 .title {
 	font-size: 45px;
     text-align: center;
