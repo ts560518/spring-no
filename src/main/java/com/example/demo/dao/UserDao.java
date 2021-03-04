@@ -17,4 +17,5 @@ public interface UserDao {
 	void insertUser(User user);
 	int getUserNo();
 	void addNewUserRole(int userNo);
+	void insertUserCouponHistory(UserCoupon userCoupon);
 }

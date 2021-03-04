@@ -103,11 +103,18 @@
 	</insert>
 	
 	<!-- userRole에 저장 -->
-	<select id="addNewUserRole" parameterType="int">
+	<insert id="addNewUserRole" parameterType="int">
 		insert into show_user_roles
 		(user_no)
 		values
 		(#{userNo})
-	</select>
+	</insert>
+	
+	<insert id="insertUserCouponHistory" parameterType="UserCoupon">
+		insert into show_coupon_histories
+		(coupon_history_no, coupon_no, user_no)
+		values
+		(show_coupon_histories_seq.nextval, 1, #{userNo})
+	</insert>
 	
 </mapper>

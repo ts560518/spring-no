@@ -71,8 +71,8 @@
 								<th class="text-center bg-light align-middle">이메일</th>
 								<td>
 									<div class="d-flex justify-content-start">
-										<input type="text" class="form-control form-control-sm" name="email" id="user-email"/>
-										<input type="button" class="btn btn-success btn-sm ml-1" style="font-size: 80%; height: 31px;" id="btn-send-random" value="이메일 인증"/>
+										<input type="text" class="form-control form-control-sm w-75" name="email" id="user-email"/>
+										<input type="button" class="btn btn-success btn-sm ml-1 w-25" style="font-size: 80%; height: 31px;" id="btn-send-random" value="이메일 인증"/>
 									</div>
 									<div class="justify-content-start mt-1" id="box-check-code">
 										<input type="text" class="form-control form-control-sm w-50" id="field-check-code" style="display: inline-block;" placeholder="인증번호"/>
@@ -135,6 +135,9 @@
 	</div>
 </div>
 <script type="text/javascript">
+	var idRegExp = /^(?=.*[a-zA-Z0-9]).{4,}$/;
+	var pwdRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
+
 	$(function() {
 		// 메일로 발송된 인증코드가 저장되는 변수
 		var emailCheckRandomCode
@@ -210,8 +213,6 @@
 			$('#btn-send-random').hide()
 		})
 		
-		var idRegExp = /^(?=.*[a-zA-Z0-9]).{4,}$/;
-		var pwdRegExp = /^(?=.*[a-zA-Z])(?=.*[0-9]).{8,}$/;
 		
 		// 최종적으로 회원가입버튼을 클릭한 경우
 		// 폼입력값이 유효한지 체크하고, 이메일 인증을 수행했는지 체크한다.
@@ -331,6 +332,12 @@
 			alert("사용하실 아이디를 입력하세요.")
 			return false;
 		}
+		
+		if (!idRegExp.test(userId)) {
+			alert("아이디는 영어 대소문자, 숫자로 구성된 4글자 이상의 글자만 가능합니다.");
+			return false;
+		}
+		
 		// checkUserId.do?userId=값
 		$.getJSON("/api/member/checkUserId.do", {userId:userId}, function(result) {
 			var isExist = result.exist;

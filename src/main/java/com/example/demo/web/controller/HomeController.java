@@ -22,6 +22,7 @@ import com.example.demo.util.StringUtils;
 import com.example.demo.vo.Notice;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.User;
+import com.example.demo.vo.UserCoupon;
 import com.example.demo.web.form.UserForm;
 import com.example.demo.web.view.PlainTextView;
 
@@ -90,25 +91,31 @@ public class HomeController {
 		return "redirect:home.do";
 	}
 	
-	
+	@RequestMapping("/completed.do")
+	public String completed() {
+		return "completed";
+	}
 	
 	@RequestMapping("/register.do")
 	public String register(UserForm userForm) throws IOException {
 		// User객체를 생성해서 UserForm객체의 값을 복사한다.
 		// MultipartFile타입의 객체가 복사되지 않도록 한다.(User와 UserForm에서 각각 다른 이름을 사용한다.)
-		String address = userForm.getPostAddress() + userForm.getAddress1() + userForm.getAddress2() + userForm.getAddress3();
+		String address = userForm.getPostAddress() + "" + userForm.getAddress1() + userForm.getAddress2() + "" + userForm.getAddress3();
 		
 		// user_no랑 user_role에 넣기위해서 no를 구함
 		int no = userService.getUserNo();
 		
 		User user = new User();
+		UserCoupon userCoupon = new UserCoupon();
 		user.setNo(no);
 		BeanUtils.copyProperties(userForm, user);
 		user.setAddress(address);
+		userCoupon.setUserNo(no);
 		
 		try {
 			userService.addNewUser(user);
 			userService.addNewUserRole(user.getNo());
+			userService.insertUserCouponHistory(userCoupon);
 		} catch (DuplicatedUserIdException e) {
 			e.printStackTrace();
 			return "redirect:form.do?error=dup";

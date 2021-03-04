@@ -17,12 +17,13 @@
 	<!-- /resources/** 로 시작하는 요청은 DispatcherServlet의 실행없이 /resources 폴더에서 해당 정적 리소스를 응답으로 제공하게 한다. -->
 	<mvc:resources mapping="/resources/**" location="/resources/"></mvc:resources>
 	
-	<!-- 
 	<mvc:interceptors>
-		사용자 정의 인터셉터는 여기에 정의하세요 
-	
+		<mvc:interceptor>
+			<mvc:mapping path="/order/*"/>
+			<mvc:mapping path="/my/*"/>
+			<bean class="com.example.demo.web.interceptor.LoginCheckInterceptor"></bean>
+		</mvc:interceptor>
 	</mvc:interceptors>
- 	-->
  	
  	<!-- InternalResourceViewResolver를 스프링 컨테이너의 빈으로 등록하고, jsp파일의 실제 경로를 설정한다. -->
  	<mvc:view-resolvers>
