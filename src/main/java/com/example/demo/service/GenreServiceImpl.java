@@ -10,6 +10,7 @@ import com.example.demo.vo.Category;
 import com.example.demo.vo.Place;
 import com.example.demo.vo.Seat;
 import com.example.demo.vo.SeatPrice;
+import com.example.demo.vo.Show;
 import com.example.demo.vo.ShowActor;
 
 @Service
@@ -47,6 +48,16 @@ public class GenreServiceImpl implements GenreService {
 	@Override
 	public SeatPrice getPlaceSeatPrice(String seatNo) {
 		return genreDao.getPlaceSeatPrice(seatNo);
+	}
+
+	@Override
+	public List<Show> getCategoryHomeRankList(int catno) {
+		return genreDao.getCategoryHomeRankList(catno);
+	}
+
+	@Override
+	public List<Show> getCategoryHomeLocalList(int catno) {
+		return genreDao.getCategoryHomeLocalList(catno);
 	}
 
 	

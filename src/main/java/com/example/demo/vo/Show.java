@@ -25,6 +25,7 @@ public class Show {
 	 private Date endDate;
 	 private int placeNo;
 	 private String placeName;
+	 private String localName;
 	 private String attentionImg;
 	 private String saleImg;
 	 private String showDetailImg;

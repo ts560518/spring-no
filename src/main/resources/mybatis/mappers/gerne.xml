@@ -72,4 +72,59 @@
 		WHERE
 			PLACE_NO = #{palceno}
 	</select>
+	
+	<select id="getCategoryHomeRankList" parameterType="int" resultType="Show">
+	select rn,
+		Y.show_no as no,
+        y.category_no as categoryNo,
+		Y.poster_img as posterImg,
+		Y.show_name as name, 
+		Y.begin_date as beginDate, 
+		end_date as endDate, 
+		Y.poster_img, Z.place_no as placeNo, 
+		Z.place_name as placeName
+      from (
+              select show_no, row_number() over (order by cnt  desc) rn
+              from (
+                      select 
+                          c.show_no, count(*) cnt
+                      from show_ticket_orders A, show_put_shows B, shows C, show_categories D
+                      where A.put_show_no = B.put_show_no
+                      and B.show_no = C.show_no
+                      and c.category_no = d.category_no
+                      and d.top_category_no=#{value}
+                      group by C.show_no
+              )
+      )X, shows Y, show_place Z
+      where rn &lt;= 3 
+      and X.show_no = Y.show_no
+      and Y.place_no = Z.place_no
+	</select>
+	<!-- 카테고리메인페이지 지역별데이터 -->
+	<select id="getCategoryHomeLocalList" parameterType="int" resultType="Show">
+		select
+         A.show_no             as no,
+         A.category_no         as categoryNo,
+         A.show_name           as name,      
+         A.viewing_no          as viewingNo,
+         A.running_time        as runningTime,
+         A.poster_img          as posterImg,
+         A.begin_date          as beginDate,
+         A.end_date            as endDate,
+         A.place_no            as placeNo,
+         B.place_name          as placeName,
+         b.local_name           as localName,
+         A.attention_img       as attentionImg,
+         A.sale_img            as saleImg,
+         A.show_detail_img     as showDetailImg,
+         A.show_created_date   as createdDate
+      from
+         shows A, show_place B, show_categories C
+      where
+      	  A.place_no = B.place_no
+      	  and a.category_no = c.category_no
+      	  and c.top_category_no =#{value}
+      	  and a.end_date > sysdate
+      	  and A.show_no &lt;=3
+	</select>
 </mapper>

@@ -82,7 +82,7 @@
 					</dd>
 				</dl>
 				
-				<dl>
+				<dl style="border-bottom: 2px solid black; padding-bottom: 10px;">
 					<dt>공연시간 안내</dt>
 					<dd>
 						<c:forEach var="putShows" items="${putShows }">
@@ -93,13 +93,18 @@
 					<dd>현장 수령만 가능</dd>
 				</dl>
 				
-				<div class="col-12" style="padding-top: 60px;">
+				<div class="col-12" style="padding-top: 20px;">
 					<form action="../order/order.do" method="post">
-						<select name="putShows" id="putShows">
-							<c:forEach var="putShows" items="${putShows }">
-								<option value="${putShows.putShowNo }">${putShows.day } ${putShows.startTime }</option>
-							</c:forEach>
-						</select>
+					<dl>
+						<dt>상연정보</dt>
+						<dd>
+							<select name="putShows" id="putShows">
+								<c:forEach var="putShows" items="${putShows }">
+									<option value="${putShows.putShowNo }">${putShows.day } ${putShows.startTime }</option>
+								</c:forEach>
+							</select>
+						</dd>
+					</dl>
 						<button class="btn btn-danger" style="font-size: 20px; width: 200px; height: 50px; display: block; margin: 0 auto;" ${show.viewingGradeSd <= LOGINED_USER.age ? '' :'disabled'}>예매하기</button>
 					</form>
 				</div>
@@ -116,9 +121,9 @@
 	</div>
 	<div class="row" style="margin-top:30px; border-top: 2px solid black;">
 		<p class="col-12 detail-content-title" style="margin-top: 50px;">유의사항</p>
-		<img src="${pageContext.request.contextPath}/resources/images/detail/유의사항.jpg">
-		<p class="col-12 detail-content-title">공연정보</p>
-		<img src="${pageContext.request.contextPath}/resources/images/NO24/${show.showDetailImg }.jpg">
+		<img src="${pageContext.request.contextPath}/resources/images/detail/유의사항.jpg" style="margin: 0 auto;">
+		<p class="col-12 detail-content-title" style="padding-top: 20px; font-size: 30px;">공연정보</p>
+		<img src="${pageContext.request.contextPath}/resources/images/NO24/${show.showDetailImg }.jpg" style="margin: 0 auto;">
 		<p class="col-12 detail-content-title">할인정보</p>
 	</div>
 	

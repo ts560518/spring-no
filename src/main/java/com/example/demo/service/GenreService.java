@@ -25,4 +25,8 @@ public interface GenreService {
 	List<ShowActor> getShowActor(int showNo);
 	
 	SeatPrice getPlaceSeatPrice(String seatNo);
+	
+	List<Show> getCategoryHomeRankList(int catno);
+	
+	List<Show> getCategoryHomeLocalList(int catno);
 }

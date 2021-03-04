@@ -16,9 +16,20 @@ import com.example.demo.vo.ShowSeat;
 
 @Service
 public class ShowServiceImpl implements ShowService {
-
+	
 	@Autowired
 	ShowDao showDao;
+	//한결
+	@Override
+	public List<Show> getShowsListByLocalAndSort(String localName, String sort) {
+	   return showDao.getShowsListByLocalAndSort(localName, sort);
+	}
+	//한결
+	@Override
+	public List<Map<String, Object>> getShowsListByRankAndSort(int genre, String sort) {
+		   return showDao.getShowsListByRankAndSort(genre, sort);
+	}
+	   
 	@Override
 	public List<Show> getAllCategoryShows(int catno) {
 		return showDao.getAllCategoryShows(catno);
@@ -45,16 +56,6 @@ public class ShowServiceImpl implements ShowService {
 	}
 	
 	@Override
-	public List<Show> getAllShowsList() {
-		return showDao.getAllShows();
-	}
-	
-	@Override
-	public List<Show> getShowsListByLocalAndSort(String localName, String sort) {
-		return showDao.getShowsListByLocalAndSort(localName, sort);
-	}
-	
-	@Override
 	public PutSeat getputPlaceSeat(Map<String, Object> putPlace) {
 		return showDao.getputPlaceSeat(putPlace);
 	}
@@ -71,6 +72,10 @@ public class ShowServiceImpl implements ShowService {
 	@Override
 	public List<Show> getShowRankHome() {
 		return showDao.getShowRankHome();
+	}
+	@Override
+	public List<Show> getShowListByCategory(int catno,String sort) {
+		return showDao.getShowListByCategory(catno, sort);
 	}
 
 

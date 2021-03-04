@@ -39,6 +39,14 @@ public class GenreController {
 	public String mainlist(@RequestParam("catno") int catno, Model model) {
 		List<Show> showSwiperList = showService.getCategorySwiper(catno);
 		
+		// 카테고리 메인페이지에 카테고리번호별 랭킹
+		List<Show> getCategoryHomeRankList = genreService.getCategoryHomeRankList(catno);
+		
+		// 카테고리 메인페이지에 지역별 데이터
+		List<Show> getCategoryHomeLocalList = genreService.getCategoryHomeLocalList(catno);
+		
+		model.addAttribute("getCategoryHomeLocalList", getCategoryHomeLocalList);
+		model.addAttribute("getCategoryHomeRankList", getCategoryHomeRankList);
 		model.addAttribute("showSwiperList", showSwiperList);
 		return "genre/mainlist";
 	}
@@ -60,7 +68,7 @@ public class GenreController {
 			
 			// catno에 대한 데이터 조회
 			showList = showService.getAllCategoryShows(catno);
-	
+			
 		} else {
 			// 상위카테고리로 카테고리조회
 			List<Category> topCategoryList = genreService.getTopCategory(catno);
@@ -73,6 +81,7 @@ public class GenreController {
 			categoryMap.put("categoryName",category.getName());
 			categoryMap.put("categoryDetailName", "전체보기");
 		}
+		model.addAttribute("catno", catno);
 		model.addAttribute("show", showList);
 		model.addAttribute("category", categoryMap);
 		return "genre/list";
