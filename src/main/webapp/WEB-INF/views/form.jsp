@@ -47,7 +47,7 @@
 								<td>
 									<div class="d-flex justify-content-start mb-1">
 										<input type="text" class="form-control form-control-sm w-75" name="id" id="user-id" />
-										<button onclick="checkMyId()" type="button" style="font-size: 80%; height: 31px;" class="btn btn-success btn-sm form-control ml-1 w-25">중복체크</button>
+										<button id="user-id-check" type="button" style="font-size: 80%; height: 31px;" class="btn btn-success btn-sm form-control ml-1 w-25">중복체크</button>
 									</div>
 								</td>
 							</tr>
@@ -71,8 +71,8 @@
 								<th class="text-center bg-light align-middle">이메일</th>
 								<td>
 									<div class="d-flex justify-content-start">
-										<input type="text" class="form-control form-control-sm w-75" name="email" id="user-email"/>
-										<input type="button" class="btn btn-success btn-sm ml-1 w-25" style="font-size: 80%; height: 31px;" id="btn-send-random" value="이메일 인증"/>
+										<input type="text" class="form-control form-control-sm" name="email" id="user-email"/>
+										<input type="button" class="btn btn-success btn-sm ml-1" style="font-size: 80%; height: 31px;" id="btn-send-random" value="이메일 인증"/>
 									</div>
 									<div class="justify-content-start mt-1" id="box-check-code">
 										<input type="text" class="form-control form-control-sm w-50" id="field-check-code" style="display: inline-block;" placeholder="인증번호"/>
@@ -145,6 +145,8 @@
 		var checkedCount = 0
 		// 이메일 인증이 완료된 경우 true가 저장된다.
 		var isEmailChecked = false;
+		// 아이디 중복확인이 완료된 경우 true가 저장된다.
+		var isIdChecked = false;
 		
 		// 인증코드 입력부분은 처음에는 표시되지 않게 한다.
 		$("#box-check-code").hide()
@@ -158,14 +160,12 @@
 				return false
 			} else {
 				alert("해당 이메일로 인증번호가 발송되었습니다.");
+				// 인증코드 입력하는 부분을 표시한다.
+				$('#box-check-code').show()
 			}
 			
 			// 이메일로 인증번호를 발송하는 컨트롤러를 실행시키고, 발송된 인증번호를 전달받는다.
 			$.get('sendRandom.do', {email: $("#user-email").val()}, function(response) {
-				// 인증코드 발송을 감춘다.
-				$('#box-send-code').hide()
-				// 인증코드 입력하는 부분을 표시한다.
-				$('#box-check-code').show()
 				// 전달받은 인증코드를 변수에 저장한다.
 				emailCheckRandomCode = response;
 				// 이메일 인증여부를 false로 설정한다.
@@ -191,7 +191,6 @@
 				// 시도횟수를 초과한 경우
 				if (checkedCount == 5) {
 					alert("시도가능한 횟수를 초과하였습니다.");
-					$('#box-send-code').show()
 					$('#box-check-code').hide()
 					$('#field-check-code').val('')
 				
@@ -208,15 +207,54 @@
 			// 이메일 입력필드는 다른 이메일을 입력하지 못하도록 읽기전용으로 변경한다.
 			$("#user-email").prop('readonly', true)
 			// 이메일 입력과 관련된 부분을 전부 보이지 않게 한다.
-			$('#box-send-code').hide()
 			$('#box-check-code').hide()
 			$('#btn-send-random').hide()
 		})
 		
+		$("#user-id").focus(function(){
+			isIdChecked = false
+		})
+		
+		$("#user-id-check").click(function() {
+			var userId = $("#user-id").val();
+			
+			if (!userId) {
+				alert("사용하실 아이디를 입력하세요.")
+				return false;
+			}
+			
+			if (!idRegExp.test(userId)) {
+				alert("아이디는 영어 대소문자, 숫자로 구성된 4글자 이상의 글자만 가능합니다.");
+				return false;
+			}
+			
+			if (userId.search(/\s/) != -1) {
+				alert("아이디는 공백없이 작성해주시기 바랍니다.");
+				return false;
+			}
+			
+			// checkUserId.do?userId=값
+			$.getJSON("/api/member/checkUserId.do", {userId:userId}, function(result) {
+				var isExist = result.exist;
+				
+				if (isExist) {
+					alert("이미 사용중인 아이디입니다.");
+					$("#user-id").val("")
+					isIdChecked = false
+				} else {
+					alert("사용가능한 아이디입니다.");
+					isIdChecked = true
+				}
+			})
+		})
 		
 		// 최종적으로 회원가입버튼을 클릭한 경우
 		// 폼입력값이 유효한지 체크하고, 이메일 인증을 수행했는지 체크한다.
 		$("#user-form").submit(function() {
+	      	var userId = $("#user-id").val();
+	      	var password = $("#user-pwd1").val();
+	      	var confirmPassword = $("#user-pwd2").val();
+	      	
 	      	if ($("#user-name").val() == "") {
 	         	alert("이름은 필수입력값입니다.");
 	         	return false;
@@ -225,21 +263,12 @@
 	         	alert("아이디는 필수입력값입니다.");
 	         	return false;
 	      	}
-	      	
-	      	var userId = $("#user-id").val();
-	      	var password = $("#user-pwd1").val();
-	      	var confirmPassword = $("#user-pwd2").val();
-	      	
 	      	if (!password) {
 	         	alert("비밀번호는 필수입력값입니다.");
 	         	return false;
 	      	}
 	      	if (!confirmPassword) {
 	         	alert("비밀번호 확인은 필수입력값입니다.");
-	         	return false;
-	      	}
-	      	if (password != confirmPassword) {
-	         	alert("비밀번호가 일치하지 않습니다.");
 	         	return false;
 	      	}
 	      	if ($("#user-birth").val() == "") {
@@ -255,21 +284,32 @@
 	         	return false;
 	      	}
 	      	if ($("#user-address").val() == "" || $("#user-address-postcode").val() == ""
-	      			|| $("#user-detail-address").val() == "" || $("#user-extra-address").val() == "") {
+	      			|| $("#user-detail-address").val() == "") {
 	         	alert("주소는 필수입력값입니다.");
 	         	return false;
 	      	}
-	      	if (!isEmailChecked) {
-				alert("이메일 인증이 완료되지 않았습니다.");
+	      	if (userId.search(/\s/) != -1) {
+				alert("아이디는 공백없이 작성해주시기 바랍니다.");
 				return false;
 			}
-	      	
-	      	if (!idRegExp.test(userId)) {
-				alert("아이디는 영어 대소문자, 숫자로 구성된 4글자 이상의 글자만 가능합니다.");
+	      	if (!isIdChecked) {
+				alert("아이디 중복확인을 해주시기 바랍니다.")
 				return false;
 			}
 	      	if (!pwdRegExp.test(password)) {
 				alert("비밀번호는 영어 대소문자, 숫자로 구성된 8글자 이상의 글자만 가능합니다.");
+				return false;
+			}
+	      	if (password != confirmPassword) {
+	         	alert("비밀번호가 일치하지 않습니다.");
+	         	return false;
+	      	}
+	      	if (password.search(/\s/) != -1) {
+				alert("비밀번호는 공백없이 작성해주시기 바랍니다.");
+				return false;
+			}
+	      	if (!isEmailChecked) {
+				alert("이메일 인증이 완료되지 않았습니다.");
 				return false;
 			}
 	      	
@@ -323,33 +363,6 @@
 	            document.getElementById("user-detail-address").focus();
 	        }
 	    }).open();
-	}
-
-	function checkMyId() {
-		var userId = $("#user-id").val();
-		
-		if (userId == "") {
-			alert("사용하실 아이디를 입력하세요.")
-			return false;
-		}
-		
-		if (!idRegExp.test(userId)) {
-			alert("아이디는 영어 대소문자, 숫자로 구성된 4글자 이상의 글자만 가능합니다.");
-			return false;
-		}
-		
-		// checkUserId.do?userId=값
-		$.getJSON("/api/member/checkUserId.do", {userId:userId}, function(result) {
-			var isExist = result.exist;
-			console.log(isExist);
-			if (isExist) {
-				alert("이미 사용중인 아이디입니다.");
-				$("#user-id").val("")
-			} else {
-				alert("사용가능한 아이디입니다.");
-				$("#user-id").prop('readonly', true)
-			}
-		})
 	}
 </script>
 </body>

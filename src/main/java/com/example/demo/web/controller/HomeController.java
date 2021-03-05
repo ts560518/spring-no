@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.example.demo.dto.OrderDto;
 import com.example.demo.exception.DuplicatedUserIdException;
 import com.example.demo.exception.PasswordMismatchException;
 import com.example.demo.exception.UserNotFoundException;
@@ -20,6 +21,7 @@ import com.example.demo.service.UserService;
 import com.example.demo.util.SessionUtils;
 import com.example.demo.util.StringUtils;
 import com.example.demo.vo.Notice;
+import com.example.demo.vo.Order;
 import com.example.demo.vo.Show;
 import com.example.demo.vo.User;
 import com.example.demo.vo.UserCoupon;
@@ -54,6 +56,7 @@ public class HomeController {
 	
 	@RequestMapping("/my/info.do")
 	public String info(@LoginUser User user, Model model) {
+		
 		model.addAttribute("user", user);
 		
 		return "/my/info";
@@ -132,7 +135,7 @@ public class HomeController {
 	public String register(UserForm userForm) throws IOException {
 		// User객체를 생성해서 UserForm객체의 값을 복사한다.
 		// MultipartFile타입의 객체가 복사되지 않도록 한다.(User와 UserForm에서 각각 다른 이름을 사용한다.)
-		String address = userForm.getPostAddress() + " " + userForm.getAddress1() + userForm.getAddress2() + " " + userForm.getAddress3();
+		String address = "(" + userForm.getPostAddress() + ")" + " " + userForm.getAddress1() + " " + userForm.getAddress2() + " " + userForm.getAddress3();
 		
 		// user_no랑 user_role에 넣기위해서 no를 구함
 		int no = userService.getUserNo();

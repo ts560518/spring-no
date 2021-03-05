@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.example.demo.dto.OrderDto;
 import com.example.demo.vo.Bank;
 import com.example.demo.vo.Coupon;
 import com.example.demo.vo.Order;
@@ -31,4 +32,5 @@ public interface OrderDao {
 	
 	void insertTicketOrderItems(Map<String, Object> ticketOrderItems);
 	
+	OrderDto getAllAboutOrder(int userNo);
 }
