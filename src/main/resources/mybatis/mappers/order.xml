@@ -89,7 +89,7 @@
 			(order_no, user_no, put_show_no, order_amount, order_status, total_order_price, 
 			used_point, total_payment_price, order_payment_method, bank_no, bank_card_account, coupon_history_no)
 			values
-			(#{no}, #{userNo} ,#{putShowNo},#{orderAmout},#{status},#{totalOrderPrice},#{usedPoint},
+			(#{no}, #{userNo} ,#{putShowNo},#{orderAmount},#{status},#{totalOrderPrice},#{usedPoint},
 			#{totalPaymentPrice},#{orderPaymentMethod},#{bankNo},#{bankCardAccount},
 			<if test="couponHistoryNo!=0">
 				#{couponHistoryNo})
