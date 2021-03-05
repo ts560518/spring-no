@@ -60,14 +60,20 @@ public class OrderController {
 			orderService.updateCoupon(couponNo);
 		}
 		// 유저 포인트 내역 추가하기
+		String content="포인트 사용";
+		ShowUserPointHistories pointHistories = new ShowUserPointHistories();
+		pointHistories.setUserNo(user.getNo());
 		if(usedPoint !=0) {
-			String content="포인트 사용";
-			ShowUserPointHistories pointHistories = new ShowUserPointHistories();
-			pointHistories.setUserNo(user.getNo());
 			pointHistories.setPointAmount(-usedPoint);
 			pointHistories.setContent(content);
 			orderService.insertPointHistories(pointHistories);
 		}
+		// 유저 포인트 적립 내역 추가
+		content="포인트 적립";
+		pointHistories.setPointAmount(totalPayPrice/20);
+		pointHistories.setContent(content);
+		orderService.insertPointHistories(pointHistories);
+		
 		// 유저포인트 업데이트, 그리고 savePoint 업데이트
 		user.setAvailablePoint(user.getAvailablePoint() - usedPoint);
 		userService.updateUser(user);
