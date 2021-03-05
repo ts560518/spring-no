@@ -175,7 +175,7 @@
 	
 	<select id="getOneCategoryShow" resultType="TotalShow">
 		select
-			A.SHOW_NO					AS no,
+			A.SHOW_NO					AS showNo,
 			A.CATEGORY_NO				AS categoryNo,
 			A.SHOW_NAME					AS showName,		
 			A.VIEWING_NO				AS viewingNo,
@@ -340,4 +340,5 @@
      	</when>
      </choose> 	
    </select>
+   
 </mapper>

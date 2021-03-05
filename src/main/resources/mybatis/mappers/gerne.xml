@@ -127,4 +127,29 @@
       	  and a.end_date > sysdate
       	  and A.show_no &lt;=3
 	</select>
+	<!-- 좋아요테이블 조회 -->
+	<select id="getUserLikeByNo" resultType="LikeUser">
+		select
+			user_no	as userNo,
+			show_no as showNo
+		from
+			show_like_users
+		where
+			user_no = #{userNo}
+			and
+			show_no = #{showNo}
+	</select>
+	
+	<!-- 각 공연에 대한 좋아요 조회 -->
+	<select id="getShowLikeByShowNo" parameterType="int" resultType="int">
+		select count(*) cnt from show_like_users where show_no = #{value}
+	</select>
+	
+	<!-- 좋아요 테이블에 삽입 -->
+	<insert id="setShowLike">
+		insert into show_like_users 
+		(user_no, show_no)
+		values
+		(#{userNo},#{showNo})
+	</insert>
 </mapper>
