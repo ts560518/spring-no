@@ -14,7 +14,7 @@ public class Order {
 	private int no;
 	private int userNo;
 	private int putShowNo;
-	private int orderAmout;
+	private int orderAmount;
 	private String status;
 	private int totalOrderPrice;
 	private int usedPoint;

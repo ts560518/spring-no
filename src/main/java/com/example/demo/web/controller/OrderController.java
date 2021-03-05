@@ -73,12 +73,12 @@ public class OrderController {
 		userService.updateUser(user);
 		
 		// 예매 좌석 숫자
-		int orderAmout = 0;
+		int orderAmount = 0;
 		// 예매내역 테이블을 위한 좌석테이블 조회할 리스트
 		List<ShowSeat> showSeatList = new ArrayList<ShowSeat>();
 		// 예매좌석 테이블 업데이트
 		for(String putseatNo : seatNo) {
-			orderAmout++;
+			orderAmount++;
 			Map<String, Object> showSeat = new HashMap<String, Object>();
 			showSeat.put("seatNo", putseatNo);
 			showSeat.put("putShowNo", putShowNo);
@@ -97,7 +97,7 @@ public class OrderController {
 		order.setNo(orderNo);
 		order.setUserNo(user.getNo());
 		order.setPutShowNo(putShowNo);
-		order.setOrderAmout(orderAmout);
+		order.setOrderAmount(orderAmount);
 		order.setStatus(status);
 		order.setTotalOrderPrice(orderPrice);
 		order.setUsedPoint(usedPoint);
