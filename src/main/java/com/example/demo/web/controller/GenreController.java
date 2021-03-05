@@ -10,9 +10,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.demo.dto.TotalShow;
 import com.example.demo.service.GenreService;
+import com.example.demo.service.ReviewService;
 import com.example.demo.service.ShowService;
 import com.example.demo.vo.Category;
 import com.example.demo.vo.PutShows;
@@ -33,6 +35,9 @@ public class GenreController {
 	
 	@Autowired
 	ShowService showService;
+	
+	@Autowired
+	ReviewService reviewService;
 	
 	// 카테고리 메인 페이지
 	@RequestMapping("/mainlist.do")
@@ -122,6 +127,19 @@ public class GenreController {
 		return "genre/detail";
 	}
 	
+	@RequestMapping("/reviews.do")
+	@ResponseBody
+	public Map<String, Object> reviews(@RequestParam("no") int showNo,
+			@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo) {
+		
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("pageNo", pageNo);
+		condition.put("rows", 10);
+		condition.put("begin", (pageNo - 1) * 10 + 1);
+		condition.put("end", pageNo * 10);
+		return reviewService.getReviewDtos(condition);
+		
+	}
 	
 }
 
