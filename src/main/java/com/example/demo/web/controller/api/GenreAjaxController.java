@@ -16,6 +16,8 @@ import com.example.demo.service.GenreService;
 import com.example.demo.service.ShowService;
 import com.example.demo.vo.Category;
 import com.example.demo.vo.Show;
+import com.example.demo.vo.User;
+import com.example.demo.web.annotation.LoginUser;
 
 @RestController("apiGenreController")
 @RequestMapping("/api/genre")
@@ -72,5 +74,16 @@ public class GenreAjaxController {
 		}
 		show.put("shows", shows);
 		return show;
+	}
+	
+	// 좋아요 버튼을 눌렀을때 실행되는 ajax
+	@RequestMapping("/showLike.do")
+	public boolean showLike(@RequestParam(name="showNo") int showNo, 
+										@LoginUser User user) {
+		if(user == null) {
+			return false;
+		}
+		genreService.setShowLike(showNo, user.getNo());
+		return true;
 	}
 }
