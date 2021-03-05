@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.example.demo.dao.GenreDao;
 import com.example.demo.dao.OrderDao;
 import com.example.demo.dao.UserDao;
+import com.example.demo.dto.OrderDto;
 import com.example.demo.vo.Bank;
 import com.example.demo.vo.Coupon;
 import com.example.demo.vo.Order;
@@ -70,7 +71,10 @@ public class OrderServiceImpl implements OrderService{
 		orderDao.insertTicketOrderItems(ticketOrderItems);
 	}
 
-	
+	@Override
+	public OrderDto getAllAboutOrder(int userNo) {
+		return orderDao.getAllAboutOrder(userNo);
+	}
 	
 	
 	
