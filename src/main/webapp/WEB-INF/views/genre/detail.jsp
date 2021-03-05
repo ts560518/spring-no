@@ -120,13 +120,24 @@
 				</div>
 			</div>
 		</div>
-		<div class="like">
-			<a href="#" class="rn-product-good">
-				<img src="${pageContext.request.contextPath}/resources/images/좋아요하트.jpg" alt="" style="display: inline-block;">
-				<img src="${pageContext.request.contextPath}/resources/images/좋아요깨진하트.jpg" alt="" style="display: inline-block;">
-				<span class="">좋아요숫자</span>
+
+		<div class="like" style="margin-left: 30px; padding-top: 20px;">
+			<div class="rn-product-good" onclick="likegood()">
+				<input type="hidden" id="likeUser" value="${likeUser }">
+				<input type="hidden" id="likeCnt" value="${likeCnt }">
+				<input type="hidden" id="showNo" value="${show.showNo }">
+				<div id="likeImg" style="display: inline-block;">
+					<c:if test="${likeUser ne null }">
+						<img src="${pageContext.request.contextPath}/resources/images/좋아요하트.jpg" alt="" style="display: inline-block;">
+					</c:if>
+					<c:if test="${likeUser eq null }">
+						<img src="${pageContext.request.contextPath}/resources/images/좋아요깨진하트.jpg" alt="" style="display: inline-block;">
+					</c:if>
+					<span style="color: red; font-size: 15px;">${likeCnt }</span>
+				</div>
 				<span class="">Likes</span>
-			</a>
+			</div>
+
 		</div>
 	</div>
 	<div class="row" style="margin-top:30px; border-top: 2px solid black;">
@@ -135,6 +146,7 @@
 		<p class="col-12 detail-content-title" style="padding-top: 20px; font-size: 30px;">공연정보</p>
 		<img src="${pageContext.request.contextPath}/resources/images/NO24/${show.showDetailImg }.jpg" style="margin: 0 auto;">
 		<p class="col-12 detail-content-title">할인정보</p>
+		<img src="${pageContext.request.contextPath}/resources/images/detail/${show.saleImg }.jpg" style="margin: 0 auto;">
 	</div>
 	
 	<!-- 지도 -->
@@ -176,7 +188,7 @@
 				            주변 카페
 				        </li>  
 				        <li id="CS2" data-order="5" style="display: inline-block; margin-right: 70px;"> 
-				        	<i class='fas fa-coffee' style='font-size:48px;color:gray; display: block;'></i>
+				        	<img class='fas fa-coffee' style='font-size:48px;color:gray; display: block;' alt="" src="${pageContext.request.contextPath}/resources/images//편의점.png">
 				            <span class="category_bg store"></span>
 				           주변 편의점
 				        </li>      
@@ -184,6 +196,7 @@
 				</div>
 				<div id="map" style="width:100%;height:700px;"></div>
 			</div>
+
 			
 			<h2 class="w3-border-bottom w3-border-light-grey w3-padding-16"><i class='fas fa-pencil-alt' style="color: orange; margin-right: 10px;"></i>리뷰쓰기</h2>
 			<p>매매, 욕설 등 NO24 게시판 운영 규정에 위반되는 글은 사전 통보없이 삭제될 수 있습니다.</p>
@@ -191,6 +204,11 @@
 			개인정보가 포함된 내용은 삼가 주시기 바라며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.
 			<span><button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModal">리뷰 쓰기</button></span>
 			</p>
+
+		
+			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f051764ed5569f3245a77f313e307b6a&libraries=services"></script>
+			<script>
+
 			
 	  		<div class="row mb-2">
 	  			<div class="col-12 d-flex justify-content-center">
@@ -344,6 +362,7 @@
 	})
 
 	
+
 
 	// 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 	var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}), 
@@ -590,6 +609,24 @@
 
 	</script>
 
+				// 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
+				function changeCategoryClass(el) {
+				    var category = document.getElementById('category'),
+				        children = category.children,
+				        i;
+
+				    for ( i=0; i<children.length; i++ ) {
+				        children[i].className = '';
+				    }
+
+				    if (el) {
+				        el.className = 'on';
+				    } 
+				} 
+				
+				</script>
+
+
 		</div>
 	</div>
 	
@@ -600,5 +637,30 @@
 		</div>
 	</div>
 </div>
+<script type="text/javascript">
+	function likegood() {
+		var likeUser = document.getElementById("likeUser").value;
+		var likeCnt = document.getElementById("likeCnt").value;
+		if(likeUser) {
+			alert("이미 참여하셨습니다.");
+			return;
+		} else {
+			var showNo = document.getElementById("showNo").value;
+			var likeCnt = document.getElementById("likeCnt").value;
+			$.getJSON("/api/genre/showLike.do",{showNo:showNo}, function (result) {
+				if(!result) {
+					alert("로그인을 해주세요");
+					return;
+				}
+				$("#likeImg").empty();
+				var likeCntplus = parseInt(likeCnt)+1;
+				var html = '<img src="${pageContext.request.contextPath}/resources/images/좋아요하트.jpg" alt="" style="display: inline-block;">'
+					html += '<span style="color: red; font-size: 15px;">'+likeCntplus+'</span>'
+				document.getElementById("likeUser").value= '참여완료';
+				$("#likeImg").append(html);
+			})
+		}
+	}
+</script>
 </body>
 </html>

@@ -17,6 +17,7 @@ import com.example.demo.service.GenreService;
 import com.example.demo.service.ReviewService;
 import com.example.demo.service.ShowService;
 import com.example.demo.vo.Category;
+import com.example.demo.vo.LikeUser;
 import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Seat;
 import com.example.demo.vo.SeatPrice;
@@ -95,7 +96,7 @@ public class GenreController {
 	// 공연 상세페이지(이건 상위 카테고리가 0이 존지 하지않음)
 	// no는 show의 no다.
 	@RequestMapping("detail.do")
-	public String detail(@RequestParam("no") int no, Model model) {
+	public String detail(@RequestParam("no") int no, Model model, @LoginUser User user) {
 		// 공연 정보를 담는 객체
 		TotalShow totalShow = showService.getOneCategoryShow(no);
 		
@@ -104,6 +105,15 @@ public class GenreController {
 			
 		// 공연 정보에 대한 상연 정보를 담는다.
 		List<PutShows> putShowsList = showService.getShowPutShows(no);
+		System.out.println(totalShow.getShowNo());
+		LikeUser likeUser = null;
+		if(user != null) {
+		// 사용자가 공연에 대한 좋아요 조회
+			likeUser = genreService.getUserLikeByNo(user.getNo(), totalShow.getShowNo());
+		}
+		
+		// 공연의 좋아요 숫자 조회
+		int likeCnt = genreService.getShowLikeByShowNo(totalShow.getShowNo());
 		
 		List<ShowActor> showActorList = new ArrayList<ShowActor>();
 		for(PutShows putShows : putShowsList) {
@@ -119,6 +129,8 @@ public class GenreController {
 		categoryMap.put("topCategory", categoryTop.getName());
 		categoryMap.put("category", category.getName());
 		
+		model.addAttribute("likeCnt", likeCnt);
+		model.addAttribute("likeUser", likeUser);
 		model.addAttribute("actor", showActorList);
 		model.addAttribute("seat", seats);
 		model.addAttribute("category", categoryMap);

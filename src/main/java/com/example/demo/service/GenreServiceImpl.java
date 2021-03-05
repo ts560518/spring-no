@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import com.example.demo.dao.GenreDao;
 import com.example.demo.vo.Category;
+import com.example.demo.vo.LikeUser;
 import com.example.demo.vo.Place;
 import com.example.demo.vo.Seat;
 import com.example.demo.vo.SeatPrice;
@@ -58,6 +59,22 @@ public class GenreServiceImpl implements GenreService {
 	@Override
 	public List<Show> getCategoryHomeLocalList(int catno) {
 		return genreDao.getCategoryHomeLocalList(catno);
+	}
+
+	@Override
+	public LikeUser getUserLikeByNo(int userNo, int showNo) {
+		
+		return genreDao.getUserLikeByNo(userNo, showNo);
+	}
+
+	@Override
+	public int getShowLikeByShowNo(int showNo) {
+		return genreDao.getShowLikeByShowNo(showNo);
+	}
+
+	@Override
+	public void setShowLike(int showNo, int userNo) {
+		genreDao.setShowLike(showNo, userNo);
 	}
 
 	

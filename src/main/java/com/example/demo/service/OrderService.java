@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.transaction.annotation.Transactional;
 
+import com.example.demo.dto.OrderDto;
 import com.example.demo.vo.Bank;
 import com.example.demo.vo.Coupon;
 import com.example.demo.vo.Order;
@@ -30,5 +31,5 @@ public interface OrderService {
 	
 	void insertTicketOrderItems(Map<String, Object> ticketOrderItems);
 	
-	
+	OrderDto getAllAboutOrder(int userNo);
 }

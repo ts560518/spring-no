@@ -22,9 +22,9 @@ public class UserController {
 		String code = String.valueOf(RandomUtils.nextInt(100000, 1000000));
 		
 		// 메일의 제목
-		String subject = "이메일 인증코드";
+		String subject = "NO24 회원가입용 이메일 인증코드";
 		// 메일의 내용
-		String text = "인증코드: " + code;
+		String text = "다음의 인증코드로 인증확인을 해주셔야 회원가입이 진행됩니다." + "\n\n" + code;
 		mailService.sendSimpleMessage(to, subject, text);
 		
 		return code;
