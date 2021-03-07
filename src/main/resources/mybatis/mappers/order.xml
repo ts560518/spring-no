@@ -175,6 +175,10 @@
 		from
 			SHOW_TICKET_ORDERS A, SHOW_TICKET_ORDER_ITEMS B, show_users C, SHOW_PUT_SHOWS D, shows E, SHOW_USER_POINT_HISTORIES F, SHow_coupons G, show_seat H
 		where
-			
+			A.order_no = B.order_no
+			and A.user_no = C.user_no
+			and D.show_no = E.show_no
+			and C.user_no = F.user_no
+			and 
 	</select>
 </mapper>
