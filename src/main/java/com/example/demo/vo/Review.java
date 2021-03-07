@@ -2,13 +2,9 @@ package com.example.demo.vo;
 
 import java.util.Date;
 
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.Data;
 
-@Getter
-@Setter
-@ToString
+@Data
 public class Review {
 
 	private int no;
@@ -18,4 +14,13 @@ public class Review {
 	private String content;
 	private String ableStatus;
 	private Date createdDate;
+	
+	// 개행문자(\n) 줄바꿈(<br>) 변환 처리
+	public String getHtmlContent() {
+		if (content != null) {
+			return content.replace("\n", "<br>");
+		}
+		return null;
+	}
+	
 }

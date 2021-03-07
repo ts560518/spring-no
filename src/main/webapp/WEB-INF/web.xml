@@ -51,4 +51,14 @@
 		</jsp-property-group>
 	</jsp-config>
 	
+	<!-- 에러 페이지 설정하기 -->
+	<error-page>
+		<error-code>404</error-code>
+		<location>/WEB-INF/views/error/notfound.jsp</location>
+	</error-page>
+	<error-page>
+		<error-code>500</error-code>
+		<location>/WEB-INF/views/error/server.jsp</location>
+	</error-page>
+	
 </web-app>

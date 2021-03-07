@@ -10,13 +10,14 @@
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
 	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 </head>
 <style>
 	body {
 		background-color: #f9f9f9;
 	}
 </style>
-<body>
+<body class="bg-light">
 <div class="container">
 
 	<div class="row mt-4">
@@ -26,7 +27,7 @@
 			</a>
 		</div>
 		<div class="col-2">
-			<a href="/form.do"><button style="width: 100px; height: 35px; background-color: white;">회원가입</button></a>
+			<a href="/form.do"><button class="w3-btn w3-white w3-border">회원가입</button></a>
 		</div>
 	</div>
 		

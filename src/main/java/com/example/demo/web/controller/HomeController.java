@@ -80,7 +80,6 @@ public class HomeController {
 		// 기재된 id, password로 저장된 유저의 정보를 가져온다.
 		try { 
 			User savedUser = userService.getLoginedUserInfo(userId, password);
-			System.out.println("잘나오나" + savedUser);
 			model.addAttribute("user", savedUser);
 		
 		} catch (PasswordMismatchException e) {
@@ -89,6 +88,32 @@ public class HomeController {
 		}
 		
 		return "/my/modifyForm";
+	}
+	
+	@RequestMapping("/my/updateUser.do")
+	public String updateUser(@RequestParam("password") String password,
+							@RequestParam("tel") String tel,
+							@RequestParam("postAddress") String postAddress,
+							@RequestParam("address1") String address1,
+							@RequestParam("address2") String address2,
+							@RequestParam("address3") String address3,
+							@RequestParam("emailReceivingConsent") String emailReceivingConsent,
+							@RequestParam("smsReceivingConsent") String smsReceivingConsent,
+							@LoginUser User user) {
+		
+		User savedUser = userService.getUserById(user.getId());
+		savedUser.setPassword(password);
+		savedUser.setTel(tel);
+		
+		String address = "(" + postAddress + ")" + " " + address1 + " " + address2 + " " + address3;
+		
+		savedUser.setAddress(address);
+		savedUser.setEmailReceivingConsent(emailReceivingConsent);
+		savedUser.setSmsReceivingConsent(smsReceivingConsent);
+		
+		userService.updateUser(savedUser);
+		
+		return "redirect:info.do";
 	}
 	
 	// spring-shop/login.do 요청에 대한 요청핸들러 메소드

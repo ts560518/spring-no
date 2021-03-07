@@ -30,6 +30,7 @@
 		<h2 class="text-center"><i class='far fa-file-alt' style="color: orange; margin-right: 10px;"></i>공지사항</h2>
 		
 		<div class="w3-panel w3-leftbar w3-border-orange mt-5">
+			<button type="button" class="btn btn-outline-danger btn-sm">${notice.type }</button>
     		<h4>${notice.title }</h4>
   		</div>
   		
@@ -41,7 +42,7 @@
   		</div>
   
   		<div class="w3-border-top w3-border-bottom w3-border-light-grey w3-padding-16">
-  			<p>${notice.content }</p>
+  			<c:out value="${notice.htmlContent }" escapeXml="false"></c:out>
   		</div>
   
 		<div class="row float-right mt-5">
@@ -49,7 +50,6 @@
 			<a href="/notice/list.do?pageNo=${param.pageNo }" class="btn text-danger">
 				<strong><i class='far fa-sticky-note' style='font-size:24px; margin-right: 10px;'></i>목록보기</strong>
 			</a>
-			
 			</div>
 		</div>
 	</div>

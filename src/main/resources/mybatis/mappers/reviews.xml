@@ -23,7 +23,7 @@
 		select *
 		from (
 			select
-				row_number() over (order by A.review_no desc) as rn,
+				row_number() over (order by A.review_created_date desc) as rn,
 				A.review_no as no,
 				A.show_no as showNo,
 				A.user_no as userNo,
@@ -149,7 +149,6 @@
 	</insert>
 	
 	<!-- 리뷰 삭제 기능(review_able_status를 Y에서 N으로 변경)으로 이용 -->
-	<!-- 사용자 페이지에도 가져간다!! -->
 	<update id="updateReview" parameterType="Review">
 		update 
 			show_reviews

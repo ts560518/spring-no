@@ -19,6 +19,7 @@ import com.example.demo.service.ShowService;
 import com.example.demo.vo.Category;
 import com.example.demo.vo.LikeUser;
 import com.example.demo.vo.PutShows;
+import com.example.demo.vo.Review;
 import com.example.demo.vo.Seat;
 import com.example.demo.vo.SeatPrice;
 import com.example.demo.vo.Show;
@@ -93,7 +94,7 @@ public class GenreController {
 		return "genre/list";
 	}
 	
-	// 공연 상세페이지(이건 상위 카테고리가 0이 존지 하지않음)
+	// 공연 상세페이지(이건 상위 카테고리가 0이 존재 하지 않음)
 	// no는 show의 no다.
 	@RequestMapping("detail.do")
 	public String detail(@RequestParam("no") int no, Model model, @LoginUser User user) {
@@ -118,6 +119,7 @@ public class GenreController {
 		List<ShowActor> showActorList = new ArrayList<ShowActor>();
 		for(PutShows putShows : putShowsList) {
 			showActorList = genreService.getShowActor(putShows.getPutShowNo());
+			System.out.println("배우잘나오는지 테스트" + showActorList);
 			break;
 		}
 		
@@ -139,6 +141,9 @@ public class GenreController {
 		return "genre/detail";
 	}
 	
+	/*
+	 * 여기서부터 리뷰입니다.
+	 */
 	@RequestMapping("/reviews.do")
 	@ResponseBody
 	public Map<String, Object> reviews(@RequestParam("no") int showNo,
@@ -151,6 +156,21 @@ public class GenreController {
 		condition.put("end", pageNo * 10);
 		return reviewService.getReviewDtos(condition);
 		
+	}
+	
+	@RequestMapping("/insert.do")
+	@ResponseBody
+	public Map<String, Object> insert(Review review, 
+			@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo) {
+		
+		reviewService.insertReview(review);
+		
+		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("pageNo", pageNo);
+		condition.put("rows", 10);
+		condition.put("begin", (pageNo - 1) * 10 + 1);
+		condition.put("end", pageNo * 10);
+		return reviewService.getReviewDtos(condition);
 	}
 	
 }

@@ -87,8 +87,14 @@
 	</select>
 	
 	<update id="updateUser" parameterType="User">
-		update show_users
+		update
+			show_users
 		set
+			user_password = #{password},
+			user_tel = #{tel},
+			user_address = #{address},
+			email_receiving_consent = #{emailReceivingConsent},
+			sms_receiving_consent = #{smsReceivingConsent},
 			user_available_point = #{availablePoint}
 		where
 			user_no = #{no}

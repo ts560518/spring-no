@@ -13,38 +13,35 @@
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <link rel="preconnect" href="https://fonts.gstatic.com">
 <link href="https://fonts.googleapis.com/css2?family=Nanum+Gothic&display=swap" rel="stylesheet">
-
 <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/Detail.css">
 <title>NO24</title>
 <style type="text/css">
-.detail-content-title{
-	text-align: center;
-	font-size: 30px;
-    color: #333;
-    padding-bottom: 51px;
-    font-weight: bold;
-}
-.detail-map-title{
-	text-align: center;
-    font-size: 40px;
-    color: #333;
-    font-weight: bold;
-    padding: 85px 0 42px 0;
-}
-.detail-map-sub-title{
-	text-align: center;
-    font-size: 20px;
-    color: #333;
-    font-weight: bold;
-}
-
+	.detail-content-title{
+		text-align: center;
+		font-size: 30px;
+	    color: #333;
+	    padding-bottom: 51px;
+	    font-weight: bold;
+	}
+	.detail-map-title{
+		text-align: center;
+	    font-size: 40px;
+	    color: #333;
+	    font-weight: bold;
+	    padding: 85px 0 42px 0;
+	}
+	.detail-map-sub-title{
+		text-align: center;
+	    font-size: 20px;
+	    color: #333;
+	    font-weight: bold;
+	}
 	.star { 
-	text-decoration: none; color: gray; 
+		text-decoration: none; color: gray; 
 	} 
 	.star.on{ 
-	color: orange; 
+		color: orange; 
 	}
-
 </style>
 </head>
 <body>
@@ -137,7 +134,6 @@
 				</div>
 				<span class="">Likes</span>
 			</div>
-
 		</div>
 	</div>
 	<div class="row" style="margin-top:30px; border-top: 2px solid black;">
@@ -204,11 +200,6 @@
 			개인정보가 포함된 내용은 삼가 주시기 바라며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.
 			<span><button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModal">리뷰 쓰기</button></span>
 			</p>
-
-		
-			<script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f051764ed5569f3245a77f313e307b6a&libraries=services"></script>
-			<script>
-
 			
 	  		<div class="row mb-2">
 	  			<div class="col-12 d-flex justify-content-center">
@@ -226,13 +217,7 @@
 			      	</tr>
 			    </thead>
 			    <tbody>
-			    <%-- <c:forEach var="review" items="${reviews }">
-			    	<tr>
-						<td><c:out value="${review.content }" escapeXml="false"></c:out></td>
-			        	<td>${review.rating }</td>
-			        	<td><fmt:formatDate value="${review.createdDate }"/></td>
-			      	</tr>
-			    </c:forEach> --%>
+			    <!-- AJAX로 추가될 부분 -->
 			    </tbody>
 			</table>
 	  
@@ -245,21 +230,17 @@
 				  		<li class="page-item ${page.pageNo gt 1 ? '' : 'disabled' }">
 				  			<a class="page-link w3-hover-blue" data-page-no=${page.pageNo - 1 } href="list.do?status=${status }&sort=${param.date }&pageNo=${page.pageNo - 1 }">&laquo;</a>
 				  		</li>
-				  		<%-- <c:forEach var="num" begin="${page.beginPage }" end="${page.endPage }">
+				  		<c:forEach var="num" begin="${page.beginPage }" end="${page.endPage }">
 					  		<li class="page-item ${num eq page.pageNo ? 'active' : '' }">
 					  			<a class="page-link w3-hover-blue" data-page-no=${num } href="list.do?status=${status }&sort=${param.date }&pageNo=${num }">${num }</a>
 					  		</li>
-				  		</c:forEach> --%>
-				  		
+				  		</c:forEach>
 				  		<li class="page-item ${page.pageNo lt page.totalPages ? '' : 'disabled' }">
 				  			<a class="page-link w3-hover-blue" data-page-no=${page.pageNo + 1 } href="list.do?status=${status }&sort=${param.date }&pageNo=${page.pageNo + 1 }">&raquo;</a>
 				  		</li>
 					</ul>
 				</div>
 			</div>
-			
-			
-			
 			
 			<!-- The Modal -->
 			<div class="modal fade" id="myModal">
@@ -299,70 +280,18 @@
 			</form>
 				</div>
  			</div>
-		
-			<%-- <div>
-			<c:forEach var="review" items="reviews">
-			<table>
-				<tbody>
-					<td>${review.rating }</td>
-					<td><c:out value="${review.content }" escapeXml="false"></c:out></td>
-					<td>테스트</td>
-					<td>테스트</td>
-				</tbody>
-			</table>
-			</c:forEach>
-			</div> --%>
-			
+		</div>
+	</div>
+	
+	<div class="row">
+		<div class="col-12">
+			<%@ include file="../../common/footer.jsp" %>
+		</div>
+	</div>
+</div>
+
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f051764ed5569f3245a77f313e307b6a&libraries=services"></script>
-<script>
-
-	
-		
-	function getReviewsAndPagination(pageNo) {
-		var $reviewTbody = $("#table-reviews").empty();
-		var $reviewUl = $("#box-pagination").empty();
-		
-		$.getJSON("reviews.do", {no: '${param.no}', page:pageNo}, function(result) {
-			var reviews = result.reviewDtos;
-			var page = result.pagination;
-			
-			$.each(reviews, function(index, review) {
-				var tr = "<tr>";
-				tr += "<td>"+review.content+"</td>";
-				tr += "<td>"
-				for (var i=1; i<=review.rating; i++) {
-					tr += "<span class='star on'>★<span>"
-				}
-				for (var i=1; i<=5-review.rating; i++) {
-					tr += "<span class='star'>★<span>"
-				}
-				tr += "</td>";
-				tr += "<td>"+new Date(review.createdDate).toLocaleString()+"</td>";
-				tr += "</tr>"
-				
-				$reviewTbody.append(tr);
-			});
-			
-			for (var num=page.beginPage; num<=page.endPage; num++) {
-				var li = "<li class='page-item "+ (num == page.pageNo ? 'active' : '' ) +" '>";
-				li += '<a class="page-link w3-hover-blue" data-page-no="'+num+'">'+num+'</a>'
-				li += "</li>"
-				
-				$reviewUl.append(li);
-			}
-		})
-		
-	}
-	
-	getReviewsAndPagination(1);
-	
-	$('#box-pagination').on('click', 'a', function(event) {
-		var pageNo = $(this).data("page-no");
-		getReviewsAndPagination(pageNo)
-	})
-
-	
-
+<script type="text/javascript">
 
 	// 마커를 클릭했을 때 해당 장소의 상세정보를 보여줄 커스텀오버레이입니다
 	var placeOverlay = new kakao.maps.CustomOverlay({zIndex:1}), 
@@ -598,46 +527,7 @@
 	    } 
 	} 
 	
-	
-	
-	// 리뷰 별점!!!!!!!!!!
-	$('a.star').click(function(){ 
-		$(this).parent().children("a").removeClass("on"); 
-		$(this).addClass("on").prevAll("a").addClass("on"); 
-		console.log($(this).attr("value")); 
-	});
-
-	</script>
-
-				// 클릭된 카테고리에만 클릭된 스타일을 적용하는 함수입니다
-				function changeCategoryClass(el) {
-				    var category = document.getElementById('category'),
-				        children = category.children,
-				        i;
-
-				    for ( i=0; i<children.length; i++ ) {
-				        children[i].className = '';
-				    }
-
-				    if (el) {
-				        el.className = 'on';
-				    } 
-				} 
-				
-				</script>
-
-
-		</div>
-	</div>
-	
-	
-	<div class="row">
-		<div class="col-12">
-			<%@ include file="../../common/footer.jsp" %>
-		</div>
-	</div>
-</div>
-<script type="text/javascript">
+	// 좋아요
 	function likegood() {
 		var likeUser = document.getElementById("likeUser").value;
 		var likeCnt = document.getElementById("likeCnt").value;
@@ -661,6 +551,58 @@
 			})
 		}
 	}
+	
+	// 리뷰 페이징처리입니다.	
+	function getReviewsAndPagination(pageNo) {
+		var $reviewTbody = $("#table-reviews").empty();
+		var $reviewUl = $("#box-pagination").empty();
+		
+		$.getJSON("reviews.do", {no: '${param.no}', page:pageNo}, function(result) {
+			var reviews = result.reviewDtos;
+			var page = result.pagination;
+			
+			$.each(reviews, function(index, review) {
+				var tr = "<tr>";
+				tr += "<td>"+review.content+"</td>";
+				tr += "<td>"
+				for (var i=1; i<=review.rating; i++) {
+					tr += "<span class='star on'>★<span>"
+				}
+				for (var i=1; i<=5-review.rating; i++) {
+					tr += "<span class='star'>★<span>"
+				}
+				tr += "</td>";
+				tr += "<td>"+new Date(review.createdDate).toLocaleString()+"</td>";
+				tr += "</tr>"
+				
+				$reviewTbody.append(tr);
+			});
+			
+			for (var num=page.beginPage; num<=page.endPage; num++) {
+				var li = "<li class='page-item "+ (num == page.pageNo ? 'active' : '' ) +" '>";
+				li += '<a class="page-link w3-hover-blue" data-page-no="'+num+'">'+num+'</a>'
+				li += "</li>"
+				
+				$reviewUl.append(li);
+			}
+		})
+		
+	}
+	
+	getReviewsAndPagination(1);
+	
+	$('#box-pagination').on('click', 'a', function(event) {
+		var pageNo = $(this).data("page-no");
+		getReviewsAndPagination(pageNo)
+	})
+	
+	// 리뷰 별점
+	$('a.star').click(function(){ 
+		$(this).parent().children("a").removeClass("on"); 
+		$(this).addClass("on").prevAll("a").addClass("on"); 
+		console.log($(this).attr("value")); 
+	});
+
 </script>
 </body>
 </html>

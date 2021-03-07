@@ -16,9 +16,9 @@
 <link rel="stylesheet" href="resources/css/commons.css">
 <title>NO24</title>
 </head>
-<body class="bg-light" style="font-family: 'Nanum Gothic', sans-serif;">	
+<body style="font-family: 'Nanum Gothic', sans-serif;">	
 	<!-- login form -->
-	<div class="container">
+	<div class="container mb-5">
 	
 		<c:if test="${param.error eq 'mismatch' }">
 			<div class="row mb-5">
@@ -30,8 +30,8 @@
 			</div>
 		</c:if>
 	
-		<div class="row d-flex justify-content-center mt-5">
-			<div class="col-6 mt-5">
+		<div class="row d-flex justify-content-center">
+			<div class="col-6 mt-5 mb-5">
   				<h2 class="text-center w3-animate-opacity"><strong>비밀번호 재확인</strong></h2>
   				<p class="text-center mt-1">개인정보보호를 위해 회원님의 비밀번호를 다시 한번 확인합니다.</p>
   				<div class="card mx-auto align-self-center">

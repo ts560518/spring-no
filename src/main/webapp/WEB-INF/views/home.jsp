@@ -210,7 +210,7 @@
 		      	</tr>
 		    </c:forEach>
 		    </tbody>
-		</table>
+	</table>
 
 	<a href="../notice/list.do" class="list-more">공지사항 더보기 +</a>
 	
