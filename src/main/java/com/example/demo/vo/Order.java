@@ -21,7 +21,7 @@ public class Order {
 	private int totalPaymentPrice;
 	private String orderPaymentMethod;
 	private int bankNo;
-	private int bankCardAccount;
+	private String bankCardAccount;
 	private Date createdDate;
 	private int couponHistoryNo;
 }

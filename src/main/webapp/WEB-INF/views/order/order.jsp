@@ -40,7 +40,7 @@
 	<form action="./orderForm.do" method="post" id="orderPriceForm">
 		<div class="row" style="padding-top: 30px;" id="seatNoList">
 			<div class="col-7" style="text-align:center;" id="box-seat-group">
-				<h3>좌석선택</h3>
+				<h3 style="padding-bottom: 5px;">좌석선택</h3>
 				<input type="hidden" id="putShowNo" name="putShowNo" value="${putShowNo }">
 				<c:forEach var="showSeatList" items="${showSeatList }">
 					<button type="button" data-seat-no="${showSeatList.showSeatNo }" class="seat-group" ${showSeatList.ticket eq 'Y' ? 'disabled' : '' }>${showSeatList.showSeatNo }</button>
@@ -79,7 +79,11 @@
 				<input type="hidden" id="orderPrice" name="orderPrice" value="0">
 			</div>
 		</div>
-	<button type="button" onclick="orderPriceForm()" class="btn btn-danger btn-lg">결제하기</button>
+		<div class="row">
+			<div class="col-10">
+				<button type="button" onclick="orderPriceForm()" class="btn btn-danger btn-lg" style="float: right;">결제하기</button>
+			</div>
+		</div>
 	</form>
 	
 	<div class="row">
