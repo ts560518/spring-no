@@ -24,11 +24,11 @@ import com.example.demo.util.StringUtils;
 import com.example.demo.vo.Notice;
 import com.example.demo.vo.Order;
 import com.example.demo.vo.Show;
+import com.example.demo.vo.ShowUserPointHistories;
 import com.example.demo.vo.User;
 import com.example.demo.vo.UserCoupon;
 import com.example.demo.web.annotation.LoginUser;
 import com.example.demo.web.form.UserForm;
-import com.example.demo.web.view.PlainTextView;
 
 @Controller
 public class HomeController {
@@ -41,9 +41,6 @@ public class HomeController {
 	
 	@Autowired
 	ShowService showService;
-	
-	@Autowired
-	PlainTextView plainTextView;
 	
 	@Autowired
 	NoticeService noticeService;
@@ -62,11 +59,15 @@ public class HomeController {
 	public String info(@LoginUser User user, Model model) {
 		
 		int orderCount = orderService.getCountOrderByUserNo(user.getNo());
-		OrderDto orderDto = orderService.getAllAboutOrder(user.getNo());
+		List<OrderDto> order = orderService.getOrderByUserNo(user.getNo());
+		List<OrderDto> coupon = orderService.getCouponByUserNo(user.getNo());
+		List<ShowUserPointHistories> point = orderService.getPointByUserNo(user.getNo());
 		
 		model.addAttribute("orderCount", orderCount);
 		model.addAttribute("user", user);
-		model.addAttribute("orderDto", orderDto);
+		model.addAttribute("order", order);
+		model.addAttribute("coupon", coupon);
+		model.addAttribute("point", point);
 		
 		return "/my/info";
 	}

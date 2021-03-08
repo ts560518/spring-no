@@ -70,8 +70,18 @@ public class OrderServiceImpl implements OrderService{
 	}
 
 	@Override
-	public OrderDto getAllAboutOrder(int userNo) {
-		return orderDao.getAllAboutOrder(userNo);
+	public List<OrderDto> getOrderByUserNo(int userNo) {
+		return orderDao.getOrderByUserNo(userNo);
+	}
+	
+	@Override
+	public List<OrderDto> getCouponByUserNo(int userNo) {
+		return orderDao.getCouponByUserNo(userNo);
+	}
+	
+	@Override
+	public List<ShowUserPointHistories> getPointByUserNo(int userNo) {
+		return orderDao.getPointByUserNo(userNo);
 	}
 	
 	@Override

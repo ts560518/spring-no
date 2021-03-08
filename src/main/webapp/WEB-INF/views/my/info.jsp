@@ -55,12 +55,12 @@
 	    <!-- Right Column -->
 	    <div class="w3-twothird mt-4 mb-5">
 	    	<div class="w3-container w3-card w3-white">
-	        <h2 class="w3-text-grey w3-padding-16"><i class='fas fa-money-bill-wave' style="font-size: 36px; color: orange; margin-right: 10px;"></i>최근 예매내역</h2>
+	        <h2 class="w3-text-grey w3-padding-16"><i class='far fa-clock' style="font-size: 36px; color: orange; margin-right: 10px;"></i>최근 예매내역</h2>
 	        <table class="table mt-4">
 				<thead>
-					<tr>
+					<tr class="text-center">
 						<th>예매번호</th>
-						<th>상연번호(상연이름을 가져와야 함)</th>
+						<th>상연이름</th>
 						<th>예매수량</th>
 						<th>결제상태</th>
 						<th>결제금액</th>
@@ -69,14 +69,68 @@
 				</thead>
 				<tbody>
 				<!-- foreach문 써야 함 -->
-					<c:forEach var="orderDto" items="${orderDto }">
-						<tr>
-							<td><a href="#" class="text-primary">${orderDto.show.no }</a></td>
-							<td><a href="detail.jsp">${orderDto.show.name }</a></td>
-							<td>${orderDto.order.orderAmount }</td>
-							<td>${orderDto.order.status }</td>
-							<td>${orderDto.order.totalOrderPrice }</td>
-							<td>${orderDto.order.createdDate }</td>
+					<c:forEach var="order" items="${order }">
+						<tr class="text-center">
+							<td><a href="#" class="text-primary">${order.show.no }</a></td>
+							<td><a href="detail.jsp">${order.show.name }</a></td>
+							<td>${order.order.orderAmount }</td>
+							<td>${order.order.status }</td>
+							<td>${order.order.totalOrderPrice }</td>
+							<td><fmt:formatDate value="${order.order.createdDate }"/></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+	        <h2 class="w3-text-grey w3-padding-16 mt-5"><i class='fas fa-money-bill-wave' style="font-size: 36px; color: orange; margin-right: 10px;"></i>소유중인 쿠폰</h2>
+	        <table class="table mt-4">
+				<thead>
+					<tr class="text-center">
+						<th>유저번호</th>
+						<th>쿠폰번호</th>
+						<th>쿠폰이름</th>
+						<th>쿠폰가격</th>
+						<th>쿠폰기한</th>
+						<th>기한만료여부</th>
+						<th>쿠폰사용여부</th>
+						<th>사용일자</th>
+					</tr>
+				</thead>
+				<tbody>
+				<!-- foreach문 써야 함 -->
+					<c:forEach var="coupon" items="${coupon }">
+						<tr class="text-center">
+							<td><a href="#" class="text-primary">${coupon.userCoupon.userNo }</a></td>
+							<td><a href="detail.jsp">${coupon.coupon.no }</a></td>
+							<td>${coupon.coupon.name }</td>
+							<td>${coupon.coupon.price }</td>
+							<td><fmt:formatDate value="${coupon.coupon.startDate }"/> ~ <fmt:formatDate value="${coupon.coupon.endDate }"/></td>
+							<td>${coupon.coupon.status }</td>
+							<td>${coupon.userCoupon.disabled }</td>
+							<td><fmt:formatDate value="${coupon.userCoupon.usedDate }"/></td>
+						</tr>
+					</c:forEach>
+				</tbody>
+			</table>
+	        <h2 class="w3-text-grey w3-padding-16 mt-5"><i class='fab fa-product-hunt' style="font-size: 36px; color: orange; margin-right: 10px;"></i>포인트 현황</h2>
+	        <table class="table mt-4">
+				<thead>
+					<tr class="text-center">
+						<th>순서</th>
+						<th>유저번호</th>
+						<th>증감포인트</th>
+						<th>증감내역</th>
+						<th>포인트사용일</th>
+					</tr>
+				</thead>
+				<tbody>
+				<!-- foreach문 써야 함 -->
+					<c:forEach var="point" items="${point }">
+						<tr class="text-center">
+							<td><a href="#" class="text-primary">${point.no }</a></td>
+							<td><a href="detail.jsp">${point.userNo }</a></td>
+							<td>${point.pointAmount }</td>
+							<td>${point.content }</td>
+							<td><fmt:formatDate value="${point.createdDate }"/></td>
 						</tr>
 					</c:forEach>
 				</tbody>
