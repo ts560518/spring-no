@@ -3,6 +3,8 @@ package com.example.demo.web.controller;
 import java.io.IOException;
 import java.util.List;
 
+import org.apache.commons.codec.cli.Digest;
+import org.apache.commons.codec.digest.DigestUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -111,7 +113,7 @@ public class HomeController {
 							@LoginUser User user) {
 		
 		User savedUser = userService.getUserById(user.getId());
-		savedUser.setPassword(password);
+		savedUser.setPassword(DigestUtils.sha256Hex(password));
 		savedUser.setTel(tel);
 		
 		String address = "(" + postAddress + ")" + " " + address1 + " " + address2 + " " + address3;
@@ -121,6 +123,8 @@ public class HomeController {
 		savedUser.setSmsReceivingConsent(smsReceivingConsent);
 		
 		userService.updateUser(savedUser);
+		
+		SessionUtils.setAttribute("LOGINED_USER", savedUser);
 		
 		return "redirect:info.do";
 	}

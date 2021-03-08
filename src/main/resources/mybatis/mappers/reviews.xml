@@ -16,6 +16,7 @@
 			A.user_no = B.user_no
 		and
 			A.show_no = C.show_no
+		and A.show_no = #{showNo}
 	</select>
 	
 	<!-- 검색 조건에 따른 데이터의 조회 내역 -->
@@ -64,6 +65,7 @@
 				A.user_no = B.user_no
 			and
 				A.show_no = C.show_no
+			and A.show_no = #{showNo}
 			)
 		where
 			<if test="begin != 0 and end != 0">
@@ -72,7 +74,7 @@
 	</select>
 	
 	<!-- 수정해야 함 -->
-	<select id="getAllAboutReviewByNo" parameterType="int" resultType="ReviewDto">
+	<!-- <select id="getAllAboutReviewByNo" parameterType="int" resultType="ReviewDto">
 		select
 			A.review_no as no,
 			A.show_no as showNo,
@@ -114,7 +116,7 @@
 			A.user_no = B.user_no
 		and
 			A.show_no = C.show_no
-	</select>
+	</select> -->
 	
 	<select id="getReviewByNo" parameterType="int" resultType="Review">
 		select
@@ -140,7 +142,7 @@
 			review_content
 		)
 		values (
-			show_review_seq.nextval,
+			show_reviews_seq.nextval,
 			#{showNo},
 			#{userNo},
 			#{rating},

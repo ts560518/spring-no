@@ -150,6 +150,7 @@ public class GenreController {
 			@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo) {
 		
 		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("showNo", showNo);
 		condition.put("pageNo", pageNo);
 		condition.put("rows", 10);
 		condition.put("begin", (pageNo - 1) * 10 + 1);
@@ -160,16 +161,27 @@ public class GenreController {
 	
 	@RequestMapping("/insert.do")
 	@ResponseBody
-	public Map<String, Object> insert(Review review, 
-			@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo) {
+	public Map<String, Object> insert(@RequestParam("no") int showNo,
+			@RequestParam("rating") int rating, 
+			@RequestParam("content") String content, 
+			@RequestParam(name = "page", required = false, defaultValue = "1") int pageNo, 
+			@LoginUser User user) {
+		
+		Review review = new Review();
+		review.setUserNo(user.getNo());
+		review.setShowNo(showNo);
+		review.setRating(rating);
+		review.setContent(content);
 		
 		reviewService.insertReview(review);
 		
 		Map<String, Object> condition = new HashMap<String, Object>();
+		condition.put("showNo", showNo);
 		condition.put("pageNo", pageNo);
 		condition.put("rows", 10);
 		condition.put("begin", (pageNo - 1) * 10 + 1);
 		condition.put("end", pageNo * 10);
+		
 		return reviewService.getReviewDtos(condition);
 	}
 	

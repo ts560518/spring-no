@@ -36,11 +36,17 @@
 	    color: #333;
 	    font-weight: bold;
 	}
+	.w5 {width: 5%;}
+	.w10 {width: 10%;}
+	.w12 {width: 12%;}
+	.w48 {width: 48%;}
+	.w11 {width: 11%;}
+	.w14 {width: 14%;}
 	.star { 
-		text-decoration: none; color: gray; 
-	} 
-	.star.on{ 
-		color: orange; 
+		text-decoration: none; color: gray;
+	}
+	.star.on {
+		color: orange;
 	}
 </style>
 </head>
@@ -195,29 +201,30 @@
 
 			
 			<h2 class="w3-border-bottom w3-border-light-grey w3-padding-16"><i class='fas fa-pencil-alt' style="color: orange; margin-right: 10px;"></i>리뷰쓰기</h2>
-			<p>매매, 욕설 등 NO24 게시판 운영 규정에 위반되는 글은 사전 통보없이 삭제될 수 있습니다.</p>
+			<p>매매, 욕설, 개인정보가 포함된 내용 등 NO24 게시판 운영 규정에 위반되는 글은 사전 통보없이 삭제될 수 있습니다.</p>
 			<p>
-			개인정보가 포함된 내용은 삼가 주시기 바라며, 게시물로 인해 발생하는 문제는 작성자 본인에게 책임이 있습니다.
-			<span><button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModal">리뷰 쓰기</button></span>
+			<span><button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#myModal" ${empty LOGINED_USER ? 'disabled' : '' }>리뷰 쓰기</button></span>
 			</p>
 			
-	  		<div class="row mb-2">
+	  		<%-- <div class="row mb-2">
 	  			<div class="col-12 d-flex justify-content-center">
 	  				<input type="hidden" name="sort" value="${empty param.sort ? 'date' : param.sort }" />
 		    		<input type="hidden" name="pageNo" value="${page.pageNo }" />
 	  			</div>
-			</div>
+			</div> --%>
 	        
-		  	<table class="table" id="table-reviews">
+		  	<table class="table mt-5">
 		  		<thead class="bg-light">
 		  			<tr>
-			        	<th>내용</th>
-			        	<th>평점</th>
-			        	<th>등록일</th>
+			        	<th class="w12">작성자</th>
+			        	<th class="w48">내용</th>
+			        	<th class="w11">평점</th>
+			        	<th class="w14">등록일</th>
 			      	</tr>
 			    </thead>
-			    <tbody>
-			    <!-- AJAX로 추가될 부분 -->
+			    <tbody id="table-reviews">
+			    <!-- AJAX로 입력될 부분 -->
+			    <!-- ${reviewDtos} 거꾸로 올라가 보면 내가 Map에 status를 담았어 그래서 Y나 N 여부에 유동적으로 대응하는 것임 -->
 			    </tbody>
 			</table>
 	  
@@ -228,60 +235,23 @@
 				<div class="col-12">
 					<ul class="pagination justify-content-center" id="box-pagination">
 				  		<li class="page-item ${page.pageNo gt 1 ? '' : 'disabled' }">
-				  			<a class="page-link w3-hover-blue" data-page-no=${page.pageNo - 1 } href="list.do?status=${status }&sort=${param.date }&pageNo=${page.pageNo - 1 }">&laquo;</a>
+				  			<a class="page-link w3-hover-blue" data-page-no=${page.pageNo - 1 } href="">&laquo;</a>
 				  		</li>
 				  		<c:forEach var="num" begin="${page.beginPage }" end="${page.endPage }">
 					  		<li class="page-item ${num eq page.pageNo ? 'active' : '' }">
-					  			<a class="page-link w3-hover-blue" data-page-no=${num } href="list.do?status=${status }&sort=${param.date }&pageNo=${num }">${num }</a>
+					  			<a class="page-link w3-hover-blue" data-page-no=${num } href="">${num }</a>
 					  		</li>
 				  		</c:forEach>
 				  		<li class="page-item ${page.pageNo lt page.totalPages ? '' : 'disabled' }">
-				  			<a class="page-link w3-hover-blue" data-page-no=${page.pageNo + 1 } href="list.do?status=${status }&sort=${param.date }&pageNo=${page.pageNo + 1 }">&raquo;</a>
+				  			<a class="page-link w3-hover-blue" data-page-no=${page.pageNo + 1 } href="">&raquo;</a>
 				  		</li>
 					</ul>
 				</div>
 			</div>
 			
-			<!-- The Modal -->
-			<div class="modal fade" id="myModal">
-				<div class="modal-dialog modal-dialog-centered">
-				<form id="show-form" method="post" action="register.do">
-				<div class="modal-content">
-    
-				<!-- Modal Header -->
-				<div class="modal-header">
-				 	<h4 class="modal-title">${show.showName }</h4>
-					<button type="button" class="close" data-dismiss="modal">&times;</button>
-				</div>
-	     
-			     <p>별점</p>
-			     <P id="star"> 
-			     <!-- 부모 --> <a href="#" id="rating" value="1">★</a> 
-			     <!-- 자식들--> <a href="#" value="2">★</a> 
-			     <a href="#" value="3">★</a> 
-			     <a href="#" value="4">★</a> 
-			     <a href="#" value="5">★</a> 
-			     <p>
-			     
-			     <!-- Modal body -->
-			     <div class="modal-body">
-					<textarea class="form-control" rows="8" id="content" name="content" placeholder="내용을 입력하세요."></textarea>
-			     </div>
-	     
-				<div class="row d-flex justify-content-center mt-5 mb-3">
-					<button type="submit" id="put-show" class="btn btn-danger float-right mr-2">등록</button>
-					<a href="#" class="btn btn-outline-dark float-right">취소</a>
-				</div>
-	     		<!-- Modal footer -->
-	       		<div class="modal-footer">
-	       			<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-	       		</div>
-     			</div>
-			</form>
-				</div>
- 			</div>
 		</div>
 	</div>
+	
 	
 	<div class="row">
 		<div class="col-12">
@@ -289,6 +259,44 @@
 		</div>
 	</div>
 </div>
+
+	<div class="modal fade" id="myModal">
+		<div class="modal-dialog modal-dialog-centered">
+		
+		<input type="hidden" id="showNo" value="${show.showNo }">
+			<div class="modal-content">
+		        <!-- Modal Header -->
+		        <div class="modal-header">
+		        	<h4 class="modal-title"><i class="far fa-copy" style="color: orange; margin-right: 10px;"></i>리뷰등록</h4>
+		        	<button type="button" class="close" data-dismiss="modal">&times;</button>
+		        </div>
+		        
+		        <!-- Modal body -->
+		        <div class="modal-body">
+			    	<p>별점</p>
+					<p >
+						<a href="#" class="star" data-rating="1">★</a> 
+						<a href="#" data-rating="2" class="star">★</a> 
+						<a href="#" data-rating="3" class="star">★</a> 
+						<a href="#" data-rating="4" class="star">★</a> 
+						<a href="#" data-rating="5" class="star">★</a> 
+						<input type="hidden" name="rating" id="rating-value" value="5" />
+				    <p>
+			    	<div class="form-group">
+	  					<label for="content">내용</label>
+	  					<textarea class="form-control" rows="8" id="content" name="content" placeholder="내용을 입력하세요." required></textarea>
+					</div>
+		        </div>
+		        
+		        <!-- Modal footer -->
+		        <div class="modal-footer">
+			    	<button type="button" onclick="insertReview()" class="btn btn-outline-danger float-right" >등록</button>
+		        	<button type="button" class="btn btn-outline-dark float-right" data-dismiss="modal">취소</button>
+		        </div>
+	      	</div>
+	   
+	    </div>
+	</div>
 
 <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=f051764ed5569f3245a77f313e307b6a&libraries=services"></script>
 <script type="text/javascript">
@@ -563,8 +571,9 @@
 			
 			$.each(reviews, function(index, review) {
 				var tr = "<tr>";
-				tr += "<td>"+review.content+"</td>";
-				tr += "<td>"
+				tr += "<td class='w12'>"+review.id+"</td>";
+				tr += "<td class='w48'>"+review.content+"</td>";
+				tr += "<td class='w11'>"
 				for (var i=1; i<=review.rating; i++) {
 					tr += "<span class='star on'>★<span>"
 				}
@@ -572,11 +581,19 @@
 					tr += "<span class='star'>★<span>"
 				}
 				tr += "</td>";
-				tr += "<td>"+new Date(review.createdDate).toLocaleString()+"</td>";
+				tr += "<td class='w14'>"+new Date(review.createdDate).toLocaleString()+"</td>";
 				tr += "</tr>"
 				
 				$reviewTbody.append(tr);
 			});
+			
+			if (page.pageNo > 1) {
+				var li = "<li class='page-item'>";
+				li += '<a class="page-link w3-hover-blue" data-page-no="'+(page.pageNo - 1)+'">이전</a>'
+				li += "</li>"
+				$reviewUl.append(li);
+				
+			}
 			
 			for (var num=page.beginPage; num<=page.endPage; num++) {
 				var li = "<li class='page-item "+ (num == page.pageNo ? 'active' : '' ) +" '>";
@@ -585,6 +602,15 @@
 				
 				$reviewUl.append(li);
 			}
+			
+			if (page.pageNo < page.totalPages) {
+				var li = "<li class='page-item'>";
+				li += '<a class="page-link w3-hover-blue" data-page-no="'+(page.pageNo + 1)+'">다음</a>'
+				li += "</li>"
+				$reviewUl.append(li);
+				
+			}
+			
 		})
 		
 	}
@@ -596,11 +622,78 @@
 		getReviewsAndPagination(pageNo)
 	})
 	
+	
+	// 리뷰 등록 후 다시 리뷰 페이징처리입니다.	
+	function insertReview() {
+		var $reviewTbody = $("#table-reviews").empty();
+		var $reviewUl = $("#box-pagination").empty();
+		
+		var rating = $("#rating-value").val();
+		var content = $("#content").val();
+		
+		$.post("insert.do", {no: '${param.no}', rating:rating, content:content, page:1}, function(result) {
+			var reviews = result.reviewDtos;
+			var page = result.pagination;
+			
+			$.each(reviews, function(index, review) {
+				var tr = "<tr>";
+				tr += "<td class='w12'>"+review.id+"</td>";
+				tr += "<td class='w48'>"+review.content+"</td>";
+				tr += "<td class='w11'>"
+				for (var i=1; i<=review.rating; i++) {
+					tr += "<span class='star on'>★<span>"
+				}
+				for (var i=1; i<=5-review.rating; i++) {
+					tr += "<span class='star'>★<span>"
+				}
+				tr += "</td>";
+				tr += "<td class='w14'>"+new Date(review.createdDate).toLocaleString()+"</td>";
+				tr += "</tr>"
+				
+				$reviewTbody.append(tr);
+			});
+			
+			if (page.pageNo > 1) {
+				var li = "<li class='page-item'>";
+				li += '<a class="page-link w3-hover-blue" data-page-no="'+(page.pageNo - 1)+'">이전</a>'
+				li += "</li>"
+				$reviewUl.append(li);
+				
+			}
+			
+			for (var num=page.beginPage; num<=page.endPage; num++) {
+				var li = "<li class='page-item "+ (num == page.pageNo ? 'active' : '' ) +" '>";
+				li += '<a class="page-link w3-hover-blue" data-page-no="'+num+'">'+num+'</a>'
+				li += "</li>"
+				
+				$reviewUl.append(li);
+			}
+			
+			if (page.pageNo < page.totalPages) {
+				var li = "<li class='page-item'>";
+				li += '<a class="page-link w3-hover-blue" data-page-no="'+(page.pageNo + 1)+'">다음</a>'
+				li += "</li>"
+				$reviewUl.append(li);
+				
+			}
+			
+		})
+		
+		$("a.star:last").trigger('click');
+		$("#content").val("");
+		$("#myModal").modal("hide");
+		
+	}
+	
+
+	
+	
 	// 리뷰 별점
-	$('a.star').click(function(){ 
+	$('a.star').click(function(event){ 
+		event.preventDefault()
 		$(this).parent().children("a").removeClass("on"); 
 		$(this).addClass("on").prevAll("a").addClass("on"); 
-		console.log($(this).attr("value")); 
+		$("#rating-value").val($(this).data("rating"))
 	});
 
 </script>

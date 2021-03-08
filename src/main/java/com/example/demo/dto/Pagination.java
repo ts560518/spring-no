@@ -51,12 +51,15 @@ public class Pagination {
 		}
 		// 현재 페이지번호가 속한 블록번호
 		blockNo = (int) (Math.ceil((double) pageNo/pagesPerBlock));
-		// 시작 페이지 번호(blockNo를 알면 beginPage를 알 수 있다)
-		beginPage = (blockNo - 1)*pagesPerBlock + 1;
-		// 끝 페이지 번호
-		endPage = blockNo*pagesPerBlock;
-		if (blockNo == totalBlocks) {		// 맨마지막 블록인 경우
-			endPage = totalPages;			// 블록 끝 페이지번호를 총 페이지 갯수로 설정한다.
+		
+		if (totalRows > 0) {
+			// 시작 페이지 번호(blockNo를 알면 beginPage를 알 수 있다)
+			beginPage = (blockNo - 1)*pagesPerBlock + 1;
+			// 끝 페이지 번호
+			endPage = blockNo*pagesPerBlock;
+			if (blockNo == totalBlocks) {		// 맨마지막 블록인 경우
+				endPage = totalPages;			// 블록 끝 페이지번호를 총 페이지 갯수로 설정한다.
+			}
 		}
 	} 
 }
