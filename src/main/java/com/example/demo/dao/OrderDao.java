@@ -33,4 +33,6 @@ public interface OrderDao {
 	void insertTicketOrderItems(Map<String, Object> ticketOrderItems);
 	
 	OrderDto getAllAboutOrder(int userNo);
+	
+	int getCountOrderByUserNo(int userNo);
 }

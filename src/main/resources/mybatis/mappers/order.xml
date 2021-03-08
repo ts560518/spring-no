@@ -158,7 +158,7 @@
 			E.show_detail_img as "show.showDetailImg",
 			E.show_created_date as "show.createdDate",
 			
-			F.COUPON_HISTORY_NO as "point.no",
+			F.HISTORY_NO as "point.no",
 			F.POINT_AMOUNT as "point.pointAmount",
 			F.POINT_CONTENT as "point.content",
 			F.POINT_CREATED_DATE as "point.createdDate",
@@ -170,15 +170,39 @@
 			G.COUPON_END_DATE as "coupon.endDate",
 			G.COUPON_STATUS as "coupon.status",
 			
-			H.SHOW_SEAT_NO as "showSeat.showSeatNo",
-			H.TICKET as "showSeat.ticket"
+			H.coupon_history_no as "userCoupon.historyNo",
+			H.coupon_disabled as "userCoupon.disabled",
+			H.coupon_used_date as "userCoupon.usedDate",
+			
+			I.show_seat_no as "showSeat.showSeatNo",
+			I.ticket as "showSeat.ticket"
 		from
-			SHOW_TICKET_ORDERS A, SHOW_TICKET_ORDER_ITEMS B, show_users C, SHOW_PUT_SHOWS D, shows E, SHOW_USER_POINT_HISTORIES F, SHow_coupons G, show_seat H
+			show_ticket_orders A, show_ticket_order_items B, show_users C, show_put_shows D, shows E, show_user_point_histories F, show_coupons G, show_coupon_histories H, show_seat I
 		where
 			A.order_no = B.order_no
-			and A.user_no = C.user_no
-			and D.show_no = E.show_no
-			and C.user_no = F.user_no
-			and 
+		and
+			A.user_no = C.user_no
+		and
+			A.put_show_no = D.put_show_no
+		and
+			C.user_no = F.user_no
+		and
+			C.user_no = H.user_no
+		and
+			D.show_no = E.show_no
+		and
+			D.put_show_no = I.put_show_no
+		and
+			G.coupon_no = H.coupon_no
+		and
+			A.user_no = #{userNo}
+	</select>
+	
+	<select id="getCountOrderByUserNo" parameterType="int" resultType="int">
+		select count(*)
+		from
+			show_ticket_orders
+		where
+			user_no = #{userNo}
 	</select>
 </mapper>

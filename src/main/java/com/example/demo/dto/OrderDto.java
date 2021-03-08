@@ -7,6 +7,7 @@ import com.example.demo.vo.Show;
 import com.example.demo.vo.ShowSeat;
 import com.example.demo.vo.ShowUserPointHistories;
 import com.example.demo.vo.User;
+import com.example.demo.vo.UserCoupon;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -24,5 +25,6 @@ public class OrderDto {
 	private Show show;
 	private ShowUserPointHistories point;
 	private Coupon coupon;
+	private UserCoupon userCoupon;
 	private ShowSeat showSeat;
 }

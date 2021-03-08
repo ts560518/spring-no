@@ -6,14 +6,12 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.example.demo.dao.GenreDao;
 import com.example.demo.dao.OrderDao;
 import com.example.demo.dao.UserDao;
 import com.example.demo.dto.OrderDto;
 import com.example.demo.vo.Bank;
 import com.example.demo.vo.Coupon;
 import com.example.demo.vo.Order;
-import com.example.demo.vo.Seat;
 import com.example.demo.vo.ShowUserPointHistories;
 import com.example.demo.vo.UserCoupon;
 
@@ -76,6 +74,9 @@ public class OrderServiceImpl implements OrderService{
 		return orderDao.getAllAboutOrder(userNo);
 	}
 	
-	
+	@Override
+	public int getCountOrderByUserNo(int userNo) {
+		return orderDao.getCountOrderByUserNo(userNo);
+	}
 	
 }
