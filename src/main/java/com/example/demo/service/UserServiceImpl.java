@@ -83,4 +83,9 @@ public class UserServiceImpl implements UserService {
 	public void insertUserCouponHistory(UserCoupon userCoupon) {
 		userDao.insertUserCouponHistory(userCoupon);
 	}
+	
+	@Override
+	public String getUserAbleStatusById(String userId) {
+		return userDao.getUserAbleStatusById(userId);
+	}
 }

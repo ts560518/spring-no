@@ -69,14 +69,16 @@
 				</thead>
 				<tbody>
 				<!-- foreach문 써야 함 -->
-					<tr>
-						<td><a href="#" class="text-primary">예매번호</a></td>
-						<td><a href="detail.jsp">상연번호를 통한 상연이름을 가져와야 해</a></td>
-						<td>티켓오더아이템즈의 카운트를 가져와야 해</td>
-						<td>결제완료라고 떠야 해</td>
-						<td>결제 금액을 가져와야 해 내가 결제한 금액을</td>
-						<td>결제일</td>
-					</tr>
+					<c:forEach var="orderDto" items="${orderDto }">
+						<tr>
+							<td><a href="#" class="text-primary">${orderDto.show.no }</a></td>
+							<td><a href="detail.jsp">${orderDto.show.name }</a></td>
+							<td>${orderDto.order.orderAmount }</td>
+							<td>${orderDto.order.status }</td>
+							<td>${orderDto.order.totalOrderPrice }</td>
+							<td>${orderDto.order.createdDate }</td>
+						</tr>
+					</c:forEach>
 				</tbody>
 			</table>
 	      </div>

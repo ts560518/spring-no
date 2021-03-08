@@ -19,4 +19,5 @@ public interface UserService {
 	int getUserNo();
 	void addNewUserRole(int userNo);
 	void insertUserCouponHistory(UserCoupon userCoupon);
+	String getUserAbleStatusById(String userId);
 }

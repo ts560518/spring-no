@@ -16,6 +16,7 @@ import com.example.demo.exception.DuplicatedUserIdException;
 import com.example.demo.exception.PasswordMismatchException;
 import com.example.demo.exception.UserNotFoundException;
 import com.example.demo.service.NoticeService;
+import com.example.demo.service.OrderService;
 import com.example.demo.service.ShowService;
 import com.example.demo.service.UserService;
 import com.example.demo.util.SessionUtils;
@@ -31,6 +32,9 @@ import com.example.demo.web.view.PlainTextView;
 
 @Controller
 public class HomeController {
+	
+	@Autowired
+	OrderService orderService;
 
 	@Autowired
 	UserService userService;
@@ -57,7 +61,12 @@ public class HomeController {
 	@RequestMapping("/my/info.do")
 	public String info(@LoginUser User user, Model model) {
 		
+		int orderCount = orderService.getCountOrderByUserNo(user.getNo());
+		OrderDto orderDto = orderService.getAllAboutOrder(user.getNo());
+		
+		model.addAttribute("orderCount", orderCount);
 		model.addAttribute("user", user);
+		model.addAttribute("orderDto", orderDto);
 		
 		return "/my/info";
 	}
@@ -128,8 +137,12 @@ public class HomeController {
 		
 		try {
 			User user = userService.getLoginedUserInfo(userId, password);
+			String userAbleStatus = userService.getUserAbleStatusById(userId);
 			// 세션에 로그인된 사용자정보를 저장한다.
 			SessionUtils.setAttribute("LOGINED_USER", user);
+			if (userAbleStatus == "N") {
+				return "redirect:loginform.do?error=notfound";
+			}
 			
 		} catch (UserNotFoundException e) {
 			e.printStackTrace();
