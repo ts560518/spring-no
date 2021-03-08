@@ -33,7 +33,7 @@
 <div class="container">
 	<div class="row">
 		<div class="col-12">
-			<form action="./orderInsert.do">
+			<form action="./orderInsert.do" id="orderInsert">
 				<table class="table">
 					<colgroup>
 						<col>
@@ -55,7 +55,7 @@
 					<div class="card-header font-weight-bold">공연정보</div>
 					<div class="card-body">
 						<div class="form-row">
-							<div class="form-group col-3">
+							<div class="form-group col-4">
 								<label>공연이름</label>
 								<input type="hidden" name="putShowNo" value="${showAndPutShow.putShowNo }">
 								<p>${showAndPutShow.showName }</p>
@@ -137,7 +137,7 @@
 						<div class="form-row">
 							<div class="form-group col-6">
 								<label>은행 및 카드사</label>
-				      			<select name="bank" class="form-control">
+				      			<select name="bank" id="bank" class="form-control">
 									<option value="" selected disabled>카드사 및 은행 선택</option>
 				                    <option value="카카오뱅크" > 카카오뱅크</option>
 				                    <option value="롯데카드" > 롯데카드</option>
@@ -157,11 +157,11 @@
 							</div>
 							<div class="form-group col-6">
 								<label>카드번호 및 계좌번호</label>
-					      		<input type="text" class="form-control" name="account">
+					      		<input type="text" class="form-control" name="account" id="account">
 							</div>
 						</div>
 						<div class="text-right">
-							<button type="submit" class="btn btn-primary btn-lg">결제하기</button>
+							<button type="button" onclick="orderFormButton()" class="btn btn-primary btn-lg">결제하기</button>
 						</div>
 					</div>
 				</div>
@@ -178,6 +178,24 @@
 	</div>
 </div>
 <script type="text/javascript">
+	<%-- 결제버튼을 눌렀을때 카드 확인 --%>
+	function orderFormButton() {
+		var bankName = document.getElementById("bank");
+		var account = document.getElementById("account");
+		if(bankName.value =="") {
+			alert("결제할 카드사 및 은행을 선택해주세요");
+			return;
+		}
+		if(account.value=="") {
+			alert("카드번호 및 계좌번호를 입력해주세요");
+			return;
+		}
+		var form = document.getElementById("orderInsert");
+		form.setAttribute("method", "post");
+		form.setAttribute("action", "./orderInsert.do");
+		form.submit();
+	}
+	
 	function usePoint() {
 		var usablePointFiled = document.getElementById("usable-point");
 		var orderPriceFiled = document.getElementById("orderPrice");
