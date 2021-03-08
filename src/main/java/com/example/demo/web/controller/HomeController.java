@@ -30,7 +30,6 @@ import com.example.demo.vo.User;
 import com.example.demo.vo.UserCoupon;
 import com.example.demo.web.annotation.LoginUser;
 import com.example.demo.web.form.UserForm;
-import com.example.demo.web.view.PlainTextView;
 
 @Controller
 public class HomeController {
@@ -43,9 +42,6 @@ public class HomeController {
 	
 	@Autowired
 	ShowService showService;
-	
-	@Autowired
-	PlainTextView plainTextView;
 	
 	@Autowired
 	NoticeService noticeService;
