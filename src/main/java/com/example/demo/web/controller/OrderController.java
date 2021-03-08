@@ -51,7 +51,7 @@ public class OrderController {
 								@RequestParam("usablePoint") int usabledPoint,
 								@RequestParam("usedPoint") int usedPoint, @RequestParam("totalPayPrice") int totalPayPrice,
 								@RequestParam("totalSavedPoint") int savedPoint,
-								@RequestParam("bank") String bankName, @RequestParam("account") int account) {
+								@RequestParam("bank") String bankName, @RequestParam("account") String account) {
 		// 쿠폰번호로 쿠폰 가격 조회, 쿠폰번호가 0일 경우 조회하지 않음 그리고 쿠폰사용여부 업데이트
 		Coupon coupon = new Coupon();
 		if(couponNo!=0) {
