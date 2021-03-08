@@ -15,6 +15,7 @@ import com.example.demo.service.GenreService;
 import com.example.demo.service.OrderService;
 import com.example.demo.service.ShowService;
 import com.example.demo.service.UserService;
+import com.example.demo.util.SessionUtils;
 import com.example.demo.vo.Bank;
 import com.example.demo.vo.Coupon;
 import com.example.demo.vo.Order;
@@ -123,6 +124,10 @@ public class OrderController {
 			ticketOrderItems.put("orderNo", orderNo);
 			orderService.insertTicketOrderItems(ticketOrderItems);
 		}
+		
+		// user세션저장(user포인트 저장)
+		SessionUtils.removeAttribute("LOGINED_USER");
+		SessionUtils.setAttribute("LOGINED_USER", user);
 		
 		return "redirect:../home.do";
 	}
