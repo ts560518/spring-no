@@ -102,11 +102,13 @@
 	            <a href="/rank.do">랭킹</a>
 	        </div>
 		</div>
-		<div style="position: absolute; top: 40px; right: 30px; padding-right: 30px;">
+		<div style="position: absolute; top: 30px; right: 30px; padding-right: 30px;">
 			<form action="${pageContext.request.contextPath}/notice/list.do">
 				<div class="search__container">
 				    <input class="search__input" name="keyword" type="text" placeholder="Search" style="border: none; border-bottom: 3px black solid;">
-					<i class="fa fa-search"></i>
+					<button type="submit" class="btn" id="btn-search">
+						<i class="fa fa-search" style="font-size:24px" aria-hidden="true"></i>
+					</button>
 				</div>
 			</form>
 		</div>

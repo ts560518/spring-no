@@ -79,11 +79,7 @@
 				<input type="hidden" id="orderPrice" name="orderPrice" value="0">
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-10">
-				<button type="button" onclick="orderPriceForm()" class="btn btn-danger btn-lg" style="float: right;">결제하기</button>
-			</div>
-		</div>
+	<button type="button" onclick="orderPriceForm()" class="btn btn-danger btn-lg">결제하기</button>
 	</form>
 	
 	<div class="row">
