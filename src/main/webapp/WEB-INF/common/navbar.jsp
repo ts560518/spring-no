@@ -11,8 +11,6 @@
 				<a href="/logout.do">로그아웃</a>
 				<a href="/my/info.do">마이페이지</a>
 			</c:if>
-			<a href="/spring-shop/main.do">관리자페이지</a>
-			<a href="#">고객센터</a>
 		</div>
 	 </div>
 	 
@@ -102,11 +100,10 @@
 	        <div class="pf-right-menu">
 	            <a href="/place.do">지역</a>
 	            <a href="/rank.do">랭킹</a>
-	            <a href="#">이벤트</a>
 	        </div>
 		</div>
 		<div style="position: absolute; top: 40px; right: 30px;">
-			<form action="${pageContext.request.contextPath}/searchMain.do">
+			<form action="${pageContext.request.contextPath}/notice/list.do">
 				<div class="search__container">
 				    <input class="search__input" name="title" type="text" placeholder="Search">
 				</div>
