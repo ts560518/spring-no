@@ -32,7 +32,11 @@ public interface OrderDao {
 	
 	void insertTicketOrderItems(Map<String, Object> ticketOrderItems);
 	
-	OrderDto getAllAboutOrder(int userNo);
+	List<OrderDto> getOrderByUserNo(int userNo);
+	
+	List<OrderDto> getCouponByUserNo(int userNo);
+	
+	List<ShowUserPointHistories> getPointByUserNo(int userNo);
 	
 	int getCountOrderByUserNo(int userNo);
 }

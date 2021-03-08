@@ -107,95 +107,56 @@
 		(show_ticket_order_items_seq.nextval, #{orderNo}, #{seatNo})
 	</insert>
 	
-	<select id="getAllAboutOrder" parameterType="int" resultType="OrderDto" >
+	<select id="getOrderByUserNo" parameterType="int" resultType="OrderDto" >
 		select
-			A.ORDER_NO as "order.no",
-			A.USER_NO as "order.userNo",
-			A.PUT_SHOW_NO as "order.putShowNo",
-			A.ORDER_AMOUNT as "order.orderAmout",
-			A.ORDER_STATUS as "order.status",
-			A.TOTAL_ORDER_PRICE as "order.totalOrderPrice",
-			A.USED_POINT as "order.usedPoint",
-			A.TOTAL_PAYMENT_PRICE as "order.totalPaymentPrice",
-			A.ORDER_PAYMENT_METHOD as "order.orderPaymentMethod",
-			A.BANK_NO as "order.bankNo",
-			A.BANK_CARD_ACCOUNT as "order.bankCardAccount",
-			A.ORDER_CREATED_DATE as "order.createdDate",
-			A.COUPON_HISTORY_NO as "order.couponHistoryNo",
+			A.show_no as "show.no",
+			A.show_name as "show.name",
 			
-			B.ORDER_ITEM_NO as itemNo,
-			B.SEAT_NO as "showSeat.no",
-			
-			C.user_no as "user.no",
-			C.user_name as "user.name",
-			C.user_id as "user.id",
-			C.user_password as "user.password",
-			C.user_birth as "user.birth",
-			C.user_tel as "user.tel",
-			C.user_email as "user.email",
-			C.user_address as "user.address",
-			C.email_receiving_consent as "user.emailReceivingConsent",
-			C.sms_receiving_consent as "user.smsReceivingConsent",
-			C.user_available_point as "user.availablePoint",
-			C.user_created_date as "user.createdDate",
-			
-			D.PUT_SHOW_NO as "putShows.putShowNo",
-			D.SHOW_NO as "putShows.showNo",
-			D.SHOW_DAY as "putShows.day",
-			D.SHOW_START_TIME as "putShows.startTime",
-			
-			E.show_no as "show.no",
-			E.category_no as "show.categoryNo",
-			E.show_name as "show.name",
-			E.viewing_no as "show.viewingNo",
-			E.running_time as "show.runningTime",
-			E.poster_img as "show.posterImg",
-			E.begin_date as "show.beginDate",
-			E.end_date as "show.endDate",
-			E.place_no as "show.placeNo",
-			E.attention_img as "show.attentionImg",
-			E.sale_img as "show.saleImg",
-			E.show_detail_img as "show.showDetailImg",
-			E.show_created_date as "show.createdDate",
-			
-			F.HISTORY_NO as "point.no",
-			F.POINT_AMOUNT as "point.pointAmount",
-			F.POINT_CONTENT as "point.content",
-			F.POINT_CREATED_DATE as "point.createdDate",
-			
-			G.COUPON_NO as "coupon.no",
-			G.COUPON_NAME as "coupon.name",
-			G.COUPON_PRICE as "coupon.price",
-			G.COUPON_START_DATE as "coupon.startDate",
-			G.COUPON_END_DATE as "coupon.endDate",
-			G.COUPON_STATUS as "coupon.status",
-			
-			H.coupon_history_no as "userCoupon.historyNo",
-			H.coupon_disabled as "userCoupon.disabled",
-			H.coupon_used_date as "userCoupon.usedDate",
-			
-			I.show_seat_no as "showSeat.showSeatNo",
-			I.ticket as "showSeat.ticket"
+			C.order_amount as "order.orderAmount",
+			C.order_status as "order.status",
+			C.total_order_price as "order.totalOrderPrice",
+			C.order_created_date as "order.createdDate"
 		from
-			show_ticket_orders A, show_ticket_order_items B, show_users C, show_put_shows D, shows E, show_user_point_histories F, show_coupons G, show_coupon_histories H, show_seat I
+			shows A, show_put_shows B, show_ticket_orders C
 		where
-			A.order_no = B.order_no
+			A.show_no = B.show_no
 		and
-			A.user_no = C.user_no
+			B.put_show_no = C.put_show_no
 		and
-			A.put_show_no = D.put_show_no
+			C.user_no = #{userNo}
+	</select>
+	
+	<select id="getCouponByUserNo" parameterType="int" resultType="OrderDto" >
+		select
+			A.user_no as "userCoupon.userNo",
+			A.coupon_disabled as "userCoupon.disabled",
+			A.coupon_used_date as "userCoupon.usedDate",
+			
+			B.coupon_no as "coupon.no",
+			B.coupon_name as "coupon.name",
+			B.coupon_price as "coupon.price",
+			B.coupon_start_date as "coupon.startDate",
+			B.coupon_end_date as "coupon.endDate",
+			B.coupon_status as "coupon.status"
+		from
+			show_coupon_histories A, show_coupons B
+		where
+			A.coupon_no = B.coupon_no
 		and
-			C.user_no = F.user_no
-		and
-			C.user_no = H.user_no
-		and
-			D.show_no = E.show_no
-		and
-			D.put_show_no = I.put_show_no
-		and
-			G.coupon_no = H.coupon_no
-		and
-			A.user_no = #{userNo}
+			A.user_no = #{value}
+	</select>
+	
+	<select id="getPointByUserNo" parameterType="int" resultType="ShowUserPointHistories">
+		select
+			history_no as no,
+			user_no as userNo,
+			point_amount as pointAmount,
+			point_content as content,
+			point_created_date as createdDate
+		from
+			show_user_point_histories
+		where
+			user_no = #{userNo}
 	</select>
 	
 	<select id="getCountOrderByUserNo" parameterType="int" resultType="int">
