@@ -133,7 +133,7 @@
 		</div>
 	</div>
 </div>
-<div class="container-fluid">
+<div class="container">
 	<div class="row mt-5">
 		<div class="col-12">
 			<%@ include file="../../common/footer.jsp" %>
