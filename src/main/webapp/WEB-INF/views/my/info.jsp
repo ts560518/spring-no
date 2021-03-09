@@ -74,7 +74,7 @@
 						</c:when>
 						<c:otherwise>
 							<c:forEach var="order" items="${order }">
-								<tr class="text-center">
+								<tr class="text-center"> 
 									<td><a href="/genre/detail.do?no=${showList.no }" class="text-primary">${order.show.no }</a></td>
 									<td><a href="/genre/detail.do?no=${showList.no }">${order.show.name }</a></td>
 									<td>${order.order.orderAmount }</td>

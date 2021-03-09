@@ -59,7 +59,6 @@ public class HomeController {
 	
 	@RequestMapping("/my/info.do")
 	public String info(@LoginUser User user, Model model) {
-		
 		int orderCount = orderService.getCountOrderByUserNo(user.getNo());
 		List<OrderDto> order = orderService.getOrderByUserNo(user.getNo());
 		List<OrderDto> coupon = orderService.getCouponByUserNo(user.getNo());
