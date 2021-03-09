@@ -38,4 +38,6 @@ public interface OrderService {
 	List<ShowUserPointHistories> getPointByUserNo(int userNo);
 	
 	int getCountOrderByUserNo(int userNo);
+	
+	Order getOrderByOrderNo(int orderNo);
 }

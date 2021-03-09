@@ -77,6 +77,14 @@ public class ShowServiceImpl implements ShowService {
 	public List<Show> getShowListByCategory(int catno,String sort) {
 		return showDao.getShowListByCategory(catno, sort);
 	}
+	@Override
+	public Show getShowByPutShowNo(int putShowNo) {
+		return showDao.getShowByPutShowNo(putShowNo);
+	}
+	@Override
+	public PutShows getPutShowByPutShowNo(int putShowNo) {
+		return showDao.getPutShowByPutShowNo(putShowNo);
+	}
 
 
 }

@@ -88,5 +88,10 @@ public class OrderServiceImpl implements OrderService{
 	public int getCountOrderByUserNo(int userNo) {
 		return orderDao.getCountOrderByUserNo(userNo);
 	}
+
+	@Override
+	public Order getOrderByOrderNo(int orderNo) {
+		return orderDao.getOrderByOrderNo(orderNo);
+	}
 	
 }

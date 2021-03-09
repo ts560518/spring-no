@@ -19,8 +19,10 @@ import com.example.demo.util.SessionUtils;
 import com.example.demo.vo.Bank;
 import com.example.demo.vo.Coupon;
 import com.example.demo.vo.Order;
+import com.example.demo.vo.PutShows;
 import com.example.demo.vo.Seat;
 import com.example.demo.vo.SeatPrice;
+import com.example.demo.vo.Show;
 import com.example.demo.vo.ShowAndPutShow;
 import com.example.demo.vo.ShowSeat;
 import com.example.demo.vo.ShowUserPointHistories;
@@ -43,6 +45,20 @@ public class OrderController {
 	
 	@Autowired
 	UserService userService;
+	
+	// 결제 성공
+	@RequestMapping("orderCompleted.do")
+	public String orderCompleted(@RequestParam("orderNo") int orderNo, Model model) {
+		Order order = orderService.getOrderByOrderNo(orderNo);
+		Show show = showService.getShowByPutShowNo(order.getPutShowNo());
+		PutShows putShows = showService.getPutShowByPutShowNo(order.getPutShowNo());
+	
+		model.addAttribute("putShows", putShows);
+		model.addAttribute("show", show);
+		model.addAttribute("order", order);
+	
+		return "order/orderCompleted";
+	}
 	
 	// 결제INSERT
 	@RequestMapping("/orderInsert.do")
@@ -76,7 +92,11 @@ public class OrderController {
 		orderService.insertPointHistories(pointHistories);
 		
 		// 유저포인트 업데이트, 그리고 savePoint 업데이트
-		user.setAvailablePoint(user.getAvailablePoint() - usedPoint);
+		System.out.println(user.getAvailablePoint());
+		System.out.println(usedPoint);
+		user.setAvailablePoint(user.getAvailablePoint() - usedPoint + totalPayPrice/20);
+
+		System.out.println(user.getAvailablePoint());
 		userService.updateUser(user);
 		
 		// 예매 좌석 숫자
@@ -129,7 +149,7 @@ public class OrderController {
 		SessionUtils.removeAttribute("LOGINED_USER");
 		SessionUtils.setAttribute("LOGINED_USER", user);
 		
-		return "redirect:../home.do";
+		return "redirect:./orderCompleted.do?orderNo="+orderNo;
 	}
 	
 	// 결제페이지

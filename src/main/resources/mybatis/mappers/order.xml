@@ -166,4 +166,26 @@
 		where
 			user_no = #{userNo}
 	</select>
+	
+	<!-- 주문 정보를 가져온다. -->
+	<select id="getOrderByOrderNo" parameterType="int" resultType="Order">
+		select
+			order_no 		as no,
+			user_no			as userNo,
+			put_show_no		as putShowNo,
+			order_amount	as orderAmount,
+			order_status	as status,
+			total_order_price	as totalOrderPrice,
+			used_point			as usedPoint,
+			total_payment_price	as totalPaymentPrice,
+			order_payment_method as orderPaymentMethod,
+			bank_no			as bankNo,
+			bank_card_account	as bankCardAccount,
+			order_created_date	as createdDate,
+			coupon_history_no	as couponHistoryNo
+		from show_ticket_orders
+		where
+			order_no = #{orderNo}
+			
+	</select>
 </mapper>

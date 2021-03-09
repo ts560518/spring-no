@@ -41,4 +41,8 @@ public interface ShowService {
 	List<Show> getShowRankHome();
 	
 	List<Show> getShowListByCategory(int catno,String sort);
+
+	Show getShowByPutShowNo(int putShowNo);
+
+	PutShows getPutShowByPutShowNo(int putShowNo);
 }
