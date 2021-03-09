@@ -75,8 +75,8 @@
 						<c:otherwise>
 							<c:forEach var="order" items="${order }">
 								<tr class="text-center">
-									<td><a href="#" class="text-primary">${order.show.no }</a></td>
-									<td><a href="detail.jsp">${order.show.name }</a></td>
+									<td><a href="/genre/detail.do?no=${showList.no }" class="text-primary">${order.show.no }</a></td>
+									<td><a href="/genre/detail.do?no=${showList.no }">${order.show.name }</a></td>
 									<td>${order.order.orderAmount }</td>
 									<td>${order.order.status }</td>
 									<td>${order.order.totalOrderPrice }</td>

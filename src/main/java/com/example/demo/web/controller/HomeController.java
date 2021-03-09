@@ -64,12 +64,14 @@ public class HomeController {
 		List<OrderDto> order = orderService.getOrderByUserNo(user.getNo());
 		List<OrderDto> coupon = orderService.getCouponByUserNo(user.getNo());
 		List<ShowUserPointHistories> point = orderService.getPointByUserNo(user.getNo());
+		List<Show> showList = showService.getShowsHome();
 		
 		model.addAttribute("orderCount", orderCount);
 		model.addAttribute("user", user);
 		model.addAttribute("order", order);
 		model.addAttribute("coupon", coupon);
 		model.addAttribute("point", point);
+		model.addAttribute("showList", showList);
 		
 		return "/my/info";
 	}
