@@ -84,6 +84,11 @@ public class HomeController {
 		return "/my/checkPassword";
 	}
 	
+	@RequestMapping("/my/pointhistory.do")
+	public String pointhistory() {
+		return "/my/pointhistory";
+	}
+	
 	@RequestMapping("/my/modifyForm.do")
 	public String checkPassword(@RequestParam("id") String userId, 
 								@RequestParam("password") String password, 

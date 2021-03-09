@@ -17,15 +17,13 @@
 <title>No24 info</title>
 </head>
 <body style="font-family: 'Nanum Gothic', sans-serif;">
-
-<!-- navbar -->
-<div class="row">
-	<div class="col-12">
-		<%@ include file="../../common/navbar.jsp" %>
-	</div>
-</div>
-
 <div class="container-fluid">
+	<!-- navbar -->
+	<div class="row">
+		<div class="col-12">
+			<%@ include file="../../common/navbar.jsp" %>
+		</div>
+	</div>
 
   	<div class="w3-row-padding">
 	    <!-- Left Column -->
@@ -46,11 +44,10 @@
 	        
 		        	<div class="row d-flex justify-content-center mt-5 mb-3">
 		   				<a href="checkPassword.do" class="btn btn-outline-primary float-center mr-2">회원정보수정</a>
-		   				<a href="#" class="btn btn-outline-success float-center">포인트 내역 조회</a>
 		   			</div>
 	        	</div>
 	      	</div>
-	    </div><br>
+	    </div><br />
 	
 	    <!-- Right Column -->
 	    <div class="w3-twothird mt-4 mb-5">
@@ -69,16 +66,25 @@
 				</thead>
 				<tbody>
 				<!-- foreach문 써야 함 -->
-					<c:forEach var="order" items="${order }">
-						<tr class="text-center">
-							<td><a href="#" class="text-primary">${order.show.no }</a></td>
-							<td><a href="detail.jsp">${order.show.name }</a></td>
-							<td>${order.order.orderAmount }</td>
-							<td>${order.order.status }</td>
-							<td>${order.order.totalOrderPrice }</td>
-							<td><fmt:formatDate value="${order.order.createdDate }"/></td>
-						</tr>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${empty order }">
+							<tr>
+								<td colspan="6" class="text-center">최근 예매내역이 존재하지 않습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="order" items="${order }">
+								<tr class="text-center">
+									<td><a href="#" class="text-primary">${order.show.no }</a></td>
+									<td><a href="detail.jsp">${order.show.name }</a></td>
+									<td>${order.order.orderAmount }</td>
+									<td>${order.order.status }</td>
+									<td>${order.order.totalOrderPrice }</td>
+									<td><fmt:formatDate value="${order.order.createdDate }"/></td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</tbody>
 			</table>
 	        <h2 class="w3-text-grey w3-padding-16 mt-5"><i class='fas fa-money-bill-wave' style="font-size: 36px; color: orange; margin-right: 10px;"></i>소유중인 쿠폰</h2>
@@ -97,18 +103,27 @@
 				</thead>
 				<tbody>
 				<!-- foreach문 써야 함 -->
-					<c:forEach var="coupon" items="${coupon }">
-						<tr class="text-center">
-							<td><a href="#" class="text-primary">${coupon.userCoupon.userNo }</a></td>
-							<td><a href="detail.jsp">${coupon.coupon.no }</a></td>
-							<td>${coupon.coupon.name }</td>
-							<td>${coupon.coupon.price }</td>
-							<td><fmt:formatDate value="${coupon.coupon.startDate }"/> ~ <fmt:formatDate value="${coupon.coupon.endDate }"/></td>
-							<td>${coupon.coupon.status }</td>
-							<td>${coupon.userCoupon.disabled }</td>
-							<td><fmt:formatDate value="${coupon.userCoupon.usedDate }"/></td>
-						</tr>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${empty coupon }">
+							<tr>
+								<td colspan="8" class="text-center">소유중인 쿠폰이 없습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="coupon" items="${coupon }">
+								<tr class="text-center">
+									<td>${coupon.userCoupon.userNo }</td>
+									<td>${coupon.coupon.no }</td>
+									<td>${coupon.coupon.name }</td>
+									<td>${coupon.coupon.price }</td>
+									<td><fmt:formatDate value="${coupon.coupon.startDate }"/><br />~<br /><fmt:formatDate value="${coupon.coupon.endDate }"/></td>
+									<td>${coupon.coupon.status }</td>
+									<td>${coupon.userCoupon.disabled }</td>
+									<td><fmt:formatDate value="${coupon.userCoupon.usedDate }"/></td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</tbody>
 			</table>
 	        <h2 class="w3-text-grey w3-padding-16 mt-5"><i class='fab fa-product-hunt' style="font-size: 36px; color: orange; margin-right: 10px;"></i>포인트 현황</h2>
@@ -124,15 +139,24 @@
 				</thead>
 				<tbody>
 				<!-- foreach문 써야 함 -->
-					<c:forEach var="point" items="${point }">
-						<tr class="text-center">
-							<td><a href="#" class="text-primary">${point.no }</a></td>
-							<td><a href="detail.jsp">${point.userNo }</a></td>
-							<td>${point.pointAmount }</td>
-							<td>${point.content }</td>
-							<td><fmt:formatDate value="${point.createdDate }"/></td>
-						</tr>
-					</c:forEach>
+					<c:choose>
+						<c:when test="${empty point }">
+							<tr>
+								<td colspan="5" class="text-center">최근 포인트변동이 확인되지 않습니다.</td>
+							</tr>
+						</c:when>
+						<c:otherwise>
+							<c:forEach var="point" items="${point }">
+								<tr class="text-center">
+									<td>${point.no }</td>
+									<td>${point.userNo }</td>
+									<td>${point.pointAmount }</td>
+									<td>${point.content }</td>
+									<td><fmt:formatDate value="${point.createdDate }"/></td>
+								</tr>
+							</c:forEach>
+						</c:otherwise>
+					</c:choose>
 				</tbody>
 			</table>
 	      </div>
@@ -141,10 +165,12 @@
 	</div>
 </div>
 
-<!-- footer -->
-<div class="row mt-5">
-	<div class="col-12">
-	<%@ include file="../../common/footer.jsp" %>
+<div class="container">
+	<!-- footer -->
+	<div class="row">
+		<div class="col-12">
+			<%@ include file="../../common/footer.jsp" %>
+		</div>
 	</div>
 </div>
 
