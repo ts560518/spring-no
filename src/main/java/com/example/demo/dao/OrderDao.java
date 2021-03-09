@@ -39,4 +39,6 @@ public interface OrderDao {
 	List<ShowUserPointHistories> getPointByUserNo(int userNo);
 	
 	int getCountOrderByUserNo(int userNo);
+	
+	Order getOrderByOrderNo(int orderNo);
 }

@@ -193,7 +193,10 @@
 		var form = document.getElementById("orderInsert");
 		form.setAttribute("method", "post");
 		form.setAttribute("action", "./orderInsert.do");
-		form.submit();
+		if(confirm('결제 하시겠습니까?')) {
+			alert("결제가 완료 되었습니다.");		
+			form.submit();
+		}
 	}
 	
 	function usePoint() {

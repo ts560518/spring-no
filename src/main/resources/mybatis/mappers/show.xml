@@ -78,7 +78,27 @@
       order by rn asc
    </select>
 
+	<select id="getShowByPutShowNo" parameterType="int" resultType="Show">
+		select 
+			A.show_name as name,
+			A.poster_img as posterImg,
+			C.place_Name	as placeName
+		from shows A, show_put_shows B, show_place C
+		where A.show_no = B.show_no
+		and a.place_no = C.place_no
+		and b.put_show_no = #{putShowNo}
+	</select>
 	
+	<select id="getPutShowByPutShowNo" parameterType="int" resultType="PutShows">
+		select 
+			put_show_no		as putShowNo,
+			show_no			as showNo,
+			show_day		as day,
+			show_start_time	as startTime
+		from show_put_shows
+		where
+			put_show_no	= #{putShowNo}
+	</select>
 	
 	
 	<select id="getputSeat" resultType="ShowSeat">
